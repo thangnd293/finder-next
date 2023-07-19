@@ -1,9 +1,12 @@
-export const fallbackLng = {
+import { TLanguage } from "@/type";
+
+export const fallbackLng: TLanguage = {
   code: "vi",
   name: "Tiếng Việt",
+  hasSeparator: true,
 };
 
-export const languages = [
+export const languages: TLanguage[] = [
   fallbackLng,
   {
     code: "en",

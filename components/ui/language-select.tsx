@@ -1,26 +1,19 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
+import { useParams, usePathname } from "next/navigation";
+import Link from "next/link";
 
-import Tooltip from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Tooltip from "@/components/ui/tooltip";
+import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
 
-const languages = [
-  {
-    code: "en",
-    name: "English",
-    hasSeparator: true,
-  },
-  {
-    code: "vi",
-    name: "Tiếng Việt",
-  },
-];
-
 export default function LanguageSelect() {
-  const [language, setLanguage] = useState(languages[0].code);
+  const { lng } = useParams();
+  const pathname = usePathname();
+  const pathnameWithoutLng = pathname.split("/").slice(2).join("/");
 
   return (
     <div className="flex items-center h-5 text-sm">
@@ -28,14 +21,16 @@ export default function LanguageSelect() {
         <Fragment key={lang.code}>
           <Tooltip label={lang.name}>
             <Button
-              className={cn("!bg-transparent rounded-none h-fit", {
-                "text-accent": language !== lang.code,
+              className={cn("!bg-transparent rounded-none h-fit text-accent", {
+                "!text-inherit": lng === lang.code,
               })}
               variant="ghost"
               size="icon"
-              onClick={() => setLanguage(lang.code)}
+              asChild
             >
-              {lang.code.toUpperCase()}
+              <Link href={`/${lang.code}/${pathnameWithoutLng}`}>
+                {lang.code.toUpperCase()}
+              </Link>
             </Button>
           </Tooltip>
 
