@@ -11,7 +11,7 @@ interface ITooltipProps {
 }
 export default function Tooltip({ label, children }: ITooltipProps) {
   return (
-    <TooltipProvider disableHoverableContent delayDuration={500}>
+    <TooltipProvider disableHoverableContent delayDuration={700}>
       <TooltipRoot>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
