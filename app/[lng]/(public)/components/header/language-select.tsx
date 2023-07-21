@@ -1,12 +1,12 @@
 "use client";
 
-import { Fragment } from "react";
-import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import { Fragment } from "react";
 
-import { Button } from "@/components/ui/button";
+import Tooltip from "@/components/tooltip";
+import ButtonBase from "@/components/ui/button-base";
 import { Separator } from "@/components/ui/separator";
-import Tooltip from "@/components/ui/tooltip";
 import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
 
@@ -16,22 +16,22 @@ export default function LanguageSelect() {
   const pathnameWithoutLng = pathname.split("/").slice(2).join("/");
 
   return (
-    <div className="flex items-center h-5 text-sm">
+    <div className="flex h-5 items-center text-sm">
       {languages.map((lang) => (
         <Fragment key={lang.code}>
           <Tooltip label={lang.name}>
-            <Button
-              className={cn("!bg-transparent rounded-none h-fit text-accent", {
+            <ButtonBase
+              className={cn("h-fit rounded-none !bg-transparent text-accent", {
                 "!text-inherit": lng === lang.code,
               })}
               variant="ghost"
-              size="icon"
+              size="sm"
               asChild
             >
               <Link href={`/${lang.code}/${pathnameWithoutLng}`}>
                 {lang.code.toUpperCase()}
               </Link>
-            </Button>
+            </ButtonBase>
           </Tooltip>
 
           {lang.hasSeparator && <Separator orientation="vertical" />}
