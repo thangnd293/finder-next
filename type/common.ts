@@ -1,3 +1,6 @@
+import { TFunction } from "i18next";
+import React from "react";
+
 export type TLanguage = {
   code: string;
   name: string;
@@ -7,3 +10,11 @@ export type TLanguage = {
 export type TPageParams<T> = {
   params: T;
 };
+
+export interface IconProps extends React.ComponentPropsWithoutRef<"svg"> {
+  size?: number;
+}
+
+export interface ITranslation {
+  t: TFunction<any, undefined>;
+}

@@ -12,7 +12,7 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
@@ -28,6 +28,7 @@ module.exports = {
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
+          background: "hsl(var(--secondary-background))",
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
@@ -40,7 +41,9 @@ module.exports = {
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
+          secondary: "hsl(var(--accent-secondary))",
           foreground: "hsl(var(--accent-foreground))",
+          background: "hsl(var(--accent-background))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -56,6 +59,7 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "4xl": "2rem",
       },
       keyframes: {
         "accordion-down": {
@@ -70,6 +74,13 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      spacing: {
+        "3.5": "0.875rem",
+        "4.5": "1.125rem",
+        "7.5": "1.875rem",
+        "8.5": "2.125rem",
+        "10.5": "2.625rem",
       },
     },
   },
