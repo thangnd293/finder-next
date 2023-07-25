@@ -1,4 +1,4 @@
-import { libreBaskerville } from "@/fonts";
+import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
 

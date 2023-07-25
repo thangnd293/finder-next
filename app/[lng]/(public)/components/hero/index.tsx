@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { libreBaskerville } from "@/fonts";
+import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { ITranslation } from "@/type";
 import ScrollingText from "./scrolling-text";

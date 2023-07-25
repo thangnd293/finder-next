@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { supportedLngs } from "@/lib/i18n/settings";
 import { PropsWithChildren } from "react";
 import { TPageParams } from "@/type";
-import { inter } from "@/fonts";
+import { inter } from "@/assets/fonts";
 
 import "@/utils/prototype";
 

@@ -44,9 +44,9 @@ function ScrollingText({ displayText }: IScrollingTextProps) {
   }, []);
 
   return (
-    <div className="px-4 py-6 mt-2 overflow-hidden bg-accent-background rounded-3xl xl:py-8">
+    <div className="mt-2 overflow-hidden rounded-3xl bg-accent-background px-4 py-6 xl:py-8">
       <div
-        className="inline-flex text-accent whitespace-nowrap will-change-transform"
+        className="inline-flex whitespace-nowrap text-accent will-change-transform"
         style={{
           gap: GAP + "px",
         }}
