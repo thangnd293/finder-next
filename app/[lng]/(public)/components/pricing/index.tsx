@@ -1,5 +1,5 @@
 import Button from "@/components/button";
-import { libreBaskerville } from "@/fonts";
+import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { ITranslation } from "@/type/common";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
