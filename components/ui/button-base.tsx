@@ -21,6 +21,7 @@ export const buttonBaseVariants = cva(
           "bg-accent-background text-accent shadow-sm hover:bg-accent-background/70",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        social: "bg-background/80 hover:bg-background border shadow-sm",
       },
       size: {
         xs: "h-7.5 px-3.5 py-1 text-xs",
