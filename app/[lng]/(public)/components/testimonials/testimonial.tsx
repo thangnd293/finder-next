@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
+import { Separator } from "@/components/separator";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";

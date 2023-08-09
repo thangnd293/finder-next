@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonBase from "./ui/button-base";
+import ButtonBase from "./button-base";
 import Loader from "./loader";
 
 export interface IButtonProps

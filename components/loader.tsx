@@ -1,4 +1,4 @@
-import { IconProps } from "@/type/common";
+import { IconProps } from "@/types/common";
 import React from "react";
 
 export default function Loader({

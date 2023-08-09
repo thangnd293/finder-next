@@ -4,6 +4,7 @@ module.exports = {
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
+    "./layout/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
@@ -20,11 +21,25 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "var(--background)",
+        background: {
+          DEFAULT: "var(--background)",
+          100: "var(--background-100)",
+          200: "var(--background-200)",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "var(--primary)",
           foreground: "hsl(var(--primary-foreground))",
+          50: "var(--primary-50)",
+          100: "var(--primary-100)",
+          200: "var(--primary-200)",
+          300: "var(--primary-300)",
+          400: "var(--primary-400)",
+          500: "var(--primary-500)",
+          600: "var(--primary-600)",
+          700: "var(--primary-700)",
+          800: "var(--primary-800)",
+          900: "var(--primary-900)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -59,6 +74,7 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         black: "#0f0f0f",
+        "chat-background": "var(--chat-background)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -86,6 +102,9 @@ module.exports = {
         "7.5": "1.875rem",
         "8.5": "2.125rem",
         "10.5": "2.625rem",
+      },
+      dropShadow: {
+        DEFAULT: "0 4px 12px rgba(0,0,0,.16)",
       },
     },
   },

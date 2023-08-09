@@ -1,8 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { libreBaskerville } from "@/assets/fonts";
+
 import { cn } from "@/lib/utils";
-import { ITranslation } from "@/type";
+import { ITranslation } from "@/types";
 import ScrollingText from "./scrolling-text";
+import SignUp from "../sign-up";
+import Avatar from "@/components/avatar";
 
 interface IHeroProps extends ITranslation {}
 export default function Hero({ t }: IHeroProps) {
@@ -23,26 +25,30 @@ export default function Hero({ t }: IHeroProps) {
         <ScrollingText displayText={t("joinFinder")} />
       </div>
 
-      <div className="lg:2/3 ml-auto flex gap-6 pt-16 xl:w-1/2">
-        <div className="flex">
-          {Array.from({
-            length: 4,
-          }).map((_, index) => (
-            <Avatar key={index} className="h-11 w-11 [&~&]:-ml-4">
-              <AvatarImage
+      <div className="flex flex-col justify-between gap-6 rounded-4xl px-11 py-10 md:col-span-2 md:flex-row lg:col-span-3">
+        <div className="space-y-2 sm:space-y-1 md:max-w-[66%]">
+          <div className="flex">
+            {Array.from({
+              length: 10,
+            }).map((_, index) => (
+              <Avatar
+                key={index}
+                className="h-11 w-11 [&~&]:-ml-4"
                 src={`/images/user_${index + 1}.png`}
                 alt={`User ${index + 1}`}
-              />
-              <AvatarFallback>U{index + 1}</AvatarFallback>
-            </Avatar>
-          ))}
-        </div>
+              >
+                U{index + 1}
+              </Avatar>
+            ))}
+          </div>
 
-        <p className="text-xl">
-          {t("describeFirst")}
-          <span className="text-primary">&nbsp;Finder&nbsp;</span>
-          {t("describeLast")}
-        </p>
+          <p className="text-xl">
+            {t("describeFirst")}
+            <span className="text-primary">&nbsp;Finder&nbsp;</span>
+            {t("describeLast")}
+          </p>
+        </div>
+        <SignUp className="flex-shrink-0" variant="default" />
       </div>
     </section>
   );

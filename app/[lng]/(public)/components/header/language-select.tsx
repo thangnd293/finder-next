@@ -5,8 +5,8 @@ import { useParams, usePathname } from "next/navigation";
 import { Fragment } from "react";
 
 import Tooltip from "@/components/tooltip";
-import ButtonBase from "@/components/ui/button-base";
-import { Separator } from "@/components/ui/separator";
+import ButtonBase from "@/components/button-base";
+import { Separator } from "@/components/separator";
 import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
 
