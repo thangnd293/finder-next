@@ -7,7 +7,7 @@ export default function SidebarHeader() {
   return (
     <header className="flex h-20 items-center justify-between px-3 py-4">
       <Link className="flex items-center space-x-2" href="/app/settings">
-        <Avatar>DT</Avatar>
+        <Avatar fallback="DT" />
         <p className="font-medium">Dac Thang</p>
       </Link>
 

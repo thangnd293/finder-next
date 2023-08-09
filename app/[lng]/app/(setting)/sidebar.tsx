@@ -13,9 +13,11 @@ export default function Sidebar() {
           </ActionIcon>
         </Link>
 
-        <Avatar className="absolute left-1/2 -translate-x-1/2" size="lg">
-          DT
-        </Avatar>
+        <Avatar
+          className="absolute left-1/2 -translate-x-1/2"
+          size="lg"
+          fallback="DT"
+        />
       </header>
       setting
     </div>

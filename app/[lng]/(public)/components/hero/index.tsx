@@ -36,9 +36,8 @@ export default function Hero({ t }: IHeroProps) {
                 className="h-11 w-11 [&~&]:-ml-4"
                 src={`/images/user_${index + 1}.png`}
                 alt={`User ${index + 1}`}
-              >
-                U{index + 1}
-              </Avatar>
+                fallback={`U${index + 1}`}
+              />
             ))}
           </div>
 
