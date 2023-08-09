@@ -5,10 +5,10 @@ import { useParams, usePathname } from "next/navigation";
 import { Fragment } from "react";
 
 import Tooltip from "@/components/tooltip";
-import ButtonBase from "@/components/button-base";
 import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
 import Separator from "@/components/separator";
+import ButtonBase from "@/components/button-base";
 
 export default function LanguageSelect() {
   const { lng } = useParams();
@@ -21,7 +21,7 @@ export default function LanguageSelect() {
         <Fragment key={lang.code}>
           <Tooltip label={lang.name}>
             <ButtonBase
-              className={cn("h-fit rounded-none !bg-transparent text-accent", {
+              className={cn("h-fit rounded-none !bg-transparent", {
                 "!text-inherit": lng === lang.code,
               })}
               variant="ghost"

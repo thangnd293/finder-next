@@ -42,7 +42,7 @@ interface IActionIconProps
 const ActionIcon = React.forwardRef<HTMLButtonElement, IActionIconProps>(
   ({ className, variant, size, title, ...others }, ref) => {
     return (
-      <Tooltip label={title ?? ""} disableHoverableContent={!title}>
+      <Tooltip label={title ?? ""} disabled={!title}>
         <button
           className={cn(actionIconVariants({ variant, size, className }))}
           ref={ref}

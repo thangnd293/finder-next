@@ -65,10 +65,10 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             <Tooltip
               label={error}
               open={isFocused}
+              color="destructive"
+              size="lg"
               contentProps={{
                 side: "right",
-                color: "destructive",
-                size: "lg",
               }}
             >
               <InfoCircledIcon

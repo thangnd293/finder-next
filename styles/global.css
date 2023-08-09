@@ -1,74 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: rgb(255, 255, 255);
-    --background-100:  #868e991a;
-    --background-200:  #E4E6EB;
+    --background-tooltip: #323436;
+    --background-100: #868e991a;
+    --background-200: #e4e6eb;
 
     --foreground: 0 0% 20%;
- 
+
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
 
     --modal: rgb(255, 255, 255);
     --modal-overplay: rgba(0, 0, 0, 0.6);
     --modal-foreground: 0 0% 3.9%;
- 
+
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
- 
+
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
- 
-    --primary: #FD5B1D;
+
+    --primary: #fd5b1d;
     --primary-50: #fff7ed;
-    --primary-100: #FEEAD1;
-    --primary-200: #FED0A4;
-    --primary-300: #FEAF77;
-    --primary-400: #FD8F55;
-    --primary-500: #FD5B1D;
-    --primary-600: #D93E15;
-    --primary-700: #B6250E;
+    --primary-100: #feead1;
+    --primary-200: #fed0a4;
+    --primary-300: #feaf77;
+    --primary-400: #fd8f55;
+    --primary-500: #fd5b1d;
+    --primary-600: #d93e15;
+    --primary-700: #b6250e;
     --primary-800: #921209;
     --primary-900: #790505;
     --primary-foreground: 0 0% 98%;
-  
+
     --secondary: 0 0% 96.1%;
     --secondary-background: 0 0% 96.1%;
     --secondary-foreground: 0 0% 48%;
- 
+
     --accent: 0 0% 88%;
     --accent-secondary: 0 0% 80%;
     --accent-background: 0 0% 6%;
     --accent-foreground: 0 0% 9%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
- 
+
     --ring: 0 0% 63.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: rgb(20, 21, 23);
-    --background-100:  #868e991a;
-    --background-200:  #E4E6EB;
+    --background-tooltip: #ffffff;
+    --background-100: #868e991a;
+    --background-200: #e4e6eb;
 
     --foreground: 0 0% 88%;
- 
+
     --muted: 0 0% 25%;
     --muted-foreground: 0 0% 63.9%;
- 
+
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 88%;
- 
+
     --modal: rgb(26, 27, 30);
     --modal-overplay: rgba(0, 0, 0, 0.6);
 
@@ -76,19 +78,19 @@
 
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 88%;
- 
+
     --border: 0 0% 25%;
     --input: 0 0% 25%;
- 
-    --primary: #FD5B1D;
+
+    --primary: #fd5b1d;
     --primary-50: #fff7ed;
-    --primary-100: #FEEAD1;
-    --primary-200: #FED0A4;
-    --primary-300: #FEAF77;
-    --primary-400: #FD8F55;
-    --primary-500: #FD5B1D;
-    --primary-600: #D93E15;
-    --primary-700: #B6250E;
+    --primary-100: #feead1;
+    --primary-200: #fed0a4;
+    --primary-300: #feaf77;
+    --primary-400: #fd8f55;
+    --primary-500: #fd5b1d;
+    --primary-600: #d93e15;
+    --primary-700: #b6250e;
     --primary-800: #921209;
     --primary-900: #790505;
     --primary-foreground: 0 0% 9%;
@@ -96,19 +98,19 @@
     --secondary: 0 0% 25%;
     --secondary-background: 0 0% 10%;
     --secondary-foreground: 0 0% 70%;
- 
+
     --accent: 0 0% 10%;
     --accent-secondary: 0 0% 36%;
     --accent-background: 0 0% 100%;
     --accent-foreground: 0 0% 70%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
- 
+
     --ring: 0 0% 25%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
