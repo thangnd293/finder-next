@@ -18,3 +18,7 @@ export interface IconProps extends React.ComponentPropsWithoutRef<"svg"> {
 export interface ITranslation {
   t: TFunction<any, undefined>;
 }
+
+export interface IFile extends File {
+  id: string;
+}

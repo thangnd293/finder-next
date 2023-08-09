@@ -5,6 +5,9 @@
 @layer base {
   :root {
     --background: rgb(255, 255, 255);
+    --background-100:  #868e991a;
+    --background-200:  #E4E6EB;
+
     --foreground: 0 0% 20%;
  
     --muted: 0 0% 96.1%;
@@ -23,9 +26,19 @@
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
  
-    --primary: 17 98% 55%;
+    --primary: #FD5B1D;
+    --primary-50: #fff7ed;
+    --primary-100: #FEEAD1;
+    --primary-200: #FED0A4;
+    --primary-300: #FEAF77;
+    --primary-400: #FD8F55;
+    --primary-500: #FD5B1D;
+    --primary-600: #D93E15;
+    --primary-700: #B6250E;
+    --primary-800: #921209;
+    --primary-900: #790505;
     --primary-foreground: 0 0% 98%;
- 
+  
     --secondary: 0 0% 96.1%;
     --secondary-background: 0 0% 96.1%;
     --secondary-foreground: 0 0% 48%;
@@ -45,6 +58,9 @@
  
   .dark {
     --background: rgb(20, 21, 23);
+    --background-100:  #868e991a;
+    --background-200:  #E4E6EB;
+
     --foreground: 0 0% 88%;
  
     --muted: 0 0% 25%;
@@ -54,7 +70,8 @@
     --popover-foreground: 0 0% 88%;
  
     --modal: rgb(26, 27, 30);
-    --modal-overplay: 0 0% 0% 0.6;
+    --modal-overplay: rgba(0, 0, 0, 0.6);
+
     --modal-foreground: 0 0% 3.9%;
 
     --card: 0 0% 3.9%;
@@ -63,9 +80,19 @@
     --border: 0 0% 25%;
     --input: 0 0% 25%;
  
-    --primary: 17 98% 55%;
+    --primary: #FD5B1D;
+    --primary-50: #fff7ed;
+    --primary-100: #FEEAD1;
+    --primary-200: #FED0A4;
+    --primary-300: #FEAF77;
+    --primary-400: #FD8F55;
+    --primary-500: #FD5B1D;
+    --primary-600: #D93E15;
+    --primary-700: #B6250E;
+    --primary-800: #921209;
+    --primary-900: #790505;
     --primary-foreground: 0 0% 9%;
- 
+
     --secondary: 0 0% 25%;
     --secondary-background: 0 0% 10%;
     --secondary-foreground: 0 0% 70%;

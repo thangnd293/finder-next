@@ -9,10 +9,10 @@ import "@/styles/draft-js.css";
 import ThemeProvider from "@/components/theme-provider";
 import { supportedLngs } from "@/lib/i18n/settings";
 import { PropsWithChildren } from "react";
-import { TPageParams } from "@/types";
 import { inter } from "@/assets/fonts";
 
 import "@/utils/prototype";
+import { TPageParams } from "@/types/common";
 
 export const metadata: Metadata = {
   title: "Finder | Tìm kiếm, kết bạn và hẹn hò",

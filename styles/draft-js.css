@@ -1,0 +1,9 @@
+.DraftEditor-root {
+    /* @apply bg-background-100; */
+    @apply text-secondary-foreground;
+
+    /* padding: 8px 14px; */
+    /* border-radius: 8px; */
+    font-weight: 400;
+    width: 100%;
+}

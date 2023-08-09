@@ -1,10 +1,10 @@
-import { TPageParams } from "@/types";
 import Header from "./components/header";
 import Hero from "./components/hero";
 import Pricing from "./components/pricing";
 import Testimonials from "./components/testimonials";
 import { getTranslation } from "@/lib/i18n";
 import Navbar from "./components/navbar";
+import { TPageParams } from "@/types/common";
 
 export default async function HomePage({
   params: { lng },

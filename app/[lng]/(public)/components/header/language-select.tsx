@@ -6,9 +6,9 @@ import { Fragment } from "react";
 
 import Tooltip from "@/components/tooltip";
 import ButtonBase from "@/components/button-base";
-import { Separator } from "@/components/separator";
 import { languages } from "@/lib/i18n/settings";
 import { cn } from "@/lib/utils";
+import Separator from "@/components/separator";
 
 export default function LanguageSelect() {
   const { lng } = useParams();

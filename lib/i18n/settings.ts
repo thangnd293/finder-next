@@ -1,4 +1,4 @@
-import { TLanguage } from "@/type";
+import { TLanguage } from "@/types/common";
 
 export const fallbackLng: TLanguage = {
   code: "vi",

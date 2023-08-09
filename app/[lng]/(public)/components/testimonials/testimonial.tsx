@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
-import { Separator } from "@/components/separator";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { Separator } from "@radix-ui/react-separator";
 
 export default function Testimonial() {
   return (
