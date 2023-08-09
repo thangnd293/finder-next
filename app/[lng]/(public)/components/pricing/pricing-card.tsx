@@ -1,8 +1,8 @@
-import Button from "@/components/button";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
-import { ArrowRightIcon, CheckIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "@radix-ui/react-icons";
 import React from "react";
+import SignUp from "../sign-up";
 
 const features = [
   "Unlimited access to all courses",
@@ -57,7 +57,7 @@ export default function PricingCard({
         >
           $4,999 <span className="text-base">/mo.</span>
         </p>
-        <Button
+        <SignUp
           className="my-6 w-full rounded-lg"
           variant={
             {
@@ -66,11 +66,7 @@ export default function PricingCard({
               yearly: "outline",
             }[variant] as any
           }
-          size="lg"
-          leftIcon={<ArrowRightIcon className="h-4 w-4" />}
-        >
-          Đăng ký
-        </Button>
+        />
       </div>
       <div>
         <p className="font-bold">What&apos;s included</p>

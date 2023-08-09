@@ -1,7 +1,7 @@
 import Button from "@/components/button";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
-import { ITranslation } from "@/type/common";
+import { ITranslation } from "@/types/common";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Heading from "../heading";
 import PricingCard from "./pricing-card";
@@ -28,7 +28,7 @@ export default function Pricing({ t }: IPricingProps) {
               call with us.
             </p>
           </div>
-          <Button variant="accent" size="lg" leftIcon={<ArrowRightIcon />}>
+          <Button variant="accent" leftIcon={<ArrowRightIcon />}>
             Join now
           </Button>
         </div>
