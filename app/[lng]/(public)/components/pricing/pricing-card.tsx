@@ -2,7 +2,7 @@ import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "@radix-ui/react-icons";
 import React from "react";
-import SignUp from "../sign-up";
+import SignUp from "../auth/sign-up";
 
 const features = [
   "Unlimited access to all courses",

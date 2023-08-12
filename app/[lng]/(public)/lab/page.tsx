@@ -1,3 +1,4 @@
+"use client";
 import { TPageParams } from "@/types/common";
 
 export default function Lab({
