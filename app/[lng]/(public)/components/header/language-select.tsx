@@ -11,9 +11,9 @@ import Separator from "@/components/separator";
 import ButtonBase from "@/components/button-base";
 
 export default function LanguageSelect() {
-  const { lng } = useParams();
+  const param = useParams();
   const pathname = usePathname();
-  const pathnameWithoutLng = pathname.split("/").slice(2).join("/");
+  const pathnameWithoutLng = pathname?.split("/").slice(2).join("/");
 
   return (
     <div className="flex h-5 items-center text-sm">
@@ -22,7 +22,7 @@ export default function LanguageSelect() {
           <Tooltip label={lang.name}>
             <ButtonBase
               className={cn("h-fit rounded-none !bg-transparent", {
-                "!text-inherit": lng === lang.code,
+                "!text-inherit": param?.lng === lang.code,
               })}
               variant="ghost"
               size="sm"

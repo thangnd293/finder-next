@@ -1,18 +1,18 @@
 import { dir } from "i18next";
 import type { Metadata } from "next";
 
-import "draft-js/dist/Draft.css";
-import "@draft-js-plugins/emoji/lib/plugin.css";
-import "@/styles/global.css";
 import "@/styles/draft-js.css";
+import "@/styles/global.css";
+import "@draft-js-plugins/emoji/lib/plugin.css";
+import "draft-js/dist/Draft.css";
 
-import ThemeProvider from "@/components/theme-provider";
+import { inter } from "@/assets/fonts";
 import { supportedLngs } from "@/lib/i18n/settings";
 import { PropsWithChildren } from "react";
-import { inter } from "@/assets/fonts";
 
-import "@/utils/prototype";
+import Providers from "@/components/providers";
 import { TPageParams } from "@/types/common";
+import "@/utils/prototype";
 
 export const metadata: Metadata = {
   title: "Finder | Tìm kiếm, kết bạn và hẹn hò",
@@ -38,9 +38,9 @@ export default function RootLayout({
       </head>
 
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers attribute="class" defaultTheme="system" enableSystem>
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

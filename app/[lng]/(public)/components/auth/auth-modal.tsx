@@ -2,8 +2,8 @@
 
 import Modal from "@/components/modal";
 import { useState } from "react";
-import SignInForm from "./sign-in-form";
 import SignUpForm from "./sign-up-form";
+import SignInForm from "./sign-in-form";
 
 export enum EAuthMode {
   SIGN_IN = "sign-in",

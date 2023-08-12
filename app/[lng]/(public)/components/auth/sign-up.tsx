@@ -1,10 +1,10 @@
 "use client";
 
-import AuthModal, { EAuthMode } from "@/components/auth-modal";
 import Button from "@/components/button";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import React, { useState } from "react";
+import AuthModal, { EAuthMode } from "./auth-modal";
 
 interface ISignUpProps {
   variant?: "accent" | "outline" | "default";

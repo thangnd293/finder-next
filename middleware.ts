@@ -5,8 +5,6 @@ import { fallbackLng, supportedLngs } from "./lib/i18n/settings";
 acceptLanguage.languages(supportedLngs);
 
 export const config = {
-  // matcher: '/:lng*'
-
   matcher: [
     "/((?!api|_next/static|_next/image|assets|images|favicon.ico|sw.js).*)",
   ],
@@ -27,19 +25,32 @@ export function middleware(req: NextRequest) {
     !req.nextUrl.pathname.startsWith("/_next")
   ) {
     return NextResponse.redirect(
-      new URL(`/${lng}${req.nextUrl.pathname}`, req.url)
+      new URL(`/${lng}${req.nextUrl.pathname}`, req.url),
     );
+  }
+
+  const isAuth = Boolean(
+    req.cookies.get("accessToken") &&
+      req.cookies.get("next-auth.session-token"),
+  );
+
+  if (isAuth && req.nextUrl.pathname === `/${lng}`) {
+    return NextResponse.redirect(new URL("/app", req.url));
+  }
+
+  if (!isAuth && req.nextUrl.pathname.startsWith(`/${lng}/app`)) {
+    return NextResponse.redirect(new URL(`/${lng}`, req.url));
   }
 
   if (req.headers.has("referer")) {
     const refererUrl = new URL(req.headers.get("referer") as string);
     const lngInReferer = supportedLngs.find((l) =>
-      refererUrl.pathname.startsWith(`/${l}`)
+      refererUrl.pathname.startsWith(`/${l}`),
     );
     const response = NextResponse.next();
     if (lngInReferer) response.cookies.set(cookieName, lngInReferer);
+
     return response;
   }
-
   return NextResponse.next();
 }

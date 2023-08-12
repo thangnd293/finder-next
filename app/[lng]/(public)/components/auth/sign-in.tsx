@@ -1,8 +1,8 @@
 "use client";
 
-import AuthModal, { EAuthMode } from "@/components/auth-modal";
 import Button from "@/components/button";
 import React, { useState } from "react";
+import AuthModal, { EAuthMode } from "./auth-modal";
 
 export default function SignIn() {
   const [isOpen, setIsOpen] = useState(false);

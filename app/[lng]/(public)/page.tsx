@@ -1,10 +1,10 @@
+import { getTranslation } from "@/lib/i18n";
+import { TPageParams } from "@/types/common";
 import Header from "./components/header";
 import Hero from "./components/hero";
+import Navbar from "./components/navbar";
 import Pricing from "./components/pricing";
 import Testimonials from "./components/testimonials";
-import { getTranslation } from "@/lib/i18n";
-import Navbar from "./components/navbar";
-import { TPageParams } from "@/types/common";
 
 export default async function HomePage({
   params: { lng },
@@ -12,6 +12,7 @@ export default async function HomePage({
   lng: string;
 }>) {
   const { t } = await getTranslation(lng, "home");
+
   return (
     <>
       <Header t={t} />

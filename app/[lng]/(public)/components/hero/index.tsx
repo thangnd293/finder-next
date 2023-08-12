@@ -2,9 +2,9 @@ import { libreBaskerville } from "@/assets/fonts";
 
 import { cn } from "@/lib/utils";
 import ScrollingText from "./scrolling-text";
-import SignUp from "../sign-up";
 import Avatar from "@/components/avatar";
 import { ITranslation } from "@/types/common";
+import SignUp from "../auth/sign-up";
 
 interface IHeroProps extends ITranslation {}
 export default function Hero({ t }: IHeroProps) {
