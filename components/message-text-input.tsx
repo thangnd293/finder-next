@@ -1,5 +1,6 @@
 "use client";
 
+import axiosInstance from "@/lib/axios";
 import Editor from "@draft-js-plugins/editor";
 import { EmojiPlugin } from "@draft-js-plugins/emoji";
 import { EditorState, convertFromRaw, getDefaultKeyBinding } from "draft-js";
@@ -16,6 +17,11 @@ export default function MessageTextInput({
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createWithContent(emptyContentState),
   );
+
+  axiosInstance
+    .get("/users/current-user")
+    .then((data) => console.log("data", data))
+    .catch((err) => console.log("err", err));
 
   return (
     <Editor

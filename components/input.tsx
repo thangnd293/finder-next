@@ -17,7 +17,7 @@ interface IInputProps extends React.ComponentPropsWithoutRef<typeof InputBase> {
 }
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
-  ({ label, type, error, onBlur, ...others }, ref) => {
+  ({ label, type, error, className, onBlur, onFocus, ...others }, ref) => {
     const id = useId();
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -35,13 +35,20 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
           <InputBase
             id={id}
             ref={ref}
-            className={cn("pr-7", {
-              "border-current placeholder:text-inherit": error,
-              "pr-14": type === "password" && error,
-            })}
+            className={cn(
+              "pr-7",
+              {
+                "border-current placeholder:text-inherit": true,
+                "pr-14": type === "password" && error,
+              },
+              className,
+            )}
             type={showPassword ? "text" : type}
             aria-invalid={error ? "true" : "false"}
-            onFocus={() => setIsFocused(true)}
+            onFocus={(e) => {
+              setIsFocused(true);
+              onFocus && onFocus(e);
+            }}
             onBlur={(e) => {
               setIsFocused(false);
               onBlur && onBlur(e);

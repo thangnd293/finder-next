@@ -3,6 +3,29 @@ import { VariantProps, cva } from "class-variance-authority";
 import React from "react";
 import Tooltip from "./tooltip";
 
+interface IActionIconProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof actionIconVariants> {
+  title?: string;
+}
+
+const ActionIcon = React.forwardRef<HTMLButtonElement, IActionIconProps>(
+  ({ className, variant, size, title, ...others }, ref) => {
+    return (
+      <Tooltip label={title ?? ""} disabled={!title}>
+        <button
+          className={cn(actionIconVariants({ variant, size, className }))}
+          ref={ref}
+          {...others}
+        />
+      </Tooltip>
+    );
+  },
+);
+ActionIcon.displayName = "ActionIcon";
+
+export default ActionIcon;
+
 const actionIconVariants = cva(
   "inline-flex items-center justify-center cursor-poiter rounded-md flex-shrink-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
   {
@@ -32,26 +55,3 @@ const actionIconVariants = cva(
     },
   },
 );
-
-interface IActionIconProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof actionIconVariants> {
-  title?: string;
-}
-
-const ActionIcon = React.forwardRef<HTMLButtonElement, IActionIconProps>(
-  ({ className, variant, size, title, ...others }, ref) => {
-    return (
-      <Tooltip label={title ?? ""} disabled={!title}>
-        <button
-          className={cn(actionIconVariants({ variant, size, className }))}
-          ref={ref}
-          {...others}
-        />
-      </Tooltip>
-    );
-  },
-);
-ActionIcon.displayName = "ActionIcon";
-
-export default ActionIcon;

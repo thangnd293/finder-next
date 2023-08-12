@@ -46,7 +46,7 @@ export default function Modal({
   ...others
 }: IModalProps) {
   return (
-    <RadixDialog.Root open={open} onOpenChange={onOpenChange} {...others}>
+    <RadixDialog.Root open={open} onOpenChange={onOpenChange} modal {...others}>
       <RadixDialog.Portal>
         {withOverlay && (
           <RadixDialog.Overlay className="fixed inset-0 z-50 hidden bg-modal-overplay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:block" />
