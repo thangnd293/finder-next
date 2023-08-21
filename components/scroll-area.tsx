@@ -14,7 +14,7 @@ const ScrollArea = React.forwardRef<
     className={cn("relative overflow-hidden", className)}
     {...props}
   >
-    <RadixScrollArea.Viewport className="h-full w-full rounded-[inherit]">
+    <RadixScrollArea.Viewport className="h-full max-h-[inherit] w-full rounded-[inherit]">
       {children}
     </RadixScrollArea.Viewport>
     <ScrollBar />

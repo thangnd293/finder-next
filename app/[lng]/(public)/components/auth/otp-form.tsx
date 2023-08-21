@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/button";
 import OtpInput from "@/components/otp-input";
 import useYupValidationResolver from "@/hooks/useYupValidationResolver";
@@ -32,6 +34,7 @@ export default function OtpForm({
   onSendSms,
 }: IOtpFormProps) {
   const router = useRouter();
+
   const otpFormResolver = useYupValidationResolver(validateOtpForm);
   const otpForm = useForm<TOtpForm>({
     defaultValues: {
@@ -50,7 +53,7 @@ export default function OtpForm({
       {
         onSuccess: (data) => {
           if (data?.ok) {
-            router.push("/app");
+            router.refresh();
 
             return;
           }

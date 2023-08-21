@@ -23,4 +23,4 @@ const Label = React.forwardRef<
 ));
 Label.displayName = RadixLabel.Root.displayName;
 
-export { Label };
+export default Label;

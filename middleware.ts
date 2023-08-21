@@ -12,7 +12,7 @@ export const config = {
 
 const cookieName = "i18next";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   let lng;
   if (req.cookies.has(cookieName))
     lng = acceptLanguage.get(req.cookies.get(cookieName)?.value);
@@ -33,6 +33,23 @@ export function middleware(req: NextRequest) {
     req.cookies.get("accessToken") &&
       req.cookies.get("next-auth.session-token"),
   );
+  console.log("=========MIDDLEWARE=========");
+
+  if (isAuth) {
+    const res = await fetch(`${process.env.BACKEND_URL}/users/current-user`, {
+      headers: {
+        Authorization: `Bearer ${req.cookies.get("accessToken")?.value}`,
+      },
+    });
+
+    const currentUser = await res.json();
+    if (
+      currentUser.isFirstLogin &&
+      req.nextUrl.pathname !== `/${lng}/app/get-started`
+    ) {
+      return NextResponse.redirect(new URL(`/${lng}/app/get-started`, req.url));
+    }
+  }
 
   if (isAuth && req.nextUrl.pathname === `/${lng}`) {
     return NextResponse.redirect(new URL("/app", req.url));
