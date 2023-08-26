@@ -1,2 +1,2 @@
-export * from "./use-send-sms";
-export * from "./use-otp-sign-in";
+export * from "./auth-service";
+export * from "./hooks";

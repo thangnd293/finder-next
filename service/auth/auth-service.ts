@@ -9,13 +9,13 @@ export class AuthService {
   };
 
   static sendSms = async (phoneNumber: string) => {
-    const { data: responseData } = await axiosInstance.post<MutateSuccess>(
+    const { data } = await axiosInstance.post<MutateSuccess>(
       this.urls.sendSms,
       {
         phoneNumber,
       },
     );
 
-    return responseData;
+    return data;
   };
 }

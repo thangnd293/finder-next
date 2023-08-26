@@ -1,8 +1,8 @@
 "use client";
 
-import { useProvince } from "@/service/common";
 import React, { useMemo, useState } from "react";
 import Combobox from "./Combobox";
+import { useAllProvince } from "@/service/helper";
 
 interface ProvinceSelectProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Combobox>, "data"> {
@@ -12,7 +12,7 @@ interface ProvinceSelectProps
 }
 const ProvinceSelect = React.forwardRef<HTMLInputElement, ProvinceSelectProps>(
   ({ className, value, onChange, ...others }, ref) => {
-    const { provinces } = useProvince();
+    const { provinces } = useAllProvince();
     const [province, setProvince] = useState(
       () => provinces.find((p) => p.name === value)?.name || "",
     );

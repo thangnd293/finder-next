@@ -3,10 +3,11 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { User, UserService } from "./userService";
 import { AxiosError } from "axios";
 import { Error } from "@/types/http";
 import { getCurrentUserKey } from "./use-current-user";
+import { UserService } from "..";
+import { type User } from "..";
 
 export const useUpdateProfile = (
   config: UseMutationOptions<

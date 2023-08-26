@@ -1,7 +1,7 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { SignInResponse, signIn } from "next-auth/react";
 
-interface IPayload {
+interface OtpSignInPayload {
   phoneNumber: string;
   otp: string;
 }
@@ -9,12 +9,12 @@ export const useOtpSignIn = (
   config: UseMutationOptions<
     SignInResponse | undefined,
     unknown,
-    IPayload,
+    OtpSignInPayload,
     unknown
   > = {},
 ) => {
   return useMutation(
-    (payload: IPayload) =>
+    (payload: OtpSignInPayload) =>
       signIn("credentials", {
         ...payload,
         redirect: false,

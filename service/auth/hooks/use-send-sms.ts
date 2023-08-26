@@ -1,5 +1,5 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import { AuthService } from "./auth-service";
+import { AuthService } from "..";
 import { AxiosError } from "axios";
 import { Error, MutateSuccess } from "@/types/http";
 

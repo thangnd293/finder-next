@@ -3,21 +3,22 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { UpdateSettingPayload, User, UserService } from "./userService";
+import { UpdateLocationPayload, UserService } from "..";
 import { AxiosError } from "axios";
 import { Error } from "@/types/http";
 import { getCurrentUserKey } from "./use-current-user";
+import { type User } from "..";
 
-export const useUpdateSetting = (
+export const useUpdateLocation = (
   config: UseMutationOptions<
     User,
     AxiosError<Error>,
-    UpdateSettingPayload,
+    UpdateLocationPayload,
     unknown
   > = {},
 ) => {
   const queryClient = useQueryClient();
-  return useMutation(UserService.updateSetting, {
+  return useMutation(UserService.updateLocation, {
     ...config,
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries(getCurrentUserKey());

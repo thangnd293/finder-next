@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import PhoneInput from "@/components/phone-input";
+import PhoneInput from "@/components/PhoneInput";
 import useYupValidationResolver from "@/hooks/useYupValidationResolver";
 import { useSendSms } from "@/service/auth";
 import { useEffect, useState } from "react";

@@ -35,4 +35,5 @@ const OtpInput = React.forwardRef<HTMLInputElement, OtpInputProps>(
   },
 );
 
+OtpInput.displayName = "OtpInput";
 export default OtpInput;
