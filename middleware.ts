@@ -29,27 +29,8 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  const isAuth = Boolean(
-    req.cookies.get("accessToken") &&
-      req.cookies.get("next-auth.session-token"),
-  );
+  const isAuth = Boolean(req.cookies.get("accessToken"));
   console.log("=========MIDDLEWARE=========");
-
-  if (isAuth) {
-    const res = await fetch(`${process.env.BACKEND_URL}/users/current-user`, {
-      headers: {
-        Authorization: `Bearer ${req.cookies.get("accessToken")?.value}`,
-      },
-    });
-
-    const currentUser = await res.json();
-    if (
-      currentUser.isFirstLogin &&
-      req.nextUrl.pathname !== `/${lng}/app/get-started`
-    ) {
-      return NextResponse.redirect(new URL(`/${lng}/app/get-started`, req.url));
-    }
-  }
 
   if (isAuth && req.nextUrl.pathname === `/${lng}`) {
     return NextResponse.redirect(new URL("/app", req.url));
