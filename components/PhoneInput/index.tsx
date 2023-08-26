@@ -6,8 +6,8 @@ import PhoneNumberInput, {
 import "react-phone-number-input/style.css";
 
 import React from "react";
-import Input from "../input";
-import CountrySelect from "./country-select";
+import Input from "../Input";
+import CountrySelect from "./SelectCountry";
 
 interface IPhoneInputProps
   extends Omit<Props<any, any>, "inputComponent" | "countrySelectComponent"> {

@@ -5,7 +5,7 @@ import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-interface ITooltipProps
+interface TooltipProps
   extends VariantProps<typeof tooltipVariants>,
     Pick<RadixTooltip.TooltipProps, "defaultOpen" | "open" | "onOpenChange"> {
   className?: string;
@@ -22,7 +22,7 @@ export default function Tooltip({
   children,
   contentProps,
   ...others
-}: PropsWithChildren<ITooltipProps>) {
+}: PropsWithChildren<TooltipProps>) {
   if (disabled) return <>{children}</>;
 
   return (

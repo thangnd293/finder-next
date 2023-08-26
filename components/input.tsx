@@ -1,25 +1,36 @@
 "use client";
 
 import React, { useId, useState } from "react";
-import { InputBase } from "@/components/input-base";
-import Label from "./label";
+import InputBase from "@/components/InputBase";
 import { cn } from "@/lib/utils";
 import {
   EyeClosedIcon,
   EyeOpenIcon,
   InfoCircledIcon,
 } from "@radix-ui/react-icons";
-import Tooltip from "./tooltip";
+import Tooltip from "./Tooltip";
+import Label from "./Label";
 
-interface IInputProps extends React.ComponentPropsWithoutRef<typeof InputBase> {
+interface InputProps extends React.ComponentPropsWithoutRef<typeof InputBase> {
   label?: string;
   error?: string;
   leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 }
 
-const Input = React.forwardRef<HTMLInputElement, IInputProps>(
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, type, error, className, leftIcon, onBlur, onFocus, ...others },
+    {
+      label,
+      type,
+      error,
+      className,
+      leftIcon,
+      rightIcon,
+      onBlur,
+      onFocus,
+      ...others
+    },
     ref,
   ) => {
     const id = useId();
@@ -29,7 +40,9 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
     const PasswordVisibleIcon = showPassword ? EyeOpenIcon : EyeClosedIcon;
     return (
       <fieldset>
-        <Label htmlFor={id}>{label}</Label>
+        <Label className="self-start justify-self-start" htmlFor={id}>
+          {label}
+        </Label>
 
         <div
           className={cn("relative", {
@@ -47,8 +60,9 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             className={cn(
               "pr-7",
               {
-                "border-current placeholder:text-inherit": error,
-                "pr-14": type === "password" && error,
+                "border-current !ring-destructive/60 placeholder:text-inherit":
+                  error,
+                "pr-14": (type === "password" || rightIcon) && error,
                 "pl-10": leftIcon,
               },
               className,
@@ -70,12 +84,22 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             <button
               type="button"
               className={cn("absolute right-2 top-1/2 -translate-y-1/2", {
-                "right-8": type === "password" && error,
+                "right-8": error,
               })}
               onClick={() => setShowPassword(!showPassword)}
             >
               <PasswordVisibleIcon width={18} height={18} />
             </button>
+          )}
+
+          {rightIcon && (
+            <span
+              className={cn("absolute right-2 top-1/2 -translate-y-1/2", {
+                "right-8": error,
+              })}
+            >
+              {rightIcon}
+            </span>
           )}
 
           {error && (

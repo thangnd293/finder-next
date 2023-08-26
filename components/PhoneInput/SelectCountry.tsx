@@ -10,26 +10,23 @@ import {
   type Country,
 } from "react-phone-number-input";
 import vi from "react-phone-number-input/locale/vi.json";
-import ButtonBase from "../button-base";
+import ButtonBase from "../ButtonBase";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "../command";
-import { Label } from "../label";
+} from "../Command";
+import Label from "../Label";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
-import { ScrollArea } from "../scroll-area";
+import ScrollArea from "../ScrollArea";
 
-interface ICountrySelectProps {
+interface CountrySelectProps {
   value: Country;
   onChange: (value: Country) => void;
 }
-export default function CountrySelect({
-  value,
-  onChange,
-}: ICountrySelectProps) {
+const CountrySelect = ({ value, onChange }: CountrySelectProps) => {
   const countries = getCountries();
 
   const [open, setOpen] = useState(false);
@@ -48,7 +45,7 @@ export default function CountrySelect({
           <ButtonBase
             asChild
             variant="social"
-            className="relative h-12 w-[70px] !translate-y-0 justify-center pl-0 pr-2 text-sm font-normal"
+            className="relative w-[70px] !translate-y-0 justify-center pl-0 pr-2 text-sm font-normal"
           >
             <div>
               {value
@@ -62,9 +59,9 @@ export default function CountrySelect({
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[392px] p-0" align="start">
+      <PopoverContent className="w-[376px] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Search country..." className="h-9" />
+          <CommandInput placeholder="Search country..." />
           <CommandEmpty>No country found.</CommandEmpty>
           <ScrollArea className="h-72">
             <CommandGroup>
@@ -91,4 +88,6 @@ export default function CountrySelect({
       </PopoverContent>
     </Popover>
   );
-}
+};
+
+export default CountrySelect;

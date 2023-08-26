@@ -5,20 +5,14 @@ import * as RadixAvatar from "@radix-ui/react-avatar";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-interface IAvatarProps extends VariantProps<typeof avatarVariants> {
+interface AvatarProps extends VariantProps<typeof avatarVariants> {
   className?: string;
   src?: string;
   alt?: string;
   fallback?: React.ReactNode;
 }
 
-export default function Avatar({
-  className,
-  size,
-  src,
-  alt,
-  fallback,
-}: IAvatarProps) {
+const Avatar = ({ className, size, src, alt, fallback }: AvatarProps) => {
   return (
     <RadixAvatar.Root className={cn(avatarVariants({ size, className }))}>
       <RadixAvatar.Image
@@ -33,7 +27,7 @@ export default function Avatar({
       )}
     </RadixAvatar.Root>
   );
-}
+};
 
 const avatarVariants = cva(
   "bg-secondary-background inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle",
@@ -51,3 +45,5 @@ const avatarVariants = cva(
     },
   },
 );
+
+export default Avatar;

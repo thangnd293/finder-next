@@ -1,8 +1,8 @@
 "use client";
 
-import ActionIcon from "@/components/action-icon";
+import ActionIcon from "@/components/ActionIcon";
 import MessageTextInput from "@/components/message-text-input";
-import Tooltip from "@/components/tooltip";
+import Tooltip from "@/components/Tooltip";
 import { getEmoji } from "@/utils/cdnEmoji";
 import createEmojiPlugin, { defaultTheme } from "@draft-js-plugins/emoji";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -38,18 +38,18 @@ const emojiPlugin = createEmojiPlugin({
   },
   selectButtonContent: <BsFillEmojiSmileFill />,
   useNativeArt: false,
-  emojiImage: ({ unicode }) => {
-    const src = getEmoji(unicode);
+  // emojiImage: ({ unicode }) => {
+  //   const src = getEmoji(unicode);
 
-    return (
-      <span
-        className="inline-block h-5 w-5 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${src})`,
-        }}
-      />
-    );
-  },
+  //   return (
+  //     <span
+  //       className="inline-block h-5 w-5 bg-cover bg-center"
+  //       style={{
+  //         backgroundImage: `url(${src})`,
+  //       }}
+  //     />
+  //   );
+  // },
 
   emojiInlineText: (props) => {
     const { decoratedText, children } = props;

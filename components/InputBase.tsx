@@ -2,10 +2,10 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface InputProps
+export interface InputBaseProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const InputBase = React.forwardRef<HTMLInputElement, InputProps>(
+const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>(
   ({ className, type, ...others }, ref) => {
     return (
       <input
@@ -22,4 +22,4 @@ const InputBase = React.forwardRef<HTMLInputElement, InputProps>(
 );
 InputBase.displayName = "InputBase";
 
-export { InputBase };
+export default InputBase;

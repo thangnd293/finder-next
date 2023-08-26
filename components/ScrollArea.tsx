@@ -23,7 +23,7 @@ const ScrollArea = React.forwardRef<
 ));
 ScrollArea.displayName = RadixScrollArea.Root.displayName;
 
-const ScrollBar = React.forwardRef<
+export const ScrollBar = React.forwardRef<
   React.ElementRef<typeof RadixScrollArea.ScrollAreaScrollbar>,
   React.ComponentPropsWithoutRef<typeof RadixScrollArea.ScrollAreaScrollbar>
 >(({ className, orientation = "vertical", ...props }, ref) => (
@@ -43,6 +43,7 @@ const ScrollBar = React.forwardRef<
     <RadixScrollArea.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" />
   </RadixScrollArea.ScrollAreaScrollbar>
 ));
+
 ScrollBar.displayName = RadixScrollArea.ScrollAreaScrollbar.displayName;
 
-export { ScrollArea, ScrollBar };
+export default ScrollArea;

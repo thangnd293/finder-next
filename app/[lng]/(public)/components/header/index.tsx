@@ -1,8 +1,8 @@
-import ModeToggle from "@/components/mode-toggle";
 import { ITranslation } from "@/types/common";
 import HamburgerMenu from "./hamburger-menu";
 import SignIn from "../auth/sign-in";
 import LanguageSelect from "./language-select";
+import ModeToggle from "./ModeToggle";
 
 interface IHeaderProps extends ITranslation {}
 export default async function Header({ t }: IHeaderProps) {

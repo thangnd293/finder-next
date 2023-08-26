@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { ITranslation } from "@/types/common";

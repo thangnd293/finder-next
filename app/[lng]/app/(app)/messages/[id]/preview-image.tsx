@@ -1,4 +1,4 @@
-import ActionIcon from "@/components/action-icon";
+import ActionIcon from "@/components/ActionIcon";
 import { IFile } from "@/types/common";
 import Image from "next/image";
 import React, { useEffect } from "react";

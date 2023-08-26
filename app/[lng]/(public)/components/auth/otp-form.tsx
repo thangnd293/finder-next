@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@/components/button";
-import OtpInput from "@/components/otp-input";
+import Button from "@/components/Button";
+import OtpInput from "@/components/OtpInput";
 import useYupValidationResolver from "@/hooks/useYupValidationResolver";
 import { useOtpSignIn } from "@/service/auth";
 import { useRouter } from "next/navigation";

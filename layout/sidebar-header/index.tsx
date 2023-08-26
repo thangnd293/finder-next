@@ -1,4 +1,4 @@
-import Avatar from "@/components/avatar";
+import Avatar from "@/components/Avatar";
 import { MagnifyingGlassIcon, SewingPinIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ActionLink from "./action-link";

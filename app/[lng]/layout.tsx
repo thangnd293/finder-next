@@ -10,7 +10,7 @@ import { inter } from "@/assets/fonts";
 import { supportedLngs } from "@/lib/i18n/settings";
 import { PropsWithChildren } from "react";
 
-import Providers from "@/components/providers";
+import Providers from "@/components/Providers";
 import { TPageParams } from "@/types/common";
 import "@/utils/prototype";
 

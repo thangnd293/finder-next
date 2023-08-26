@@ -1,7 +1,7 @@
 "use client";
 
-import ActionIcon from "@/components/action-icon";
-import Button from "@/components/button";
+import ActionIcon from "@/components/ActionIcon";
+import Button from "@/components/Button";
 
 import { cn } from "@/lib/utils";
 import {

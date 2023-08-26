@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import React, { useState } from "react";
 import AuthModal, { EAuthMode } from "./auth-modal";
 

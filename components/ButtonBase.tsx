@@ -4,6 +4,29 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+export interface ButtonBaseProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonBaseVariants> {
+  asChild?: boolean;
+}
+
+const ButtonBase = React.forwardRef<HTMLButtonElement, ButtonBaseProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        className={cn(buttonBaseVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+
+ButtonBase.displayName = "ButtonBase";
+
+export default ButtonBase;
+
 export const buttonBaseVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 active:translate-y-px flex-shrink-0",
   {
@@ -36,25 +59,3 @@ export const buttonBaseVariants = cva(
     },
   },
 );
-
-export interface IButtonBaseProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonBaseVariants> {
-  asChild?: boolean;
-}
-
-const ButtonBase = React.forwardRef<HTMLButtonElement, IButtonBaseProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonBaseVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
-  },
-);
-ButtonBase.displayName = "ButtonBase";
-
-export default ButtonBase;

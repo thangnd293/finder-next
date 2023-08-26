@@ -1,5 +1,5 @@
-import Button from "@/components/button";
-import { buttonBaseVariants } from "@/components/button-base";
+import Button from "@/components/Button";
+import { buttonBaseVariants } from "@/components/ButtonBase";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 

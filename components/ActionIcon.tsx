@@ -1,15 +1,15 @@
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import React from "react";
-import Tooltip from "./tooltip";
+import Tooltip from "./Tooltip";
 
-interface IActionIconProps
+interface ActionIconProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof actionIconVariants> {
   title?: string;
 }
 
-const ActionIcon = React.forwardRef<HTMLButtonElement, IActionIconProps>(
+const ActionIcon = React.forwardRef<HTMLButtonElement, ActionIconProps>(
   ({ className, variant, size, title, ...others }, ref) => {
     return (
       <Tooltip label={title ?? ""} disabled={!title}>

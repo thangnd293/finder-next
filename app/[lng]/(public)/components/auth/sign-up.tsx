@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import React, { useState } from "react";

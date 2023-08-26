@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import React from "react";
 import { signOut } from "next-auth/react";
 import { eraseCookie } from "@/utils/cookie";

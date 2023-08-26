@@ -1,6 +1,6 @@
 "use client";
 
-import ActionIcon from "@/components/action-icon";
+import ActionIcon from "@/components/ActionIcon";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import React from "react";
 

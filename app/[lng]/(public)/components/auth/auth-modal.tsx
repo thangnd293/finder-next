@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal";
 import { useState } from "react";
 import SignUpForm from "./sign-up-form";
 import SignInForm from "./sign-in-form";
@@ -10,17 +10,17 @@ export enum EAuthMode {
   SIGN_UP = "sign-up",
 }
 
-interface IAuthModalProps {
+interface AuthModalProps {
   isOpen: boolean;
   defaultMode?: EAuthMode;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function AuthModal({
+const AuthModal = ({
   isOpen,
   defaultMode = EAuthMode.SIGN_UP,
   onOpenChange,
-}: IAuthModalProps) {
+}: AuthModalProps) => {
   const [mode, setMode] = useState<EAuthMode>(defaultMode);
 
   const onSwitchMode = (mode: EAuthMode) => {
@@ -45,4 +45,6 @@ export default function AuthModal({
       }
     </Modal>
   );
-}
+};
+
+export default AuthModal;

@@ -10,9 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/dropdown-menu";
-import ActionIcon from "./action-icon";
+import ActionIcon from "@/components/ActionIcon";
 
-export default function ModeToggle() {
+const ModeToggle = () => {
   const { setTheme } = useTheme();
 
   return (
@@ -37,4 +37,6 @@ export default function ModeToggle() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default ModeToggle;

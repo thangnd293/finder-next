@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/Card";
 import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";

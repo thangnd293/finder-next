@@ -1,13 +1,13 @@
 import React from "react";
-import ButtonBase from "./button-base";
-import Loader from "./loader";
+import ButtonBase from "./ButtonBase";
+import Loader from "./Loader";
 
-export interface IButtonProps
+export interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonBase> {
   loading?: boolean;
   leftIcon?: React.ReactNode;
 }
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ leftIcon, loading, disabled, children, ...others }, ref) => {
     return (
       <ButtonBase ref={ref} disabled={disabled || loading} {...others}>

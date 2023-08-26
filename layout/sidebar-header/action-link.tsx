@@ -1,6 +1,6 @@
 "use client";
 
-import ActionIcon from "@/components/action-icon";
+import ActionIcon from "@/components/ActionIcon";
 import { usePathname } from "@/hooks/usePathname";
 import { cn } from "@/lib/utils";
 import Link from "next/link";

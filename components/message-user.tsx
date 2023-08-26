@@ -1,5 +1,5 @@
 import React from "react";
-import Avatar from "./avatar";
+import Avatar from "./Avatar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -7,7 +7,7 @@ export default function MessageUser() {
   const isTyping = Math.random() > 0.5;
   const isActive = Math.random() > 0.5;
   const unseenMessages = Math.round(Math.random() * 3);
-  
+
   return (
     <Link href="/app/messages/thangnguyen">
       <div

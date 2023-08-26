@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { IMutateSuccess } from "@/types/http";
+import { MutateSuccess } from "@/types/http";
 
 export class AuthService {
   static prefix = "/auth";
@@ -9,7 +9,7 @@ export class AuthService {
   };
 
   static sendSms = async (phoneNumber: string) => {
-    const { data: responseData } = await axiosInstance.post<IMutateSuccess>(
+    const { data: responseData } = await axiosInstance.post<MutateSuccess>(
       this.urls.sendSms,
       {
         phoneNumber,

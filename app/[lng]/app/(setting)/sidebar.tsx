@@ -1,5 +1,5 @@
-import ActionIcon from "@/components/action-icon";
-import Avatar from "@/components/avatar";
+import ActionIcon from "@/components/ActionIcon";
+import Avatar from "@/components/Avatar";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 

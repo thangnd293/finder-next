@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PhoneInput from "@/components/phone-input";
 import useYupValidationResolver from "@/hooks/useYupValidationResolver";
 import { useSendSms } from "@/service/auth";
@@ -59,7 +59,6 @@ export default function PhoneAuth() {
   };
 
   const handleSubmitPhoneForm = (data: TPhoneForm) => {
-    console.log("handleSubmitPhoneForm", data);
     handleSendSms(data.phoneNumber);
   };
 

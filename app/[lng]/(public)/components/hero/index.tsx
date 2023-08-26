@@ -2,7 +2,7 @@ import { libreBaskerville } from "@/assets/fonts";
 
 import { cn } from "@/lib/utils";
 import ScrollingText from "./scrolling-text";
-import Avatar from "@/components/avatar";
+import Avatar from "@/components/Avatar";
 import { ITranslation } from "@/types/common";
 import SignUp from "../auth/sign-up";
 

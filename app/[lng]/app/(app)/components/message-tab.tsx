@@ -1,5 +1,5 @@
 import MessageUser from "@/components/message-user";
-import { TabsContent } from "@/components/tabs";
+import { TabsContent } from "@/components/Tabs";
 import React from "react";
 
 export default function MessageTab() {
