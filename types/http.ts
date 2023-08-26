@@ -1,4 +1,4 @@
-export interface IError<T = any> {
+export interface Error<T = any> {
   message: string;
   statusCode: string;
   timestamp: string;
@@ -6,7 +6,7 @@ export interface IError<T = any> {
   data: T;
 }
 
-export interface IMutateSuccess {
+export interface MutateSuccess {
   success: boolean;
   message: string;
 }
