@@ -10,3 +10,13 @@ export interface MutateSuccess {
   success: boolean;
   message: string;
 }
+
+export interface List<T> {
+  results: T[];
+  pagination: {
+    currentPage: number;
+    currentSize: number;
+    totalCount: number;
+    totalPage: number;
+  };
+}
