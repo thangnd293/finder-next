@@ -23,6 +23,7 @@ const Slider = React.forwardRef<
     <RadixSlider.Thumb className="border-primary/50 block h-6 w-6 rounded-full border bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
   </RadixSlider.Root>
 ));
+
 Slider.displayName = RadixSlider.Root.displayName;
 
 export default Slider;

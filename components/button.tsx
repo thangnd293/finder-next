@@ -2,7 +2,7 @@ import React from "react";
 import ButtonBase from "./ButtonBase";
 import Loader from "./Loader";
 
-export interface ButtonProps
+interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonBase> {
   loading?: boolean;
   leftIcon?: React.ReactNode;

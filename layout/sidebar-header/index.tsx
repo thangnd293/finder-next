@@ -1,14 +1,19 @@
+"use client";
+
 import Avatar from "@/components/Avatar";
 import { MagnifyingGlassIcon, SewingPinIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ActionLink from "./action-link";
+import { useCurrentUser } from "@/service/user";
 
 export default function SidebarHeader() {
+  const { currentUser } = useCurrentUser();
+
   return (
     <header className="flex h-20 items-center justify-between px-3 py-4">
       <Link className="flex items-center space-x-2" href="/app/settings">
-        <Avatar fallback="DT" />
-        <p className="font-medium">Dac Thang</p>
+        <Avatar fallback="DT" src={currentUser?.images[0]?.url} />
+        <p className="font-medium">{currentUser?.name}</p>
       </Link>
 
       <div className="flex gap-3">
