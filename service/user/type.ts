@@ -1,3 +1,5 @@
+import { Tag } from "../tag";
+
 export enum Gender {
   Male = "Male",
   Female = "Female",
@@ -24,12 +26,18 @@ export interface Discovery {
   recentlyActive: boolean;
   modeGoal: ModeGoal;
 }
+
+export interface Image {
+  url: string;
+}
 export interface User {
   _id: string;
   name: string;
-  images: string[];
+  images: Image[];
+  bio: string;
   stepStarted: number;
   gender: Gender;
+  age: number;
   homeTown: {
     province: string;
   };
@@ -37,4 +45,5 @@ export interface User {
   setting: {
     discovery: Discovery;
   };
+  tags: Tag[];
 }

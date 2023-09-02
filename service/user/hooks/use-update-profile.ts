@@ -6,14 +6,14 @@ import {
 import { AxiosError } from "axios";
 import { Error } from "@/types/http";
 import { getCurrentUserKey } from "./use-current-user";
-import { UserService } from "..";
+import { UpdateProfilePayload, UserService } from "..";
 import { type User } from "..";
 
 export const useUpdateProfile = (
   config: UseMutationOptions<
     User,
     AxiosError<Error>,
-    Partial<User>,
+    UpdateProfilePayload,
     unknown
   > = {},
 ) => {

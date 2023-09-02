@@ -1,5 +1,6 @@
 import axiosInstance from "@/lib/axios";
 import { type Discovery, type User } from ".";
+import { List } from "@/types/http";
 
 export interface UpdateSettingPayload {
   discovery: Partial<Discovery>;
@@ -11,6 +12,10 @@ export interface UpdateLocationPayload {
   long: number;
 }
 
+export interface UpdateProfilePayload extends Partial<Omit<User, "images">> {
+  images?: string[];
+}
+
 export class UserService {
   static prefix = "/users";
 
@@ -19,6 +24,8 @@ export class UserService {
     updateProfile: `${this.prefix}/update_profile`,
     updateSetting: `${this.prefix}/update_setting`,
     updateLocation: `${this.prefix}/update_location`,
+    recommendation: (page: number, size: number) =>
+      `${this.prefix}/recommendation?page=${page}&size=${size}`,
   };
 
   static getCurrentUser = async () => {
@@ -27,7 +34,7 @@ export class UserService {
     return data;
   };
 
-  static updateProfile = async (user: Partial<User>) => {
+  static updateProfile = async (user: UpdateProfilePayload) => {
     const { data } = await axiosInstance.patch<User>(
       this.urls.updateProfile,
       user,
@@ -49,6 +56,14 @@ export class UserService {
     const { data } = await axiosInstance.patch(
       this.urls.updateLocation,
       payload,
+    );
+
+    return data;
+  };
+
+  static getRecommendedUsers = async (page: number, size: number) => {
+    const { data } = await axiosInstance.get<List<User>>(
+      this.urls.recommendation(page, size),
     );
 
     return data;
