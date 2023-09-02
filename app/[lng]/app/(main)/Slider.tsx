@@ -29,7 +29,7 @@ export default function Slider({
 
   const handleNextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev < slides.length - 1 ? prev + 1 : prev));
-  }, []);
+  }, [slides.length]);
 
   const handlePrevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev > 1 ? prev - 1 : 0));
@@ -155,7 +155,6 @@ const ButtonScroll = ({
           ? `url('/images/none.png') 32 32, auto`
           : `url('/images/arrow-${type}.png') 32 32, auto`,
       }}
-      aria-description={`Scroll ${type}`}
     />
   );
 };

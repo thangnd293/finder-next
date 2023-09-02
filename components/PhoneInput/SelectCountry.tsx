@@ -19,7 +19,7 @@ import {
   CommandItem,
 } from "../Command";
 import Label from "../Label";
-import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../Popover";
 import ScrollArea from "../ScrollArea";
 
 interface CountrySelectProps {
