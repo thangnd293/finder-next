@@ -1,4 +1,4 @@
-import Loader from "@/components/Loader";
+import Spinner from "@/components/Spinner";
 import { useCldUpload } from "@/lib/cloudinary";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -84,7 +84,7 @@ const ImageCard = ({
 
         {cldUpload.isLoading && (
           <div className="pointer-events-none flex h-full w-full items-center justify-center rounded-lg bg-background-100">
-            <Loader />
+            <Spinner />
           </div>
         )}
 

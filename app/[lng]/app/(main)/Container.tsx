@@ -55,8 +55,6 @@ const Container = ({ children }: ContainerProps) => {
   };
 
   const handleLike = useClickOneInTime(() => {
-    console.log("like", recommendedUsers[currentIndex]?.name);
-
     const userId = recommendedUsers[currentIndex]?._id;
 
     if (!userId) return;
@@ -67,7 +65,6 @@ const Container = ({ children }: ContainerProps) => {
   }, 800);
 
   const handleUnLike = useClickOneInTime(() => {
-    console.log("unlike", recommendedUsers[currentIndex]?.name);
     const userId = recommendedUsers[currentIndex]?._id;
 
     if (!userId) return;
@@ -77,8 +74,6 @@ const Container = ({ children }: ContainerProps) => {
   }, 800);
 
   const handleBack = useClickOneInTime(() => {
-    console.log("back", recommendedUsers[currentIndex]?.name);
-
     setCurrentIndex((prev) => (prev > 1 ? prev - 1 : 0));
     isBack.current = true;
 

@@ -22,7 +22,9 @@ const UploadImages = ({
 
   const [images, setImages] = useState<string[]>(() => {
     const images = [...value];
-    const emptyImages = Array(maxImages - images.length).fill("");
+    const emptyImages = Array.from({
+      length: maxImages - images.length,
+    }).fill("") as string[];
     return [...images, ...emptyImages];
   });
 
