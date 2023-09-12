@@ -29,6 +29,7 @@ export interface Discovery {
 
 export interface Image {
   url: string;
+  blur?: string;
 }
 export interface User {
   _id: string;

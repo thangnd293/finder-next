@@ -29,7 +29,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
         async authorize(credentials, req) {
           const res = await fetch(
-            `${process.env.BACKEND_URL}/auth/verify-otp`,
+            `${process.env.BACKEND_URL}/api/v1/auth/verify-otp`,
             {
               method: "POST",
               headers: {
@@ -60,7 +60,12 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     callbacks: {
       async signIn({ user, account }) {
-        console.log("=========SIGN IN=========");
+        console.log(
+          "=========SIGN IN=========",
+          user.accessToken,
+          account?.access_token,
+        );
+
         if (user.accessToken) {
           res.setHeader(
             "Set-Cookie",
@@ -74,8 +79,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             token: (account.access_token as string) ?? "",
           });
 
+          console.log("params", params.toString());
+          console.log(
+            "req",
+            `${process.env.BACKEND_URL}/api/v1/auth/google/verify?${params}`,
+          );
+
           const { accessToken } = await fetch(
-            `${process.env.BACKEND_URL}/auth/google/verify?${params}`,
+            `${process.env.BACKEND_URL}/api/v1/auth/google/verify?${params}`,
           ).then(
             (res) =>
               res.json() as Promise<{
@@ -83,6 +94,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                 refreshToken: string;
               }>,
           );
+
+          console.log("accessToken", accessToken);
 
           if (accessToken) {
             res.setHeader("Set-Cookie", `accessToken=${accessToken}; Path=/`);
