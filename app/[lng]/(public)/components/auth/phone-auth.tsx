@@ -33,7 +33,7 @@ export default function PhoneAuth() {
 
   const phoneForm = useForm<TPhoneForm>({
     defaultValues: {
-      phoneNumber: "",
+      phoneNumber: "0344329446",
     },
     resolver: phoneFormResolver,
   });

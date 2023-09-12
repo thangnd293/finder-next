@@ -1,22 +1,26 @@
 "use client";
 
+import LoadingScreen from "@/components/LoadingScreen";
 import UpdateLocation from "@/components/update-location";
+import useDetectUserFocusState from "@/hooks/use-detect-user-focus-state";
+import useSocket from "@/hooks/use-socket";
 import { useCurrentUser } from "@/service/user";
 import { eraseCookie } from "@/utils/cookie";
+import "@/utils/prototype";
 import { redirect, usePathname } from "next/navigation";
 import { PropsWithChildren } from "react";
 
 const IS_DONE_GET_STARTED = 4;
 export default function AppLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
-  const { currentUser, isLoading, isError } = useCurrentUser();
 
-  if (isLoading)
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-primary-100">
-        Loading...
-      </div>
-    );
+  const { currentUser, isLoading, isError } = useCurrentUser();
+  const active = !isError && !!currentUser;
+
+  useSocket(active);
+  useDetectUserFocusState();
+
+  if (isLoading) return <LoadingScreen />;
 
   if (isError || !currentUser) {
     eraseCookie("accessToken");
