@@ -1,6 +1,6 @@
 "use client";
 
-import useClickOneInTime from "@/hooks/useClickOneInTime";
+import useCallbackDebounce from "@/hooks/use-callback-debounce";
 import { useLike, useSkip } from "@/service/action/hooks";
 import { User, useRecommendedUsers } from "@/service/user";
 import { InfiniteData } from "@tanstack/react-query";
@@ -54,7 +54,7 @@ const Container = ({ children }: ContainerProps) => {
     isBack.current = false;
   };
 
-  const handleLike = useClickOneInTime(() => {
+  const handleLike = useCallbackDebounce(() => {
     const userId = recommendedUsers[currentIndex]?._id;
 
     if (!userId) return;
@@ -64,7 +64,7 @@ const Container = ({ children }: ContainerProps) => {
     lastLike.current = currentIndex;
   }, 800);
 
-  const handleUnLike = useClickOneInTime(() => {
+  const handleUnLike = useCallbackDebounce(() => {
     const userId = recommendedUsers[currentIndex]?._id;
 
     if (!userId) return;
@@ -73,7 +73,7 @@ const Container = ({ children }: ContainerProps) => {
     canBack.current = true;
   }, 800);
 
-  const handleBack = useClickOneInTime(() => {
+  const handleBack = useCallbackDebounce(() => {
     setCurrentIndex((prev) => (prev > 1 ? prev - 1 : 0));
     isBack.current = true;
 

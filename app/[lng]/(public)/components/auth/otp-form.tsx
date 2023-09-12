@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import OtpInput from "@/components/OtpInput";
-import useYupValidationResolver from "@/hooks/useYupValidationResolver";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { useOtpSignIn } from "@/service/auth";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
