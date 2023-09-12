@@ -12,25 +12,32 @@ interface AvatarProps extends VariantProps<typeof avatarVariants> {
   fallback?: React.ReactNode;
 }
 
-const Avatar = ({ className, size, src, alt, fallback }: AvatarProps) => {
-  return (
-    <RadixAvatar.Root className={cn(avatarVariants({ size, className }))}>
-      <RadixAvatar.Image
-        className="h- h-full w-full rounded-[inherit] object-cover"
-        src={src}
-        alt={alt}
-      />
-      {fallback && (
-        <RadixAvatar.Fallback className="leading-1 flex h-full w-full items-center justify-center bg-secondary-background text-[15px] font-medium text-foreground">
-          {fallback}
-        </RadixAvatar.Fallback>
-      )}
-    </RadixAvatar.Root>
-  );
-};
+const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
+  ({ className, size, src, alt, fallback }, ref) => {
+    return (
+      <RadixAvatar.Root
+        ref={ref}
+        className={cn(avatarVariants({ size, className }))}
+      >
+        <RadixAvatar.Image
+          className="h- h-full w-full rounded-[inherit] object-cover"
+          src={src}
+          alt={alt}
+        />
+        {fallback && (
+          <RadixAvatar.Fallback className="leading-1 flex h-full w-full items-center justify-center bg-secondary-background text-[15px] font-medium text-foreground">
+            {fallback}
+          </RadixAvatar.Fallback>
+        )}
+      </RadixAvatar.Root>
+    );
+  },
+);
+
+Avatar.displayName = "Avatar";
 
 const avatarVariants = cva(
-  "bg-secondary-background inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle",
+  "bg-secondary-background flex-shrink-0 inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle",
   {
     variants: {
       size: {
