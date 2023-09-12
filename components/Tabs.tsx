@@ -14,7 +14,7 @@ const TabsList = React.forwardRef<
   <RadixTab.List
     ref={ref}
     className={cn(
-      "inline-flex items-center border-b text-muted-foreground",
+      "inline-flex items-center border-b border-gray-100 text-muted-foreground",
       className,
     )}
     {...props}

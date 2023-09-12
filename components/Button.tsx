@@ -1,6 +1,6 @@
 import React from "react";
 import ButtonBase from "./ButtonBase";
-import Loader from "./Loader";
+import Spinner from "./Spinner";
 
 interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonBase> {
@@ -12,7 +12,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <ButtonBase ref={ref} disabled={disabled || loading} {...others}>
         {(leftIcon || loading) && (
-          <span className="mr-2.5">{loading ? <Loader /> : leftIcon}</span>
+          <span className="mr-2.5">{loading ? <Spinner /> : leftIcon}</span>
         )}
         {children}
       </ButtonBase>
