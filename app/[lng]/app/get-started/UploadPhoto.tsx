@@ -3,7 +3,7 @@
 import { UploadPhotoIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import UploadImages from "@/components/UploadImages";
-import useYupValidationResolver from "@/hooks/useYupValidationResolver";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { useCurrentUser, useUpdateProfile } from "@/service/user";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";

@@ -5,6 +5,7 @@ type DebouncedFunction<T extends any[]> = (...args: T) => void;
 const useDebouncedFunction = <T extends any[]>(
   callback: DebouncedFunction<T>,
   delay: number,
+  deps: any[] = [],
 ): DebouncedFunction<T> => {
   const timerId = useRef<NodeJS.Timeout>();
   const [canCall, setCanCall] = useState(true);
@@ -21,7 +22,7 @@ const useDebouncedFunction = <T extends any[]>(
     return () => {
       clearTimeout(timerId.current);
     };
-  }, [canCall, delay]);
+  }, [canCall, delay, ...deps]);
 
   const debouncedFunction: DebouncedFunction<T> = useCallback(
     (...args) => {

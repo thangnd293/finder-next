@@ -1,7 +1,7 @@
 "use client";
 
 import ActionIcon from "@/components/ActionIcon";
-import { usePathname } from "@/hooks/usePathname";
+import { usePathname } from "@/hooks/use-path-name";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React, { ComponentPropsWithoutRef, PropsWithChildren } from "react";

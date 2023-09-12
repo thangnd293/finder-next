@@ -3,7 +3,7 @@
 import Progress from "@/components/Progress";
 import React, { useCallback, useEffect } from "react";
 
-import useCallbackDebounce from "@/hooks/use-callback-debound";
+import useCallbackDebounce from "@/hooks/use-callback-debounce";
 import { cn } from "@/lib/utils";
 import { useWindowSize } from "usehooks-ts";
 
