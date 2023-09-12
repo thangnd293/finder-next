@@ -1,12 +1,16 @@
 import React, { PropsWithChildren } from "react";
-import Sidebar from "./components/sidebar";
-import MainLayout from "@/layout/main-layout";
-import Header from "./components/Header";
+import Sidebar from "./Sidebar";
 
-export default function AppLayout({ children }: PropsWithChildren) {
+export default function MainLayout({ children }: PropsWithChildren) {
   return (
-    <MainLayout renderSidebarContent={Sidebar} renderHeaderContent={Header}>
-      {children}
-    </MainLayout>
+    <div className="flex min-h-screen w-full">
+      <div
+        className="flex max-h-screen w-[360px] flex-col border-r"
+        role="side-bar"
+      >
+        <Sidebar />
+      </div>
+      <div className="flex max-h-screen flex-1 overflow-hidden">{children}</div>
+    </div>
   );
 }

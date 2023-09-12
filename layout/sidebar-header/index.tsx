@@ -10,7 +10,7 @@ export default function SidebarHeader() {
   const { currentUser } = useCurrentUser();
 
   return (
-    <header className="flex h-20 items-center justify-between px-3 py-4">
+    <header className="flex h-20 items-center justify-between border-b px-3 py-4">
       <Link className="flex items-center space-x-2" href="/app/settings">
         <Avatar fallback="DT" src={currentUser?.images[0]?.url} />
         <p className="font-medium">{currentUser?.name}</p>
