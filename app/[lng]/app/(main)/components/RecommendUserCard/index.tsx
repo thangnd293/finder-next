@@ -32,15 +32,13 @@ export const RecommendUserCard = ({
       }}
       isShow={isShow}
     >
-      {firstImage && (
-        <SlideContentWithRightImage image={firstImage}>
-          <div className="flex h-full w-full flex-col justify-center p-8">
-            <p className="text-2xl font-extrabold text-gray-700">
-              {name}, {age}
-            </p>
-          </div>
-        </SlideContentWithRightImage>
-      )}
+      <SlideContentWithRightImage image={firstImage}>
+        <div className="flex h-full w-full flex-col justify-center p-8">
+          <p className="text-2xl font-extrabold text-gray-700">
+            {name}, {age}
+          </p>
+        </div>
+      </SlideContentWithRightImage>
 
       <SlideCard>
         <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-2">
@@ -63,20 +61,18 @@ export const RecommendUserCard = ({
       {imageSlides.length > 0 &&
         imageSlides.map((images, i) => <SlideImages key={i} images={images} />)}
 
-      {lastImage && (
-        <SlideContentWithRightImage image={lastImage}>
-          <div className="flex h-full w-full flex-col justify-center p-8">
-            <p className="text-2xl font-extrabold text-gray-700">
-              {name}&apos;s location
-            </p>
+      <SlideContentWithRightImage image={lastImage}>
+        <div className="flex h-full w-full flex-col justify-center p-8">
+          <p className="text-2xl font-extrabold text-gray-700">
+            {name}&apos;s location
+          </p>
 
-            <p>
-              <MdLocationOn className="mb-1 inline-block" size={18} />
-              Thành phố Hồ Chí Minh, Việt Nam
-            </p>
-          </div>
-        </SlideContentWithRightImage>
-      )}
+          <p>
+            <MdLocationOn className="mb-1 inline-block" size={18} />
+            Thành phố Hồ Chí Minh, Việt Nam
+          </p>
+        </div>
+      </SlideContentWithRightImage>
     </Slider>
   );
 };

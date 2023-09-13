@@ -4,7 +4,7 @@ import CustomImage from "@/components/CustomImage";
 import { type Image } from "@/service/user";
 
 interface SlideContentWithRightImageProps {
-  image: Image;
+  image?: Image;
   children: React.ReactNode;
 }
 const SlideContentWithRightImage = ({
