@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import Sidebar from "./Sidebar";
+import { Sidebar } from "./components/Sidebar";
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (

@@ -1,10 +1,12 @@
 "use client";
 
-import CardAction from "./CardAction";
-import CardBox from "./CardBox";
-import Container from "./Container";
-import RecommendUserCard from "./RecommendUserCard";
-import Header from "./Header";
+import {
+  CardAction,
+  CardBox,
+  Container,
+  Header,
+  RecommendUserCard,
+} from "./components";
 
 export default function HomePage() {
   return (
