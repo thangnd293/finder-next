@@ -20,7 +20,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         className={cn(avatarVariants({ size, className }))}
       >
         <RadixAvatar.Image
-          className="h- h-full w-full rounded-[inherit] object-cover"
+          className="h-full w-full rounded-[inherit] object-cover"
           src={src}
           alt={alt}
         />
