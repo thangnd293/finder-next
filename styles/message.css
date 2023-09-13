@@ -1,0 +1,73 @@
+.message-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  cursor: default;
+}
+
+.message-wrapper + .message-wrapper {
+  margin-top: 2px;
+}
+
+/* Message received*/
+
+.message-wrapper.sent {
+  justify-content: end;
+}
+
+/* First */
+.message-wrapper.received:not(
+    .message-wrapper.received + .message-wrapper.received
+  )
+  > .message {
+  border-radius: 12px 12px 12px 4px;
+}
+
+/* Middle */
+.message-wrapper.received + .message-wrapper.received > .message {
+  border-radius: 4px 12px 12px 4px;
+}
+
+/* End */
+.message-wrapper.received:not(:has(+ .message-wrapper.received)) > .message {
+  border-radius: 4px 12px 12px 12px;
+}
+
+/* Default */
+.message-wrapper.received:not(
+    .message-wrapper.received + .message-wrapper.received
+  ):not(:has(+ .message-wrapper.received))
+  > .message {
+  border-radius: 12px;
+}
+
+/* First */
+.message-wrapper.message-wrapper.sent:not(
+    .message-wrapper.sent + .message-wrapper.sent
+  )
+  > .message {
+  border-radius: 12px 12px 4px 12px;
+}
+
+/* Middle */
+.message-wrapper.sent + .message-wrapper.sent > .message {
+  border-radius: 12px 4px 4px 12px;
+}
+
+/* End */
+.message-wrapper.sent:not(:has(+ .message-wrapper.sent)) > .message {
+  border-radius: 12px 4px 12px 12px;
+}
+
+/* Default */
+.message-wrapper.sent:not(.message-wrapper.sent + .message-wrapper.sent):not(
+    :has(+ .message-wrapper.sent)
+  )
+  > .message {
+  border-radius: 12px;
+}
+
+.message {
+  max-width: 60%;
+  word-wrap: break-word;
+}

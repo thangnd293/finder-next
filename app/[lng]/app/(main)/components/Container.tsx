@@ -50,7 +50,13 @@ export const Container = ({ children }: ContainerProps) => {
     if (currentIndex >= recommendedUsers.length - 3) {
       fetchNextPage();
     }
-  }, [currentIndex, recommendedUsers, hasNextPage, isFetchingNextPage]);
+  }, [
+    currentIndex,
+    recommendedUsers,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  ]);
 
   const handleNextIndex = () => {
     setCurrentIndex((prev) => prev + 1);

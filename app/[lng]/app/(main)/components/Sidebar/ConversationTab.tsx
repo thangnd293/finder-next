@@ -25,7 +25,10 @@ export const MessageTab = () => {
       <div className="flex-1 overflow-auto py-4">
         {isLoading &&
           Array.from({ length: randomNumber(4, 7) }).map((_, i) => (
-            <div className="flex items-center space-x-2.5 rounded-md px-6 py-3">
+            <div
+              key={i}
+              className="flex items-center space-x-2.5 rounded-md px-6 py-3"
+            >
               <Skeleton className="h-12 w-12 flex-shrink-0 rounded-full" />
 
               <div className="h-fit w-full space-y-1">
