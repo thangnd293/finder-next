@@ -5,15 +5,15 @@ import { Image } from "@/service/user";
 type NextImageProps = React.ComponentProps<typeof NextImage>;
 interface CustomImageProps
   extends Omit<NextImageProps, "src" | "placeholder" | "blurDataURL"> {
-  image: Image;
+  image?: Image;
 }
 
 const CustomImage = ({ image, ...others }: CustomImageProps) => {
   return (
     <NextImage
-      src={image.url}
-      placeholder={image.blur ? "blur" : "empty"}
-      blurDataURL={image.blur}
+      src={image?.url || ""}
+      placeholder={image?.blur ? "blur" : "empty"}
+      blurDataURL={image?.blur}
       {...others}
     />
   );

@@ -13,3 +13,7 @@ export function dataURLtoFile(dataurl: string, filename: string) {
 export function daysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
+
+export function randomNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
