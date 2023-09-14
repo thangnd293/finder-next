@@ -24,4 +24,16 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log("error", error);
+
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;
