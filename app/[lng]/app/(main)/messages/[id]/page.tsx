@@ -7,7 +7,11 @@ import MessageList from "./components/MessageList";
 import ChatRoomFooter from "./components/ChatRoomFooter";
 import ChatRoomBody from "./components/ChatRoomBody";
 
-export default function ChatPage() {
+export default function ChatPage({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
   const [isOpenSidebar, setOpenSidebar] = useState(false);
 
   return (
@@ -23,7 +27,10 @@ export default function ChatPage() {
       </div>
 
       {isOpenSidebar && (
-        <ProfileSidebar onCloseSidebar={() => setOpenSidebar(false)} />
+        <ProfileSidebar
+          conversation={id}
+          onCloseSidebar={() => setOpenSidebar(false)}
+        />
       )}
     </>
   );
