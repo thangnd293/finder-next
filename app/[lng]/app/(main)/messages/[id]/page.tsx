@@ -1,5 +1,3 @@
-import MessageFooter from "./footer";
-
 export default function ChatPage({
   params: { id },
 }: {
@@ -12,7 +10,7 @@ export default function ChatPage({
       <div className="flex flex-1 items-center justify-center">
         Chat with {id}
       </div>
-      <MessageFooter />
+      {/* <MessageFooter /> */}
     </div>
   );
 }

@@ -13,3 +13,33 @@ export function dataURLtoFile(dataurl: string, filename: string) {
 export function daysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
+
+export function toggleFullscreen(fullscreen: boolean, element: any) {
+  if (fullscreen) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      //@ts-ignore
+    } else if (document.mozCancelFullScreen) {
+      //@ts-ignore
+      document.mozCancelFullScreen();
+      //@ts-ignore
+    } else if (document.webkitExitFullscreen) {
+      //@ts-ignore
+      document.webkitExitFullscreen();
+      //@ts-ignore
+    } else if (document.msExitFullscreen) {
+      //@ts-ignore
+      document.msExitFullscreen();
+    }
+  }
+}
