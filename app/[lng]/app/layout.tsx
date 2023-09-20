@@ -2,6 +2,9 @@
 
 import UpdateLocation from "@/components/UpdateLocation";
 import LoadingScreen from "@/components/LoadingScreen";
+import NotifyNewLiked from "@/components/NotifyNewLiked";
+import Notification from "@/components/Notification";
+import NotifyNewMatched from "@/components/NotifyNewMatched";
 import useDetectUserFocusState from "@/hooks/use-detect-user-focus-state";
 import useSocket from "@/hooks/use-socket";
 import { useCurrentUser } from "@/service/user";
@@ -44,7 +47,9 @@ export default function AppLayout({ children }: PropsWithChildren) {
   return (
     <>
       {children}
-      {/* <ButtonLogout /> */}
+      <Notification />
+      <NotifyNewLiked />
+      <NotifyNewMatched />
       <UpdateLocation />
     </>
   );
