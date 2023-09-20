@@ -13,7 +13,7 @@ const useMessageStore = () => {
     useAllConversationStore();
 
   const addMessage = useCallback(
-    (message: Message) => {
+    (message: Message, onFirstMessageSent?: () => void) => {
       const noMessageConversations = queryClient.getQueryData<
         List<Conversation>
       >(getAllConversationsKey(false));
@@ -22,8 +22,10 @@ const useMessageStore = () => {
         (matched) => matched._id === message.conversation,
       );
 
-      if (isNewMessage) changeToHasMessageConversation(message);
-      else updateLastMessageOfConversation(message);
+      if (isNewMessage) {
+        changeToHasMessageConversation(message);
+        onFirstMessageSent?.();
+      } else updateLastMessageOfConversation(message);
 
       queryClient.setQueryData<List<Message>>(
         getAllMessagesKey(message.conversation),
@@ -50,10 +52,15 @@ const useMessageStore = () => {
           const messageExistsIndex = oldStore.results.findLastIndex(
             (oldMessage) => oldMessage.uuid === message.uuid,
           );
-
-          if (messageExistsIndex === -1) return oldStore;
           const newStore = { ...oldStore };
-          newStore.results[messageExistsIndex] = message;
+
+          if (messageExistsIndex === -1) {
+            newStore.results.push(message);
+            return newStore;
+          } else {
+            newStore.results[messageExistsIndex] = message;
+          }
+
           if (messageExistsIndex === newStore.results.length - 1)
             updateLastMessageOfConversation(message);
           return newStore;

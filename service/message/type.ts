@@ -32,6 +32,16 @@ interface MessageSending {
   seenAt?: never;
 }
 
+interface MessageSending {
+  status: MessageStatus.SENDING;
+  seenAt?: never;
+}
+
+interface MessageReceived {
+  status: MessageStatus.RECEIVED;
+  seenAt?: never;
+}
+
 export type Message = {
   _id: string;
   sender: string;
@@ -41,10 +51,11 @@ export type Message = {
   updatedAt: string;
   uuid?: string;
 } & (ImageMessage | TextMessage) &
-  (MessageSeen | MessageSent | MessageSending);
+  (MessageSeen | MessageSent | MessageSending | MessageReceived);
 
 export enum MessageStatus {
   SENDING = "Sending",
   SEEN = "Seen",
   SENT = "Sent",
+  RECEIVED = "Received",
 }

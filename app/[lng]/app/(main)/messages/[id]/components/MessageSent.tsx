@@ -35,6 +35,10 @@ const MessageSent = ({ message, isLast, receiver }: MessageSentProps) => {
         </p>
       )}
 
+      {isLast && message.status === MessageStatus.RECEIVED && (
+        <p className="text-sm text-secondary-foreground">{`Đã nhận`}</p>
+      )}
+
       {isLast && message.status === MessageStatus.SEEN && (
         <Tooltip label={`Đã xem lúc ${message.seenAt?.prettyFullDate()}`}>
           <span>
