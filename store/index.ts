@@ -1,27 +1,14 @@
 import { create } from "zustand";
-import { createWithEqualityFn } from "zustand/traditional";
-// import { produce } from 'immer'
+import createWindowFocusSlice, { WindowFocusSlice } from "./window-focus-slice";
+import createRecommendUserCurrentIndexSlice, {
+  RecommendUserCurrentIndexSlice,
+} from "./recommend-user-current-index";
 
-interface BearState {
-  count: number;
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  increaseCount: () => void;
-}
-
-export const useBearStore = createWithEqualityFn<BearState>(
-  (set) => ({
-    count: 0,
-    bears: 0,
-    increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-    removeAllBears: () => set({ bears: 0 }),
-    increaseCount: () => set((state) => ({ count: state.count + 1 })),
+const useStore = create<WindowFocusSlice & RecommendUserCurrentIndexSlice>()(
+  (...a) => ({
+    ...createWindowFocusSlice(...a),
+    ...createRecommendUserCurrentIndexSlice(...a),
   }),
-  Object.is,
 );
 
-export const useLushStore = create((set) => ({
-  lush: { forest: { contains: { a: "bear" } } },
-  clearForest: () => set((state: any) => (state.lush.forest.contains = null)),
-}));
+export default useStore;

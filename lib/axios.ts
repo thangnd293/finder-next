@@ -2,7 +2,7 @@ import { getCookie } from "@/utils/cookie";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`,
   timeout: 10000,
   headers: { Accept: "application/json", "Content-Type": "application/json" },
 });
@@ -24,4 +24,16 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log("error", error);
+
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;

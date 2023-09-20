@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import PhoneInput from "@/components/PhoneInput";
-import useYupValidationResolver from "@/hooks/useYupValidationResolver";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { useSendSms } from "@/service/auth";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,7 +33,7 @@ export default function PhoneAuth() {
 
   const phoneForm = useForm<TPhoneForm>({
     defaultValues: {
-      phoneNumber: "",
+      phoneNumber: "0344329446",
     },
     resolver: phoneFormResolver,
   });

@@ -24,6 +24,7 @@ export default function UpdateLocation() {
       },
       (error) => console.log("error", error),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

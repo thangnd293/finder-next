@@ -3,7 +3,7 @@ import DateSelect from "@/components/DateSelect";
 import Input from "@/components/Input";
 import ProvinceSelect from "@/components/ProvinceSelect";
 import RadioGroup from "@/components/RadioGroup";
-import useYupValidationResolver from "@/hooks/useYupValidationResolver";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import {
   UpdateProfilePayload,
   useCurrentUser,

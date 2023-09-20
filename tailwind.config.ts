@@ -107,6 +107,9 @@ module.exports = {
       dropShadow: {
         DEFAULT: "0 4px 12px rgba(0,0,0,.16)",
       },
+      aspectRatio: {
+        card: "3 / 2",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@headlessui/tailwindcss")],
