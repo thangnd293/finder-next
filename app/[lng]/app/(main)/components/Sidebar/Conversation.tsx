@@ -1,9 +1,8 @@
-import React from "react";
-import Link from "next/link";
+import Avatar from "@/components/Avatar";
 import { cn } from "@/lib/utils";
 import { type Conversation } from "@/service/conversation";
-import Avatar from "@/components/Avatar";
 import { MessageStatus, MessageType } from "@/service/message";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface ConversationProps extends Conversation {}
@@ -13,24 +12,34 @@ const Conversation = ({ _id, user, lastMessage }: ConversationProps) => {
 
   const isTyping = false;
   const isActive = pathname?.includes(_id);
-  const isLastMessageFromMe = lastMessage.sender !== user._id;
+  const isLastMessageFromMe = lastMessage?.sender !== user._id;
   const isUnread =
     !isLastMessageFromMe && lastMessage.status !== MessageStatus.SEEN;
 
-  const getMessageDescription = () => {
-    if (lastMessage.type === MessageType.Text) {
-      return `${isLastMessageFromMe ? "Bạn: " : ""}${lastMessage.text}`;
-    } else if (lastMessage.status === MessageStatus.SENDING) {
-      return `${isLastMessageFromMe ? "Bạn" : user.name} đang gửi ${lastMessage
-        ?.images?.length} ảnh`;
-    } else {
-      return `${isLastMessageFromMe ? "Bạn" : user.name} đã gửi ${lastMessage
-        ?.images?.length} ảnh`;
-    }
+  const getSubject = () => {
+    if (isLastMessageFromMe) return "Bạn";
+
+    if (lastMessage.type === MessageType.Text) return "";
+
+    return user.name;
   };
-  
+
+  const getMessageDescription = () => {
+    const subject = getSubject();
+
+    if (lastMessage.type === MessageType.Text) {
+      return `${subject}: ${lastMessage.text}`;
+    }
+
+    if (lastMessage.status === MessageStatus.SENDING) {
+      return `${subject} đang gửi ${lastMessage?.images?.length} ảnh`;
+    }
+
+    return `${subject} đã gửi ${lastMessage?.images?.length} ảnh`;
+  };
+
   return (
-    <Link href={`/app/messages/${_id}`}>
+    <Link href={`/app/messages/${_id}?tab=message`}>
       <div
         className={cn(
           "relative flex items-center space-x-2.5 rounded-md py-3 pl-6 pr-12 hover:bg-gray-100",

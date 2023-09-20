@@ -1,18 +1,52 @@
 import CustomImage from "@/components/CustomImage";
 import { Conversation } from "@/service/conversation";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import {
+  NotificationStatus,
+  NotificationType,
+  useInvalidateAllNotifications,
+  useInvalidateNotificationCount,
+  useUpdateStatus,
+} from "@/service/notification";
 import Link from "next/link";
-import React from "react";
+import Card from "./Card";
 
-interface MatchedCardProps extends Conversation {}
+interface MatchedCardProps extends Conversation {
+  notificationId?: string;
+  isNew?: boolean;
+}
 
-const MatchedCard = ({ _id, user }: MatchedCardProps) => {
+const MatchedCard = ({
+  _id,
+  notificationId,
+  user,
+  isNew,
+}: MatchedCardProps) => {
+  const updateStatus = useUpdateStatus();
+  const invalidateNotificationCount = useInvalidateNotificationCount();
+  const invalidateAllNotifications = useInvalidateAllNotifications();
+
+  const handleClick = () => {
+    if (!isNew || !notificationId) return;
+
+    updateStatus.mutate(
+      {
+        id: notificationId,
+        notification: {
+          status: NotificationStatus.Seen,
+        },
+      },
+      {
+        onSuccess: () => {
+          invalidateNotificationCount();
+          invalidateAllNotifications(NotificationType.Matched);
+        },
+      },
+    );
+  };
+
   return (
-    <Link href={`/app/messages/${_id}`}>
-      <AspectRatio
-        ratio={7 / 9}
-        className="relative transition-transform hover:scale-105"
-      >
+    <Link href={`/app/messages/${_id}`} onClick={handleClick}>
+      <Card>
         <CustomImage
           className="rounded-md object-cover object-center"
           fill
@@ -20,10 +54,14 @@ const MatchedCard = ({ _id, user }: MatchedCardProps) => {
           alt=""
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <p className="absolute bottom-0 left-0 w-full overflow-hidden truncate px-1 text-sm font-bold text-white">
+        <p className="text-shadow absolute bottom-0 left-0 w-full overflow-hidden truncate p-1 text-sm font-bold text-white drop-shadow-2xl">
           {user.name}
         </p>
-      </AspectRatio>
+
+        {isNew && (
+          <div className="absolute right-1 top-1 h-4 w-4 -translate-y-1/2 translate-x-1/2 rounded-full border-2 border-white bg-primary shadow-sm" />
+        )}
+      </Card>
     </Link>
   );
 };
