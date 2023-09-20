@@ -10,7 +10,6 @@ import {
 } from "@radix-ui/react-icons";
 import Tooltip from "./Tooltip";
 import Label from "./Label";
-
 interface InputProps extends React.ComponentPropsWithoutRef<typeof InputBase> {
   label?: string;
   error?: string;

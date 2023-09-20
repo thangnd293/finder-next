@@ -1,6 +1,6 @@
 "use client";
 
-import UpdateLocation from "@/components/update-location";
+import UpdateLocation from "@/components/UpdateLocation";
 import { useCurrentUser } from "@/service/user";
 import { eraseCookie } from "@/utils/cookie";
 import { redirect, usePathname } from "next/navigation";

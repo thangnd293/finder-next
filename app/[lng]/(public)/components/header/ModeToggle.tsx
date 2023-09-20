@@ -9,7 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
+} from "@/components/DropdownMenu";
 import ActionIcon from "@/components/ActionIcon";
 
 const ModeToggle = () => {
