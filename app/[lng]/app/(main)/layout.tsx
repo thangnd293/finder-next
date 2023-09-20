@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import Sidebar from "./components/sidebar";
 import MainLayout from "@/layout/main-layout";
-import Header from "./components/header";
+import Header from "./components/Header";
 
 export default function AppLayout({ children }: PropsWithChildren) {
   return (

@@ -1,7 +1,7 @@
 import SidebarHeader from "@/layout/sidebar-header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/Tabs";
-import MatchedTab from "./matched-tab";
-import MessageTab from "./message-tab";
+import MatchedTab from "./MatchedTab";
+import MessageTab from "./MessageTab";
 
 export default function Sidebar() {
   return (
