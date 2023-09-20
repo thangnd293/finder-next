@@ -17,10 +17,10 @@ export const useRecommendedUsers = () => {
   return useInfiniteQuery({
     queryKey: getRecommendedUserKey(),
     queryFn: ({ pageParam = 1 }) =>
-      UserService.getRecommendedUsers(pageParam, 5),
+      UserService.getRecommendedUsers(pageParam, 10),
     getNextPageParam: ({ pagination: { currentPage, totalPage } }) => {
       if (currentPage < totalPage) {
-        return currentPage + 1;
+        return 1;
       }
 
       return null;

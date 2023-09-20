@@ -41,7 +41,7 @@ export const RecommendUserCard = ({
       </SlideContentWithRightImage>
 
       <SlideCard>
-        <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-2">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-8">
           <p className="font-bold">About {name}</p>
 
           {bio && <p>{bio}</p>}

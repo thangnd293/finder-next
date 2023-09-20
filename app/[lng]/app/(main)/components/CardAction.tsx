@@ -17,8 +17,6 @@ export const CardAction = ({
   onLike,
   onUnLike,
 }: CardActionProps) => {
-  console.log("canBack", canBack, onLike, onUnLike);
-
   return (
     <div className="absolute bottom-0 z-50 flex w-full translate-y-10 items-center justify-center gap-6">
       {canBack && (

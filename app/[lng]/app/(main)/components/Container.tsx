@@ -4,10 +4,11 @@ import Loader from "@/components/Loader";
 import useCallbackDebounce from "@/hooks/use-callback-debounce";
 import { useLike, useSkip } from "@/service/action/hooks";
 import { User, useRecommendedUsers } from "@/service/user";
+import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
-import { CardBox } from "./CardBox";
 import Image from "next/image";
+import { useEffect, useMemo, useRef } from "react";
+import { CardBox } from "./CardBox";
 
 const EMPTY_USERS: User[] = [];
 const EMPTY_OBJECT: InfiniteData<User> = {
@@ -20,6 +21,7 @@ interface ContainerProps {
     recommendedUsers: User[];
     visibleUsers: User[];
     currentIndex: number;
+    isFirstRender: boolean;
     canBack: boolean;
     onBack: () => void;
     onLike: () => void;
@@ -29,14 +31,18 @@ interface ContainerProps {
 
 export const Container = ({ children }: ContainerProps) => {
   const isBack = useRef(false);
+  const isFirstRender = useRef(true);
   const canBack = useRef(false);
   const lastLike = useRef<number | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentIndex = useStore((state) => state.currentIndex);
+  const setCurrentIndex = useStore((state) => state.setCurrentIndex);
   const like = useLike();
   const skip = useSkip();
 
+  console.log("currentIndex", currentIndex);
+
   const {
-    data: { pages: recommendedUsers = EMPTY_USERS } = EMPTY_OBJECT,
+    data: { pages: pages = EMPTY_USERS } = EMPTY_OBJECT,
     fetchNextPage,
     hasNextPage,
     isFetching,
@@ -44,10 +50,15 @@ export const Container = ({ children }: ContainerProps) => {
     isError,
   } = useRecommendedUsers();
 
+  const recommendedUsers = useMemo(
+    () => [...new Map(pages.map((item) => [item["_id"], item])).values()],
+    [pages],
+  );
+
   useEffect(() => {
     if (!hasNextPage || isFetchingNextPage) return;
 
-    if (currentIndex >= recommendedUsers.length - 3) {
+    if (currentIndex >= recommendedUsers.length - 5) {
       fetchNextPage();
     }
   }, [
@@ -58,8 +69,12 @@ export const Container = ({ children }: ContainerProps) => {
     fetchNextPage,
   ]);
 
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
   const handleNextIndex = () => {
-    setCurrentIndex((prev) => prev + 1);
+    setCurrentIndex(currentIndex + 1);
     isBack.current = false;
   };
 
@@ -83,7 +98,7 @@ export const Container = ({ children }: ContainerProps) => {
   }, 800);
 
   const handleBack = useCallbackDebounce(() => {
-    setCurrentIndex((prev) => (prev > 1 ? prev - 1 : 0));
+    setCurrentIndex(currentIndex > 1 ? currentIndex - 1 : 0);
     isBack.current = true;
 
     if (lastLike.current === currentIndex - 2) {
@@ -139,6 +154,7 @@ export const Container = ({ children }: ContainerProps) => {
         visibleUsers,
         currentIndex,
         canBack: canBack.current,
+        isFirstRender: isFirstRender.current,
         onBack: handleBack,
         onLike: handleLike,
         onUnLike: handleUnLike,
