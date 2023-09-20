@@ -35,7 +35,7 @@ export interface User {
   _id: string;
   name: string;
   images: Image[];
-  bio: string;
+  bio?: string;
   stepStarted: number;
   gender: Gender;
   age: number;
@@ -47,4 +47,6 @@ export interface User {
     discovery: Discovery;
   };
   tags: Tag[];
+  phoneNumber?: string;
+  email?: string;
 }

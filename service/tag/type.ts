@@ -3,4 +3,5 @@ export interface Tag {
   name: string;
   parentType: string;
   type: string;
+  description: string;
 }
