@@ -11,7 +11,7 @@ interface CustomImageProps
 const CustomImage = ({ image, ...others }: CustomImageProps) => {
   return (
     <NextImage
-      src={image?.url || ""}
+      src={image?.url || "/images/placeholder-image.jpg"}
       placeholder={image?.blur ? "blur" : "empty"}
       blurDataURL={image?.blur}
       {...others}

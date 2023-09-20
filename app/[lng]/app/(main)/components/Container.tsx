@@ -39,8 +39,6 @@ export const Container = ({ children }: ContainerProps) => {
   const like = useLike();
   const skip = useSkip();
 
-  console.log("currentIndex", currentIndex);
-
   const {
     data: { pages: pages = EMPTY_USERS } = EMPTY_OBJECT,
     fetchNextPage,
