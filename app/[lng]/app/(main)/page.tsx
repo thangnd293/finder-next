@@ -15,6 +15,7 @@ export default function HomePage() {
       <Container>
         {({
           canBack,
+          isFirstRender,
           currentIndex,
           recommendedUsers,
           visibleUsers,
@@ -28,7 +29,7 @@ export default function HomePage() {
                 {visibleUsers.map((user, _, arr) => (
                   <RecommendUserCard
                     key={user._id}
-                    isFirst={user._id === arr[0]._id}
+                    isFirst={!isFirstRender && user._id === arr[0]._id}
                     isShow={user._id === recommendedUsers[currentIndex]?._id}
                     {...user}
                   />
