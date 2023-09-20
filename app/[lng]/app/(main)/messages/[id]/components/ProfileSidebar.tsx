@@ -18,9 +18,8 @@ const ProfileSidebar = ({
   onCloseSidebar,
 }: ProfileSidebarProps) => {
   const { receiver, isLoading } = useReceiver(conversation);
-  console.log("receiver", receiver);
 
-  const images = receiver?.images || [];
+  const images = [...(receiver?.images || [])];
   const firstImage = images.shift();
 
   if (isLoading)
@@ -31,63 +30,65 @@ const ProfileSidebar = ({
     );
 
   return (
-    <div className="relative h-full w-80 space-y-px overflow-auto">
+    <div className="relative h-full w-80">
       <ActionIcon
-        className="absolute right-1 top-1 z-10 text-white"
+        className="text-shadow absolute right-3 top-2 z-10 text-white"
         variant="transparent"
         onClick={onCloseSidebar}
       >
         <BsXLg size={22} />
       </ActionIcon>
 
-      <AspectRatio className="relative w-full" ratio={3 / 4}>
-        <CustomImage
-          className="object-cover object-center"
-          image={firstImage}
-          alt={""}
-          fill
-        />
-        <p className="absolute bottom-0 left-0 w-full truncate p-4 text-xl font-semibold text-white">
-          {receiver?.name}, {receiver?.age}
-        </p>
-      </AspectRatio>
-
-      <div className="bg-primary-50 p-6 text-sm">
-        <p className="font-medium">Về {receiver?.name}</p>
-        {receiver?.bio && <p className="font-medium">{receiver?.bio}</p>}
-
-        <div className="flex flex-wrap justify-center gap-2">
-          {receiver?.tags?.map((tag) => (
-            <span
-              key={tag._id}
-              className="rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700"
-            >
-              {tag.name}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {receiver?.images?.map((image, index) => (
-        <AspectRatio key={index} className="relative w-full" ratio={3 / 4}>
+      <div className="h-full w-full space-y-px overflow-y-auto">
+        <AspectRatio className="relative w-full" ratio={3 / 4}>
           <CustomImage
             className="object-cover object-center"
-            image={image}
+            image={firstImage}
             alt={""}
             fill
           />
+          <p className="text-shadow absolute bottom-0 left-0 w-full truncate p-4 text-xl font-semibold text-white">
+            {receiver?.name}, {receiver?.age}
+          </p>
         </AspectRatio>
-      ))}
 
-      <div className="space-y-2 bg-primary-50 p-6 text-sm">
-        <p className="text-xl font-extrabold text-gray-700">
-          {receiver?.name}&apos;s location
-        </p>
+        <div className="space-y-5 bg-primary-50 p-6 text-sm">
+          <p className="font-medium">Về {receiver?.name}</p>
+          {receiver?.bio && <p className="font-medium">{receiver?.bio}</p>}
 
-        <p>
-          <MdLocationOn className="mb-1 inline-block" size={18} />
-          Thành phố Hồ Chí Minh, Việt Nam
-        </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {receiver?.tags?.map((tag) => (
+              <span
+                key={tag._id}
+                className="rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700"
+              >
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {receiver?.images?.map((image, index) => (
+          <AspectRatio key={index} className="relative w-full" ratio={3 / 4}>
+            <CustomImage
+              className="object-cover object-center"
+              image={image}
+              alt={""}
+              fill
+            />
+          </AspectRatio>
+        ))}
+
+        <div className="space-y-2 bg-primary-50 p-6 text-sm">
+          <p className="text-xl font-extrabold text-gray-700">
+            {receiver?.name}&apos;s location
+          </p>
+
+          <p>
+            <MdLocationOn className="mb-1 inline-block" size={18} />
+            Thành phố Hồ Chí Minh, Việt Nam
+          </p>
+        </div>
       </div>
     </div>
   );
