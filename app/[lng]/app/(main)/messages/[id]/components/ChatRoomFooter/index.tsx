@@ -8,7 +8,12 @@ import { useReceiver } from "@/service/conversation";
 import { Message, MessageType } from "@/service/message";
 import { useCurrentUser } from "@/service/user";
 import { createTempleMessage } from "@/utils/message";
-import { useParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { BsFillSendFill, BsMicFill } from "react-icons/bs";
@@ -24,13 +29,16 @@ type FormData = {
 };
 
 const ChatRoomFooter = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { id } = useParams() as {
     id: string;
   };
 
-  const { addMessage, upsertMessage } = useMessageStore();
+  const { addMessage } = useMessageStore();
 
   const { currentUser } = useCurrentUser();
   const { receiver } = useReceiver(id);
@@ -50,6 +58,10 @@ const ChatRoomFooter = () => {
     document?.getElementById("imageFiles")?.click();
   };
 
+  const handleFirstMessageSent = () => {
+    router.replace(`${pathname}?tab=message`);
+  };
+
   const sendTextMessage = (
     text: string,
     sender: string,
@@ -64,11 +76,9 @@ const ChatRoomFooter = () => {
       conversation,
     });
 
-    addMessage(message);
+    addMessage(message, handleFirstMessageSent);
 
-    socket.emit("sendMessage", message, (newMessage: Message) => {
-      upsertMessage(newMessage);
-    });
+    socket.emit("sendMessage", message);
 
     setValue("text", "");
   };
@@ -84,7 +94,7 @@ const ChatRoomFooter = () => {
       url: URL.createObjectURL(file),
     }));
 
-    const fakeMessage = createTempleMessage({
+    const optimisticMessage = createTempleMessage({
       imageUrls: images,
       type: MessageType.Image,
       sender,
@@ -92,7 +102,7 @@ const ChatRoomFooter = () => {
       conversation,
     });
 
-    addMessage(fakeMessage);
+    addMessage(optimisticMessage);
 
     setValue("imageFiles", []);
 
@@ -103,13 +113,11 @@ const ChatRoomFooter = () => {
     images.forEach((image) => URL.revokeObjectURL(image.url));
 
     const message = {
-      ...fakeMessage,
+      ...optimisticMessage,
       imageUrls: uploadImages.map((image) => ({ url: image.url })),
     };
 
-    socket.emit("sendMessage", message, (newMessage: Message) => {
-      upsertMessage(newMessage);
-    });
+    socket.emit("sendMessage", message);
   };
 
   const onSubmit = async (data: FormData) => {
