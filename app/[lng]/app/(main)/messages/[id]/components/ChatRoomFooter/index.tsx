@@ -22,6 +22,7 @@ import AddImageButton from "./AddImageButton";
 import InputImageMessage from "./InputImageMessage";
 import InputTextMessage from "./InputTextMessage";
 import EmojiPickerButton from "./EmojiPickerButton";
+import { Image } from "@/service/user";
 
 type FormData = {
   text: string;
@@ -114,8 +115,10 @@ const ChatRoomFooter = () => {
 
     const message = {
       ...optimisticMessage,
-      imageUrls: uploadImages.map((image) => ({ url: image.url })),
-    };
+      images: uploadImages.map((image) => ({
+        url: image.url,
+      })),
+    } as Message;
 
     socket.emit("sendMessage", message);
   };
