@@ -4,18 +4,21 @@ import { arrayMoveImmutable } from "array-move";
 import React, { Fragment, useRef, useState } from "react";
 import SortableList, { SortableItem } from "react-easy-sort";
 import ImageCard from "./ImageCard";
+import { cn } from "@/lib/utils";
 
 interface UploadImagesProps {
   value: string[];
   onChange: (images: string[]) => void;
   maxImages: number;
   error?: string;
+  className?: string;
 }
 const UploadImages = ({
   value,
   onChange,
   maxImages,
   error,
+  className,
   ...others
 }: UploadImagesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -103,7 +106,7 @@ const UploadImages = ({
     <div ref={containerRef} {...others}>
       <SortableList
         onSortEnd={handleSortEnd}
-        className="grid w-[500px] select-none gap-4"
+        className={cn("grid w-[500px] select-none gap-4", className)}
         draggedItemClassName="dragged"
         onClick={handleImagePick}
         style={{

@@ -24,6 +24,7 @@ module.exports = {
         background: {
           DEFAULT: "var(--background)",
           tooltip: "var(--background-tooltip)",
+          50: "var(--background-50)",
           100: "var(--background-100)",
           200: "var(--background-200)",
         },

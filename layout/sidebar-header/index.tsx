@@ -11,7 +11,7 @@ export default function SidebarHeader() {
 
   return (
     <header className="flex h-20 items-center justify-between border-b px-3 py-4">
-      <Link className="flex items-center space-x-2" href="/app/settings">
+      <Link className="flex items-center space-x-2" href="/app/edit-profile">
         <Avatar fallback="DT" src={currentUser?.images[0]?.url} />
         <p className="font-medium">{currentUser?.name}</p>
       </Link>
