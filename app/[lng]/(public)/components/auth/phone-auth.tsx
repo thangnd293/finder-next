@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as yup from "yup";
-import OtpForm from "./otp-form";
+import OtpForm from "./OtpForm";
 
 type TPhoneForm = {
   phoneNumber: string;
@@ -23,7 +23,7 @@ const validatePhoneForm = yup.object({
     ),
 });
 
-export default function PhoneAuth() {
+const PhoneAuth = () => {
   const phoneFormResolver = useYupValidationResolver(validatePhoneForm);
 
   const [showOtpVerify, setShowOtpVerify] = useState(false);
@@ -108,4 +108,6 @@ export default function PhoneAuth() {
       onSendSms={handleSendSms}
     />
   );
-}
+};
+
+export default PhoneAuth;

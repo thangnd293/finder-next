@@ -3,11 +3,11 @@ import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { ITranslation } from "@/types/common";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import Heading from "../heading";
-import PricingCard from "./pricing-card";
+import Heading from "../Heading";
+import PricingCard from "./PricingCard";
 
-interface IPricingProps extends ITranslation {}
-export default function Pricing({ t }: IPricingProps) {
+interface PricingProps extends ITranslation {}
+const Pricing = ({ t }: PricingProps) => {
   return (
     <div className="container pb-32">
       <Heading subtitle="Discover" title="Our" highlight="Pricing" />
@@ -35,4 +35,6 @@ export default function Pricing({ t }: IPricingProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Pricing;

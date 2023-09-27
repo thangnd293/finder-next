@@ -1,13 +1,13 @@
 import { libreBaskerville } from "@/assets/fonts";
 
 import { cn } from "@/lib/utils";
-import ScrollingText from "./scrolling-text";
 import Avatar from "@/components/Avatar";
 import { ITranslation } from "@/types/common";
-import SignUp from "../auth/sign-up";
+import SignUp from "../auth/SignUp";
+import ScrollingText from "./ScrollingText";
 
-interface IHeroProps extends ITranslation {}
-export default function Hero({ t }: IHeroProps) {
+interface HeroProps extends ITranslation {}
+const Hero = ({ t }: HeroProps) => {
   return (
     <section
       id="#hero"
@@ -29,7 +29,7 @@ export default function Hero({ t }: IHeroProps) {
         <div className="space-y-2 sm:space-y-1 md:max-w-[66%]">
           <div className="flex">
             {Array.from({
-              length: 10,
+              length: 6,
             }).map((_, index) => (
               <Avatar
                 key={index}
@@ -51,4 +51,6 @@ export default function Hero({ t }: IHeroProps) {
       </div>
     </section>
   );
-}
+};
+
+export default Hero;

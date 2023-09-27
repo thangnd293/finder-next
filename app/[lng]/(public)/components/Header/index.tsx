@@ -1,8 +1,9 @@
 import { ITranslation } from "@/types/common";
-import HamburgerMenu from "./hamburger-menu";
-import SignIn from "../auth/sign-in";
-import LanguageSelect from "./language-select";
 import ModeToggle from "./ModeToggle";
+import SignIn from "../auth/SignIn";
+import LanguageSelect from "./LanguageSelect";
+import HamburgerMenu from "./HamburgerMenu";
+import Logo from "@/components/Logo";
 
 interface IHeaderProps extends ITranslation {}
 export default async function Header({ t }: IHeaderProps) {
@@ -10,7 +11,7 @@ export default async function Header({ t }: IHeaderProps) {
     <header className="container relative flex items-center justify-between pt-12">
       <LanguageSelect />
 
-      <span>Finder</span>
+      <Logo />
 
       <div className="hidden items-center space-x-2 sm:flex">
         <ModeToggle />

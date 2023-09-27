@@ -5,42 +5,9 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import React from "react";
 
 import Slider from "react-slick";
+import Testimonial from "./Testimonial";
 
-import Testimonial from "./testimonial";
-
-const settings = {
-  arrows: false,
-  dots: false,
-  swipeToSlide: true,
-  infinite: true,
-  slidesToShow: 3,
-  autoplay: true,
-  centerMode: true,
-  pauseOnHover: true,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-      },
-    },
-    {
-      breakpoint: 870,
-      settings: {
-        slidesToShow: 2,
-      },
-    },
-    {
-      breakpoint: 500,
-      settings: {
-        slidesToShow: 1,
-      },
-    },
-  ],
-};
-
-export default function TestimonialCarousel() {
+const TestimonialCarousel = () => {
   const sliderRef = React.useRef<Slider>(null);
 
   const nextSlide = () => {
@@ -73,4 +40,38 @@ export default function TestimonialCarousel() {
       </div>
     </div>
   );
-}
+};
+
+export default TestimonialCarousel;
+
+const settings = {
+  arrows: false,
+  dots: false,
+  swipeToSlide: true,
+  infinite: true,
+  slidesToShow: 3,
+  autoplay: true,
+  centerMode: true,
+  pauseOnHover: true,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+      },
+    },
+    {
+      breakpoint: 870,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 500,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+  ],
+};
