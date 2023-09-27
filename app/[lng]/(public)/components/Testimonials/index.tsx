@@ -1,7 +1,7 @@
-import Heading from "../heading";
-import TestimonialCarousel from "./testimonial-carousel";
+import Heading from "../Heading";
+import TestimonialCarousel from "./TestimonialCarousel";
 
-export default function Testimonials() {
+const Testimonials = () => {
   return (
     <div className="w-full rounded-t-[60px] bg-secondary-background py-16 sm:rounded-t-[90px] sm:py-32 lg:rounded-t-[120px]">
       <div className="container">
@@ -10,4 +10,6 @@ export default function Testimonials() {
       </div>
     </div>
   );
-}
+};
+
+export default Testimonials;

@@ -5,10 +5,10 @@ import Button from "@/components/Button";
 import { signIn } from "next-auth/react";
 import React from "react";
 
-interface IGoogleAuthProps {
+interface GoogleAuthProps {
   textContent: string;
 }
-export default function GoogleAuth({ textContent }: IGoogleAuthProps) {
+const GoogleAuth = ({ textContent }: GoogleAuthProps) => {
   return (
     <Button
       type="button"
@@ -19,4 +19,6 @@ export default function GoogleAuth({ textContent }: IGoogleAuthProps) {
       {textContent}
     </Button>
   );
-}
+};
+
+export default GoogleAuth;

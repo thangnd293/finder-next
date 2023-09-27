@@ -2,7 +2,7 @@ import { libreBaskerville } from "@/assets/fonts";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "@radix-ui/react-icons";
 import React from "react";
-import SignUp from "../auth/sign-up";
+import SignUp from "../auth/SignUp";
 
 const features = [
   "Unlimited access to all courses",
@@ -12,14 +12,14 @@ const features = [
   "Cancel anytime",
 ];
 
-interface IPricingCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface PricingCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "monthly" | "quarterly" | "yearly";
 }
-export default function PricingCard({
+const PricingCard = ({
   variant = "monthly",
   className,
   ...others
-}: IPricingCardProps) {
+}: PricingCardProps) => {
   return (
     <div
       className={cn(
@@ -82,4 +82,6 @@ export default function PricingCard({
       </div>
     </div>
   );
-}
+};
+
+export default PricingCard;

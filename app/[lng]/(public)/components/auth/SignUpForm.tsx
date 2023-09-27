@@ -1,11 +1,11 @@
-import GoogleAuth from "./google-auth";
+import GoogleAuth from "./GoogleAuth";
 import PhoneAuth from "./phone-auth";
 
-interface ISignUpFormProps {
+interface SignUpFormProps {
   onSwitchToSignIn: () => void;
 }
 
-export default function SignUpForm({ onSwitchToSignIn }: ISignUpFormProps) {
+const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-center text-2xl font-bold">Tạo tài khoản</h3>
@@ -25,4 +25,6 @@ export default function SignUpForm({ onSwitchToSignIn }: ISignUpFormProps) {
       </p>
     </div>
   );
-}
+};
+
+export default SignUpForm;

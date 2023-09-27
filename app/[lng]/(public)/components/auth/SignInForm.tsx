@@ -1,10 +1,10 @@
-import GoogleAuth from "./google-auth";
+import GoogleAuth from "./GoogleAuth";
 import PhoneAuth from "./phone-auth";
 
-interface ISignInFormProps {
+interface SignInFormProps {
   onSwitchToSignUp: () => void;
 }
-export default function SignInForm({ onSwitchToSignUp }: ISignInFormProps) {
+const SignInForm = ({ onSwitchToSignUp }: SignInFormProps) => {
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-center text-2xl font-bold">Chào mừng trở lại</h3>
@@ -27,4 +27,6 @@ export default function SignInForm({ onSwitchToSignUp }: ISignInFormProps) {
       </p>
     </div>
   );
-}
+};
+
+export default SignInForm;

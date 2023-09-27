@@ -34,46 +34,44 @@ const Modal = ({
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange} modal {...others}>
       <RadixDialog.Portal>
-        {withOverlay && (
-          <RadixDialog.Overlay className="fixed inset-0 z-50 hidden bg-modal-overplay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:block" />
-        )}
+        <RadixDialog.Overlay className="fixed inset-0 z-50 place-items-center overflow-y-auto bg-modal-overplay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:grid">
+          <RadixDialog.Content
+            className={cn(modalVariants({ size }), className)}
+            onPointerDownOutside={(e) => {
+              if (!closeOnClickOutside) {
+                e.preventDefault();
+              }
+            }}
+            onEscapeKeyDown={(e) => {
+              if (!closeOnEscape) {
+                e.preventDefault();
+              }
+            }}
+          >
+            {title && (
+              <RadixDialog.DialogTitle
+                className={cn(
+                  "text-xl font-medium",
+                  !withCloseButton && "text-center",
+                )}
+              >
+                {title}
+              </RadixDialog.DialogTitle>
+            )}
 
-        <RadixDialog.Content
-          className={cn(modalVariants({ size }), className)}
-          onPointerDownOutside={(e) => {
-            if (!closeOnClickOutside) {
-              e.preventDefault();
-            }
-          }}
-          onEscapeKeyDown={(e) => {
-            if (!closeOnEscape) {
-              e.preventDefault();
-            }
-          }}
-        >
-          {title && (
-            <RadixDialog.DialogTitle
-              className={cn(
-                "text-xl font-medium",
-                !withCloseButton && "text-center",
-              )}
-            >
-              {title}
-            </RadixDialog.DialogTitle>
-          )}
+            {children}
 
-          {children}
-
-          {withCloseButton && (
-            <RadixDialog.Close
-              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              onClick={() => onOpenChange(false)}
-            >
-              <Cross2Icon className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </RadixDialog.Close>
-          )}
-        </RadixDialog.Content>
+            {withCloseButton && (
+              <RadixDialog.Close
+                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                onClick={() => onOpenChange(false)}
+              >
+                <Cross2Icon className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </RadixDialog.Close>
+            )}
+          </RadixDialog.Content>
+        </RadixDialog.Overlay>
       </RadixDialog.Portal>
     </RadixDialog.Root>
   );
@@ -87,7 +85,7 @@ function ModalFooter({ children }: PropsWithChildren) {
 }
 
 const modalVariants = cva(
-  "fixed items-center left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 bg-modal py-8 px-8 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg drop-shadow",
+  "relative items-center grid sm:my-10 w-full gap-4 bg-modal py-8 px-8 duration-200 sm:rounded-lg shadow",
   {
     variants: {
       size: {

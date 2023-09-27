@@ -19,20 +19,20 @@ const validateOtpForm = yup.object({
     .required("Please enter your OTP"),
 });
 
-interface IOtpFormProps {
+interface OtpFormProps {
   phoneNumber: string;
   countDown: number;
   isSendingSms: boolean;
   onBackToPhoneForm: () => void;
   onSendSms: (phoneNumber: string) => void;
 }
-export default function OtpForm({
+const OtpForm = ({
   phoneNumber,
   countDown,
   isSendingSms,
   onBackToPhoneForm,
   onSendSms,
-}: IOtpFormProps) {
+}: OtpFormProps) => {
   const router = useRouter();
 
   const otpFormResolver = useYupValidationResolver(validateOtpForm);
@@ -114,4 +114,6 @@ export default function OtpForm({
       <Button type="submit">Xác thực</Button>
     </form>
   );
-}
+};
+
+export default OtpForm;
