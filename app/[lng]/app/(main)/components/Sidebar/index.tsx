@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/Tabs";
-import SidebarHeader from "@/layout/sidebar-header";
+import SidebarHeader from "@/layout/Header";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MessageTab from "./ConversationTab";
 import MatchedTab from "./MatchedTab";
