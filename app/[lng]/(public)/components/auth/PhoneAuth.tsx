@@ -10,7 +10,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import * as yup from "yup";
 import OtpForm from "./OtpForm";
 
-type TPhoneForm = {
+type PhoneForm = {
   phoneNumber: string;
 };
 
@@ -31,7 +31,7 @@ const PhoneAuth = () => {
 
   const sendSms = useSendSms();
 
-  const phoneForm = useForm<TPhoneForm>({
+  const phoneForm = useForm<PhoneForm>({
     defaultValues: {
       phoneNumber: "0344329446",
     },
@@ -58,7 +58,7 @@ const PhoneAuth = () => {
     setCountDown(0);
   };
 
-  const handleSubmitPhoneForm = (data: TPhoneForm) => {
+  const handleSubmitPhoneForm = (data: PhoneForm) => {
     handleSendSms(data.phoneNumber);
   };
 
