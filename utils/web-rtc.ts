@@ -3,83 +3,109 @@ import { Socket } from "socket.io-client";
 
 import SimplePeer from "simple-peer";
 
+declare interface CallVideoManager {
+  on(
+    event: "offerReceived",
+    listener: (offer: SimplePeer.SignalData, userId: string) => void,
+  ): this;
+  on(
+    event: "answerReceived",
+    listener: (answer: SimplePeer.SignalData) => void,
+  ): this;
+  on(event: "rejectConnection", listener: () => void): this;
+  on(event: "hangup", listener: () => void): this;
+  on(event: "stream", listener: (stream: MediaStream) => void): this;
+  emit(
+    event: "offerReceived",
+    offer: SimplePeer.SignalData,
+    userId: string,
+  ): boolean;
+  emit(event: "answerReceived", answer: SimplePeer.SignalData): boolean;
+  emit(event: "rejectConnection"): boolean;
+  emit(event: "hangup"): boolean;
+  emit(event: "stream", stream: MediaStream): boolean;
+}
+
 class CallVideoManager extends EventEmitter {
   private socket: Socket;
   private peer: SimplePeer.Instance | null;
-  private localId: string;
-  private remoteId: string;
+  private stream: MediaStream | null;
 
-  constructor(socket: Socket, localId: string, remoteId: string) {
+  constructor(socket: Socket) {
     super();
     this.socket = socket;
     this.peer = null;
-
-    this.localId = localId;
-    this.remoteId = remoteId;
+    this.stream = null;
 
     this.initSocket();
   }
 
   initSocket() {
-    this.socket.on("offer", (offer) => {
-      this.onOfferReceived(offer);
+    this.socket.on("offer", (offer, userId) => {
+      this.emit("offerReceived", offer, userId);
     });
 
     this.socket.on("answer", (answer) => {
-      this.onAnswerReceived(answer);
+      this.emit("answerReceived", answer);
     });
 
     this.socket.on("reject", () => {
-      this.onRejectConnection();
+      this.emit("rejectConnection");
     });
 
-    this.socket.on("end", () => {
-      this.onEndConnection();
+    this.socket.on("hangup", () => {
+      console.log(
+        "🚀 ~ file: web-rtc.ts:59 ~ CallVideoManager ~ this.socket.on ~ hangup",
+      );
+      this.emit("hangup");
     });
   }
 
-  async onAnswerReceived(answer: SimplePeer.SignalData) {
+  destroy() {
+    this.peer?.destroy();
+    this.peer = null;
+  }
+
+  handleAnswerReceived(answer: SimplePeer.SignalData) {
     if (!this.peer) return;
-    console.log(
-      "🚀 ~ file: web-rtc.tsx:45 ~ CallVideoManager ~ onAnswerReceived ~ answer:",
-      answer,
-    );
     this.peer.signal(answer);
   }
 
-  onOfferReceived(offer: SimplePeer.SignalData) {
-    this.emit("offerReceived", offer);
-  }
-
-  onRejectConnection() {
-    this.emit("rejectConnection");
-  }
-
-  onEndConnection() {
-    this.emit("endConnection");
-  }
-
-  async call(userId: string, videoStream: MediaStream) {
+  async call(remoteId: string, videoStream: MediaStream) {
+    this.stream = videoStream;
     this.peer = await this.createPeer(true, videoStream);
     this.peer.on("signal", (offer) => {
-      this.socket.emit("offer", userId, offer);
+      this.socket.emit("offer", remoteId, offer);
     });
   }
 
-  async accept(videoStream: MediaStream, offer: SimplePeer.SignalData) {
+  async accept(
+    remoteId: string,
+    videoStream: MediaStream,
+    offer: SimplePeer.SignalData,
+  ) {
+    this.stream = videoStream;
     this.peer = await this.createPeer(false, videoStream);
     this.peer.signal(offer);
     this.peer.on("signal", (answer) => {
-      this.socket.emit("answer", this.remoteId, answer);
+      this.socket.emit("answer", remoteId, answer);
     });
   }
 
-  reject() {
-    this.socket.emit("reject", this.remoteId);
+  reject(remoteId: string) {
+    this.socket.emit("reject", remoteId);
   }
 
-  end() {
-    this.socket.emit("end", this.remoteId);
+  end(remoteId: string) {
+    this.socket.emit("hangup", remoteId);
+    this.offStream();
+  }
+
+  offStream() {
+    if (!this.peer) return;
+    this.peer.destroy();
+    if (!this.stream) return;
+    this.stream.getTracks().forEach((track) => track.stop());
   }
 
   createPeer(initiator: boolean, stream: MediaStream): SimplePeer.Instance {
@@ -87,14 +113,6 @@ class CallVideoManager extends EventEmitter {
       initiator: initiator,
       trickle: false,
       stream,
-    });
-
-    peer._debug = (message) => {
-      console.log("🚀 ~ peer._debug ~ message:", message);
-    };
-
-    peer.on("data", (data) => {
-      this.emit("data", data);
     });
 
     peer.on("stream", (stream) => {
