@@ -49,4 +49,5 @@ export interface User {
   tags: Tag[];
   phoneNumber?: string;
   email?: string;
+  blurAvatar: string;
 }
