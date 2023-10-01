@@ -46,7 +46,7 @@ export default function UpdateInfo({
   onNext,
 }: UpdateInfoProps) {
   const formResolver = useYupValidationResolver(validateForm);
-  const { currentUser } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
   const updateProfile = useUpdateProfile();
 
   const {
@@ -64,12 +64,12 @@ export default function UpdateInfo({
     resolver: formResolver,
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = ({ province, ...others }: FormValues) => {
     if (isDirty) {
       const payload: UpdateProfilePayload = {
-        ...data,
+        ...others,
         homeTown: {
-          province: data.province,
+          province,
         },
         stepStarted: currentStep + 1,
       };
@@ -130,6 +130,7 @@ export default function UpdateInfo({
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <ProvinceSelect
             className="w-full"
+            label="Quê quán"
             value={value}
             error={error?.message}
             onChange={onChange}

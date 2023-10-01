@@ -14,12 +14,12 @@ export const CardBox = ({ children }: CardBoxProps) => {
   const dimensions = calcDimensions(width * 0.85, height * 0.85);
 
   return (
-    <main
+    <div
       ref={boxRef}
       className="flex h-full w-full items-center justify-center"
     >
       {children(dimensions)}
-    </main>
+    </div>
   );
 };
 
