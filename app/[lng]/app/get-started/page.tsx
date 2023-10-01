@@ -12,9 +12,11 @@ import Welcome from "./Welcome";
 import { redirect } from "next/navigation";
 
 export default function GetStarted() {
-  const { currentUser } = useCurrentUser();
+  const { data: stepStarted } = useCurrentUser({
+    select: (user) => user.stepStarted,
+  });
 
-  const [step, setStep] = useState(currentUser?.stepStarted || 0);
+  const [step, setStep] = useState(stepStarted || 0);
   const [steps] = useState([
     Welcome,
     UploadPhoto,

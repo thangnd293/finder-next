@@ -6,12 +6,17 @@ import { MdLocationOn } from "react-icons/md";
 import SlideCard from "./SlideCard";
 import SlideContentWithRightImage from "./SlideContentWithRightImage";
 import SlideImages from "./SlideImages";
-interface RecommendUserCardProps extends User {
+import { getTagIcon } from "@/utils/tag";
+import { PiRuler } from "react-icons/pi";
+import Avatar from "../Avatar";
+import { BsSpotify } from "react-icons/bs";
+
+interface UserCardProps extends User {
   isShow?: boolean;
   isFirst?: boolean;
 }
 
-export const RecommendUserCard = ({
+export const UserCard = ({
   isShow,
   isFirst,
   name,
@@ -19,7 +24,10 @@ export const RecommendUserCard = ({
   images,
   bio,
   tags,
-}: RecommendUserCardProps) => {
+  height,
+  setting,
+  spotifyInfo,
+}: UserCardProps) => {
   const { firstImage, lastImage, imageSlides } = getImageData(images);
 
   return (
@@ -46,14 +54,26 @@ export const RecommendUserCard = ({
 
           {bio && <p>{bio}</p>}
           <div className="flex flex-wrap justify-center gap-2">
-            {tags.map((tag) => (
-              <span
-                key={tag._id}
-                className="rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700"
-              >
-                {tag.name}
+            {height && !setting.hiddenProfile.height && (
+              <span className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+                <PiRuler />
+                {height} cm
               </span>
-            ))}
+            )}
+
+            {tags.map((tag) => {
+              const Icon = getTagIcon(tag.type);
+
+              return (
+                <span
+                  key={tag._id}
+                  className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700"
+                >
+                  <Icon />
+                  {tag.name}
+                </span>
+              );
+            })}
           </div>
         </div>
       </SlideCard>
@@ -62,7 +82,7 @@ export const RecommendUserCard = ({
         imageSlides.map((images, i) => <SlideImages key={i} images={images} />)}
 
       <SlideContentWithRightImage image={lastImage}>
-        <div className="flex h-full w-full flex-col justify-center p-8">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-8 text-center">
           <p className="text-2xl font-extrabold text-gray-700">
             {name}&apos;s location
           </p>
@@ -71,11 +91,33 @@ export const RecommendUserCard = ({
             <MdLocationOn className="mb-1 inline-block" size={18} />
             Thành phố Hồ Chí Minh, Việt Nam
           </p>
+
+          {spotifyInfo && (
+            <div className="space-y-2">
+              <p className="flex items-center gap-1 text-sm font-medium">
+                <BsSpotify className="flex-shrink-0" />
+                Top nghệ sĩ của {name}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {spotifyInfo.map((artist, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center rounded-full bg-primary-100"
+                  >
+                    <Avatar key={i} size="xs" src={artist.image.url} />
+                    <span className="px-2 text-xs">{artist.artist}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </SlideContentWithRightImage>
     </Slider>
   );
 };
+
+export * from "./CardBox";
 
 const getImageData = (images: Image[]) => {
   const _images = [...images];

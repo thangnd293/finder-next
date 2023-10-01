@@ -8,21 +8,15 @@ import { useReceiver } from "@/service/conversation";
 import { Message, MessageType } from "@/service/message";
 import { useCurrentUser } from "@/service/user";
 import { createTempleMessage } from "@/utils/message";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { BsFillSendFill, BsMicFill } from "react-icons/bs";
 import { HiGif } from "react-icons/hi2";
 import AddImageButton from "./AddImageButton";
+import EmojiPickerButton from "./EmojiPickerButton";
 import InputImageMessage from "./InputImageMessage";
 import InputTextMessage from "./InputTextMessage";
-import EmojiPickerButton from "./EmojiPickerButton";
-import { Image } from "@/service/user";
 
 type FormData = {
   text: string;
@@ -41,7 +35,7 @@ const ChatRoomFooter = () => {
 
   const { addMessage } = useMessageStore();
 
-  const { currentUser } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
   const { receiver } = useReceiver(id);
 
   const cldUpload = useCldUpload();

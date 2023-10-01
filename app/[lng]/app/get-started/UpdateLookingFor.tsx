@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import ModeRadioGroup from "@/components/ModeRadioGroup";
 import RadioGroup from "@/components/RadioGroup";
 import {
   LookingFor,
@@ -8,12 +9,12 @@ import {
 } from "@/service/user";
 import { redirect } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import ModeRadioGroup from "./ModeRadioGroup";
 
 interface FormValues {
   modeGoal: ModeGoal;
   lookingFor: LookingFor;
 }
+
 interface UpdateLookingForProps {
   currentStep: number;
   isLastStep?: boolean;
@@ -24,13 +25,15 @@ export default function UpdateLookingFor({
   currentStep,
   isLastStep,
 }: UpdateLookingForProps) {
-  const { currentUser } = useCurrentUser();
+  const { data: discovery } = useCurrentUser({
+    select: (user) => user.setting.discovery,
+  });
   const updateSetting = useUpdateSetting();
 
   const form = useForm<FormValues>({
     defaultValues: {
-      modeGoal: currentUser?.setting.discovery.modeGoal ?? ModeGoal.Date,
-      lookingFor: currentUser?.setting.discovery.lookingFor ?? LookingFor.All,
+      modeGoal: discovery?.modeGoal ?? ModeGoal.Date,
+      lookingFor: discovery?.lookingFor ?? LookingFor.All,
     },
   });
 
@@ -38,7 +41,7 @@ export default function UpdateLookingFor({
     updateSetting.mutate(
       {
         discovery: {
-          ...currentUser?.setting.discovery,
+          ...discovery,
           ...values,
         },
         stepStarted: currentStep + 1,
@@ -80,7 +83,11 @@ export default function UpdateLookingFor({
         control={form.control}
         rules={{ required: true }}
         render={({ field: { value, onChange } }) => (
-          <ModeRadioGroup value={value} onChange={onChange} />
+          <ModeRadioGroup
+            label="Bạn đang tìm kiếm gì"
+            value={value}
+            onChange={onChange}
+          />
         )}
       />
 

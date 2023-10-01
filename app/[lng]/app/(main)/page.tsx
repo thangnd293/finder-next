@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  CardAction,
-  CardBox,
-  Container,
-  Header,
-  RecommendUserCard,
-} from "./components";
+import { CardBox, UserCard } from "@/components/UserCard";
+import { CardAction, Container, Header } from "./components";
 
 export default function HomePage() {
   return (
@@ -27,7 +22,7 @@ export default function HomePage() {
             {(style) => (
               <div className="relative mb-10" style={style}>
                 {visibleUsers.map((user, _, arr) => (
-                  <RecommendUserCard
+                  <UserCard
                     key={user._id}
                     isFirst={!isFirstRender && user._id === arr[0]._id}
                     isShow={user._id === recommendedUsers[currentIndex]?._id}
