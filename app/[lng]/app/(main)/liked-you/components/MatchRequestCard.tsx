@@ -2,6 +2,7 @@ import ActionIcon from "@/components/ActionIcon";
 import AspectRatio from "@/components/AspectRatio";
 import CustomImage from "@/components/CustomImage";
 import { MatchRequest } from "@/service/matchRequest";
+import Image from "next/image";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 
 interface MatchRequestCardProps extends MatchRequest {
@@ -13,15 +14,27 @@ const MatchRequestCard = ({
   onLike,
   onSkip,
 }: MatchRequestCardProps) => {
+  const { blurAvatar, images } = sender;
   return (
     <div className="relative overflow-hidden rounded-md">
       <AspectRatio className="relative" ratio={7 / 9}>
-        <CustomImage
-          className="object-cover object-center"
-          image={sender.images[0]}
-          alt=""
-          fill
-        />
+        {blurAvatar && (
+          <Image
+            className="object-cover object-center"
+            src={sender.blurAvatar}
+            alt=""
+            fill
+          />
+        )}
+
+        {images[0] && (
+          <CustomImage
+            className="object-cover object-center"
+            image={images[0]}
+            alt=""
+            fill
+          />
+        )}
       </AspectRatio>
       <div
         className="absolute bottom-0 flex w-full items-center justify-evenly py-1.5"
