@@ -56,6 +56,11 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       }
     }, [data]);
 
+    useEffect(() => {
+      const selectedItem = data.find((item) => item.value === value);
+      setValue(selectedItem ? selectedItem : null);
+    }, [value, data]);
+
     return (
       <HeadlessCombobox
         as="div"
@@ -100,7 +105,7 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
           }}
         >
           <HeadlessCombobox.Options>
-            <ScrollArea className="h-fit max-h-72">
+            <ScrollArea className="h-fit max-h-80">
               {filteredOptions.length === 0 && (
                 <p className="h-full px-2 py-2 text-center text-sm">
                   Không tìm thấy

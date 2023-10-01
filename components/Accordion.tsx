@@ -31,7 +31,7 @@ const AccordionTrigger = React.forwardRef<
     <RadixAccordion.Trigger
       ref={ref}
       className={cn(
-        "group flex flex-1 items-center justify-between px-6 font-medium transition-all [&[data-state=open]>svg]:rotate-180",
+        "group flex flex-1 items-center justify-between px-6 font-medium text-black transition-all [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       {...props}
