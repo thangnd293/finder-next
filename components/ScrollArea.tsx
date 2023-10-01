@@ -5,10 +5,14 @@ import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 
 import { cn } from "@/lib/utils";
 
+interface ScrollAreaProps
+  extends React.ComponentPropsWithoutRef<typeof RadixScrollArea.Root> {
+  orientation?: "vertical" | "horizontal";
+}
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof RadixScrollArea.Root>,
-  React.ComponentPropsWithoutRef<typeof RadixScrollArea.Root>
->(({ className, children, ...props }, ref) => (
+  ScrollAreaProps
+>(({ className, orientation, children, ...props }, ref) => (
   <RadixScrollArea.Root
     ref={ref}
     className={cn("relative overflow-hidden", className)}
@@ -17,7 +21,7 @@ const ScrollArea = React.forwardRef<
     <RadixScrollArea.Viewport className="h-full max-h-[inherit] w-full rounded-[inherit]">
       {children}
     </RadixScrollArea.Viewport>
-    <ScrollBar />
+    <ScrollBar orientation={orientation} />
     <RadixScrollArea.Corner />
   </RadixScrollArea.Root>
 ));

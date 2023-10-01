@@ -6,16 +6,15 @@ import { useAllProvince } from "@/service/helper";
 
 interface ProvinceSelectProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Combobox>, "data"> {
+  label: string;
   className?: string;
   value?: string;
   onChange?: (value: string) => void;
 }
 const ProvinceSelect = React.forwardRef<HTMLInputElement, ProvinceSelectProps>(
-  ({ className, value, onChange, ...others }, ref) => {
+  ({ className, label, value, onChange, ...others }, ref) => {
     const { provinces } = useAllProvince();
-    const [province, setProvince] = useState(
-      () => provinces.find((p) => p.name === value)?.name || "",
-    );
+    const [province, setProvince] = useState(value);
 
     const provinceData = useMemo(
       () =>
@@ -35,7 +34,7 @@ const ProvinceSelect = React.forwardRef<HTMLInputElement, ProvinceSelectProps>(
       <Combobox
         ref={ref}
         className={className}
-        label="Quê quán"
+        label={label}
         data={provinceData}
         value={province}
         placeholder="Chọn quê quán"

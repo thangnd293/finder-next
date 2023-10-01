@@ -1,8 +1,8 @@
-import React, { PropsWithChildren } from "react";
 import * as RadixDialog from "@radix-ui/react-dialog";
+import React, { PropsWithChildren } from "react";
 
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { VariantProps, cva } from "class-variance-authority";
 
 interface ModalProps
@@ -77,8 +77,8 @@ const Modal = ({
   );
 };
 
-Modal.Footer = ModalFooter;
 export default Modal;
+Modal.Footer = ModalFooter;
 
 function ModalFooter({ children }: PropsWithChildren) {
   return <div className="mt-4 flex justify-end gap-2">{children}</div>;
