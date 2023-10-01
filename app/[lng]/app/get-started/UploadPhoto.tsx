@@ -4,12 +4,12 @@ import { UploadPhotoIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import UploadImages from "@/components/UploadImages";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
-import { useCurrentUser, useUpdateProfile } from "@/service/user";
+import { Image, useCurrentUser, useUpdateProfile } from "@/service/user";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 interface FormValues {
-  images: string[];
+  images: Image[];
 }
 
 const validateForm = Yup.object({
@@ -21,12 +21,10 @@ interface UploadPhotoProps {
   onNext: () => void;
 }
 
-export default function UploadPhoto({
-  currentStep,
-  isLastStep,
-  onNext,
-}: UploadPhotoProps) {
-  const { currentUser } = useCurrentUser();
+const UploadPhoto = ({ currentStep, isLastStep, onNext }: UploadPhotoProps) => {
+  const { data: images } = useCurrentUser({
+    select: (user) => user.images,
+  });
 
   const updateProfile = useUpdateProfile();
   const formResolver = useYupValidationResolver(validateForm);
@@ -37,7 +35,7 @@ export default function UploadPhoto({
     formState: { isDirty },
   } = useForm<FormValues>({
     defaultValues: {
-      images: currentUser?.images.map((image) => image.url) || [],
+      images,
     },
     resolver: formResolver,
   });
@@ -47,6 +45,7 @@ export default function UploadPhoto({
       updateProfile.mutate({
         images,
         stepStarted: currentStep + 1,
+        blurAvatar: images[0].url,
       });
     }
 
@@ -87,4 +86,6 @@ export default function UploadPhoto({
       </Button>
     </form>
   );
-}
+};
+
+export default UploadPhoto;
