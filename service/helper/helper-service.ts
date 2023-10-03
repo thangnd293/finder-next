@@ -6,6 +6,8 @@ export class HelperService {
 
   static urls = {
     getAllProvince: `${this.prefix}/location/province`,
+    unlinkInstagramAccount: `${this.prefix}/ins/unlink`,
+    unlinkSpotifyAccount: `${this.prefix}/spotify/unlink`,
   };
 
   static getAllProvince = async () => {
@@ -14,5 +16,13 @@ export class HelperService {
     );
 
     return data;
+  };
+
+  static unlinkInstagramAccount = async () => {
+    return await axiosInstance.post(this.urls.unlinkInstagramAccount);
+  };
+
+  static unlinkSpotifyAccount = async () => {
+    return await axiosInstance.post(this.urls.unlinkSpotifyAccount);
   };
 }
