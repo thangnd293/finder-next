@@ -59,6 +59,8 @@ const ChatRoomBody = ({ children }: ChatRoomBodyProps) => {
     markMessagesSeen,
     currentUserID,
     id,
+    lastMessage._id,
+    lastMessage.sender,
   ]);
 
   useEffect(() => {

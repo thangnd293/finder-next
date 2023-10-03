@@ -39,7 +39,7 @@ interface ClientToServerEvents {
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  process.env.NEXT_PUBLIC_BACKEND_URL ?? "",
+  "/realtime" ?? "",
   {
     autoConnect: false,
     auth: {

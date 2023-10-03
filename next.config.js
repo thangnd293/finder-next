@@ -6,8 +6,21 @@ const nextConfig = {
       "res.cloudinary.com",
       "picsum.photos",
       "scontent.cdninstagram.com",
-      "i.scdn.co"
+      "i.scdn.co",
     ],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: "http://34.143.159.142:4000/api/v1/:path*",
+      },
+      {
+        source: "/realtime",
+        destination: "http://34.143.159.142:4000",
+      },
+    ];
   },
 };
 
