@@ -17,7 +17,7 @@ const IS_DONE_GET_STARTED = 4;
 export default function AppLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
 
-  const { currentUser, isLoading, isError } = useCurrentUser();
+  const { data: currentUser, isLoading, isError } = useCurrentUser();
   const active = !isError && !!currentUser;
 
   useSocket(active);

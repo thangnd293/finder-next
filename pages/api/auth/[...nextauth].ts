@@ -1,7 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import SpotifyProvider from "next-auth/providers/spotify";
 import CredentialsProvider from "next-auth/providers/credentials";
+import InstagramProvider from "next-auth/providers/instagram";
+import FacebookProvider from "next-auth/providers/facebook";
+import { customFetch } from "@/utils/http";
+import { ServerService } from "@/service/server";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
@@ -9,7 +14,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     pages: {
       signIn: "/",
       signOut: "/",
-      error: "/", // Error code passed in query string as ?error=
+      error: "/external-auth-result", // Error code passed in query string as ?error=
     },
     providers: [
       CredentialsProvider({
@@ -57,36 +62,45 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       }),
+      SpotifyProvider({
+        clientId: process.env.SPOTIFY_CLIENT_ID ?? "",
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? "",
+        authorization: {
+          params: {
+            scope: "user-top-read user-read-private",
+          },
+        },
+      }),
+      InstagramProvider({
+        clientId: process.env.INSTAGRAM_CLIENT_ID,
+        clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+        authorization: {
+          params: {
+            scope: "user_profile,user_media",
+          },
+        },
+      }),
+      FacebookProvider({
+        clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+      }),
     ],
     callbacks: {
       async signIn({ user, account }) {
-        console.log(
-          "=========SIGN IN=========",
-          user.accessToken,
-          account?.access_token,
-        );
+        console.log("=================SIGN IN=====================");
 
-        if (user.accessToken) {
-          res.setHeader(
-            "Set-Cookie",
-            `accessToken=${user.accessToken}; Path=/`,
-          );
-          return true;
-        }
+        const type = account?.provider;
 
-        if (account?.access_token) {
+        if (
+          (type === "google" || type === "facebook") &&
+          !!account?.access_token
+        ) {
           const params = new URLSearchParams({
-            token: (account.access_token as string) ?? "",
+            token: account.access_token,
           });
 
-          console.log("params", params.toString());
-          console.log(
-            "req",
-            `${process.env.BACKEND_URL}/api/v1/auth/google/verify?${params}`,
-          );
-
           const { accessToken } = await fetch(
-            `${process.env.BACKEND_URL}/api/v1/auth/google/verify?${params}`,
+            `${process.env.BACKEND_URL}/api/v1/auth/${type}/verify?${params}`,
           ).then(
             (res) =>
               res.json() as Promise<{
@@ -95,13 +109,46 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
               }>,
           );
 
-          console.log("accessToken", accessToken);
-
           if (accessToken) {
-            res.setHeader("Set-Cookie", `accessToken=${accessToken}; Path=/`);
+            res.setHeader(
+              "Set-Cookie",
+              `accessToken=${accessToken}; Path=/; Expires=Sat, 11 Jan 2025 17:00:00 GMT;`,
+            );
 
             return true;
           }
+        }
+
+        if (type === "credentials" && user.accessToken) {
+          res.setHeader(
+            "Set-Cookie",
+            `accessToken=${user.accessToken}; Path=/; Expires=Sat, 11 Jan 2025 17:00:00 GMT;`,
+          );
+          return true;
+        }
+
+        const { accessToken } = req.cookies;
+
+        if (accessToken && account?.access_token && type === "spotify") {
+          const data = await ServerService.linkSpotify(
+            account.access_token,
+            accessToken,
+          );
+
+          if (data.success) return true;
+
+          return false;
+        }
+
+        if (accessToken && account?.access_token && type === "instagram") {
+          const data = await ServerService.linkInstagram(
+            account.access_token,
+            accessToken,
+          );
+
+          if (data.success) return true;
+
+          return false;
         }
 
         return false;
@@ -109,3 +156,20 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 }
+
+const updateArtist = async (accessToken: string) => {
+  return new Promise((resolve, reject) => {
+    const isSuccessful = Math.random() > 0.5;
+
+    setTimeout(() => {
+      if (isSuccessful) {
+        resolve({
+          name: "Artist name",
+          image: "https://picsum.photos/200",
+        });
+      } else {
+        reject(new Error("Something went wrong"));
+      }
+    }, 1000);
+  });
+};

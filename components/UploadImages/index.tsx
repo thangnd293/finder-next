@@ -4,43 +4,49 @@ import { arrayMoveImmutable } from "array-move";
 import React, { Fragment, useRef, useState } from "react";
 import SortableList, { SortableItem } from "react-easy-sort";
 import ImageCard from "./ImageCard";
+import { cn } from "@/lib/utils";
+import { Image } from "@/service/user";
 
 interface UploadImagesProps {
-  value: string[];
-  onChange: (images: string[]) => void;
+  value: Image[];
+  onChange: (images: Image[]) => void;
   maxImages: number;
   error?: string;
+  className?: string;
 }
 const UploadImages = ({
   value,
   onChange,
   maxImages,
   error,
+  className,
   ...others
 }: UploadImagesProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [images, setImages] = useState<string[]>(() => {
+  const [images, setImages] = useState<Image[]>(() => {
     const images = [...value];
     const emptyImages = Array.from({
       length: maxImages - images.length,
-    }).fill("") as string[];
+    }).fill({
+      url: "",
+    }) as Image[];
     return [...images, ...emptyImages];
   });
 
   const handleSortEnd = (oldIndex: number, newIndex: number) => {
     setImages((pre) => {
       const newImages = arrayMoveImmutable(pre, oldIndex, newIndex);
-      onChange(newImages.filter((image) => image));
+      onChange(filterEmptyImages(newImages));
       return newImages;
     });
   };
 
-  const handleImageChange = (index: number, image: string) => {
+  const handleImageChange = (index: number, image: Image) => {
     const newImages = [...images];
     newImages[index] = image;
 
-    onChange(newImages.filter((image) => image));
+    onChange(filterEmptyImages(newImages));
 
     setImages(newImages);
   };
@@ -51,10 +57,12 @@ const UploadImages = ({
     newImages = [
       ...newImages.slice(0, index),
       ...newImages.slice(index + 1),
-      "",
+      {
+        url: "",
+      },
     ];
 
-    onChange(newImages.filter((image) => image));
+    onChange(filterEmptyImages(newImages));
     setImages(newImages);
   };
 
@@ -71,7 +79,7 @@ const UploadImages = ({
       const container = containerRef.current?.children[0] as HTMLElement;
       if (!container) return;
 
-      const firstIndexEmpty = images.indexOf("");
+      const firstIndexEmpty = images.findIndex((image) => !image.url);
 
       if (firstIndexEmpty === -1) return;
 
@@ -103,7 +111,7 @@ const UploadImages = ({
     <div ref={containerRef} {...others}>
       <SortableList
         onSortEnd={handleSortEnd}
-        className="grid w-[500px] select-none gap-4"
+        className={cn("grid w-[500px] select-none gap-4", className)}
         draggedItemClassName="dragged"
         onClick={handleImagePick}
         style={{
@@ -137,3 +145,7 @@ const UploadImages = ({
 };
 
 export default UploadImages;
+
+const filterEmptyImages = (images: Image[]) => {
+  return images.filter((image) => image.url);
+};

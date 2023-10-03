@@ -6,6 +6,7 @@
   :root {
     --background: rgb(255, 255, 255);
     --background-tooltip: #323436;
+    --background-50: #00000005;
     --background-100: #868e991a;
     --background-200: #e4e6eb;
 
@@ -60,6 +61,7 @@
   .dark {
     --background: rgb(20, 21, 23);
     --background-tooltip: #ffffff;
+    --background-50: #00000005;
     --background-100: #868e991a;
     --background-200: #e4e6eb;
 
@@ -124,6 +126,14 @@
   text-shadow {
     text-shadow: #000 1px 0 10px;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -167,4 +177,23 @@ input[type="number"] {
     z-index: 100;
     transform: translateY(-50%) translateX(50%) scale(1);
   }
+}
+
+.DialogOverlay {
+  background: rgba(0 0 0 / 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+}
+
+.DialogContent {
+  min-width: 300px;
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
 }

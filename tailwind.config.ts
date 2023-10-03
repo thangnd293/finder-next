@@ -24,6 +24,7 @@ module.exports = {
         background: {
           DEFAULT: "var(--background)",
           tooltip: "var(--background-tooltip)",
+          50: "var(--background-50)",
           100: "var(--background-100)",
           200: "var(--background-200)",
         },
@@ -113,6 +114,7 @@ module.exports = {
         "7.5": "1.875rem",
         "8.5": "2.125rem",
         "10.5": "2.625rem",
+        "18": "4.5rem",
       },
       dropShadow: {
         DEFAULT: "0 4px 12px rgba(0,0,0,.16)",

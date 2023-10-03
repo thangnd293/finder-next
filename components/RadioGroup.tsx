@@ -44,7 +44,7 @@ const RadioGroup = ({
             key={item.value}
             type="button"
             className={cn(
-              "min-w-[100px] flex-1 px-4 py-2 text-sm text-secondary-foreground",
+              "w-fit flex-1 flex-shrink whitespace-nowrap px-4 py-2 text-sm text-secondary-foreground",
               selectedValue === item.value &&
                 "rounded-lg bg-background font-semibold text-primary-500",
             )}

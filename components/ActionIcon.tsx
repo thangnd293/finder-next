@@ -1,23 +1,30 @@
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import React from "react";
+import Spinner from "./Spinner";
 import Tooltip from "./Tooltip";
 
 interface ActionIconProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof actionIconVariants> {
+  isLoading?: boolean;
   title?: string;
 }
 
 const ActionIcon = React.forwardRef<HTMLButtonElement, ActionIconProps>(
-  ({ className, variant, size, title, ...others }, ref) => {
+  (
+    { className, variant, size, title, isLoading, children, ...others },
+    ref,
+  ) => {
     return (
       <Tooltip label={title ?? ""} disabled={!title}>
         <button
           className={cn(actionIconVariants({ variant, size, className }))}
           ref={ref}
           {...others}
-        />
+        >
+          {isLoading ? <Spinner /> : children}
+        </button>
       </Tooltip>
     );
   },

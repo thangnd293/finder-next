@@ -27,14 +27,36 @@ export interface Discovery {
   modeGoal: ModeGoal;
 }
 
+export interface HiddenProfile {
+  inFinder: boolean;
+  weight: boolean;
+  height: boolean;
+}
+
 export interface Image {
   url: string;
   blur?: string;
 }
+
+interface SpotifyArtist {
+  artist: string;
+  image: Image;
+}
+
+interface Address {
+  country: string;
+  district: string;
+  fullAddress: string;
+  province: string;
+  route: string;
+}
+
 export interface User {
   _id: string;
   name: string;
   images: Image[];
+  insImages?: Image[];
+  spotifyInfo?: SpotifyArtist[];
   bio?: string;
   stepStarted: number;
   gender: Gender;
@@ -42,11 +64,19 @@ export interface User {
   homeTown: {
     province: string;
   };
+  liveAt: {
+    province: string;
+  };
   birthDate: string;
   setting: {
     discovery: Discovery;
+    hiddenProfile: HiddenProfile;
   };
   tags: Tag[];
   phoneNumber?: string;
   email?: string;
+  height?: number;
+  weight?: number;
+  address?: Address;
+  blurAvatar: string;
 }

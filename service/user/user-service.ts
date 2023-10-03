@@ -1,10 +1,11 @@
 import axiosInstance from "@/lib/axios";
 import { type Discovery, type User } from ".";
 import { List } from "@/types/http";
+import { TagType } from "../tag";
 
 export interface UpdateSettingPayload {
   discovery: Partial<Discovery>;
-  stepStarted: number;
+  stepStarted?: number;
 }
 
 export interface UpdateLocationPayload {
@@ -12,9 +13,18 @@ export interface UpdateLocationPayload {
   long: number;
 }
 
-export interface UpdateProfilePayload extends Partial<Omit<User, "images">> {
-  images?: string[];
+export interface UpdateUserTagPayload {
+  tagId: string;
+  tagType: TagType;
 }
+export type UpdateProfilePayload =
+  | Partial<User>
+  | {
+      heightSetting: {
+        value: number;
+        isShowInFinder: boolean;
+      };
+    };
 
 export class UserService {
   static prefix = "/users";
@@ -24,6 +34,7 @@ export class UserService {
     updateProfile: `${this.prefix}/update_profile`,
     updateSetting: `${this.prefix}/update_setting`,
     updateLocation: `${this.prefix}/update_location`,
+    updateTag: `${this.prefix}/update_tag`,
     recommendation: (page: number, size: number) =>
       `${this.prefix}/recommendation?page=${page}&size=${size}`,
   };
@@ -34,10 +45,10 @@ export class UserService {
     return data;
   };
 
-  static updateProfile = async (user: UpdateProfilePayload) => {
+  static updateProfile = async (payload: UpdateProfilePayload) => {
     const { data } = await axiosInstance.patch<User>(
       this.urls.updateProfile,
-      user,
+      payload,
     );
 
     return data;
@@ -57,6 +68,12 @@ export class UserService {
       this.urls.updateLocation,
       payload,
     );
+
+    return data;
+  };
+
+  static updateUserTag = async (payload: UpdateUserTagPayload) => {
+    const { data } = await axiosInstance.patch(this.urls.updateTag, payload);
 
     return data;
   };

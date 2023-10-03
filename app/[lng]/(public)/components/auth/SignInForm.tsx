@@ -1,5 +1,6 @@
+import FacebookAuth from "./FacebookAuth";
 import GoogleAuth from "./GoogleAuth";
-import PhoneAuth from "./phone-auth";
+import PhoneAuth from "./PhoneAuth";
 
 interface SignInFormProps {
   onSwitchToSignUp: () => void;
@@ -17,6 +18,7 @@ const SignInForm = ({ onSwitchToSignUp }: SignInFormProps) => {
         <hr className="flex-1" />
       </div>
 
+      <FacebookAuth textContent="Đăng nhập với Facebook" />
       <GoogleAuth textContent="Đăng nhập với Google" />
 
       <p className="text-center">

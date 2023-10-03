@@ -1,6 +1,7 @@
 "use client";
 
 import Loader from "@/components/Loader";
+import { CardBox } from "@/components/UserCard";
 import useCallbackDebounce from "@/hooks/use-callback-debounce";
 import { useLike, useSkip } from "@/service/action/hooks";
 import { User, useRecommendedUsers } from "@/service/user";
@@ -8,7 +9,6 @@ import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useMemo, useRef } from "react";
-import { CardBox } from "./CardBox";
 
 const EMPTY_USERS: User[] = [];
 const EMPTY_OBJECT: InfiniteData<User> = {
@@ -119,7 +119,7 @@ export const Container = ({ children }: ContainerProps) => {
   if (isFetching && currentIndex === recommendedUsers.length)
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Loader className="!h-28 !w-28" variant="water-surface" />
+        <Loader size={128} variant="water-surface" />
       </div>
     );
 

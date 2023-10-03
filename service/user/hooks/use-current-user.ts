@@ -1,29 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  UseQueryOptions,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { User, UserService } from "..";
-import { useCallback } from "react";
 
 export const getCurrentUserKey = () => ["user", "current"];
-export const useCurrentUser = () => {
-  const { data, ...rest } = useQuery(
-    getCurrentUserKey(),
-    UserService.getCurrentUser,
-  );
 
-  return {
-    currentUser: data,
-    ...rest,
-  };
+export const useCurrentUser = <TData = User>(
+  options?: UseQueryOptions<User, AxiosError, TData>,
+) => {
+  return useQuery({
+    queryKey: getCurrentUserKey(),
+    queryFn: UserService.getCurrentUser,
+    ...options,
+  });
 };
 
 export const useCurrentUserID = () => {
-  const { data, ...rest } = useQuery({
-    queryKey: getCurrentUserKey(),
-    queryFn: UserService.getCurrentUser,
-    select: useCallback((data: User) => data?._id, []),
+  const { data } = useCurrentUser({
+    select: (user) => user._id,
   });
-
   return {
     currentUserID: data,
-    ...rest,
+  };
+};
+
+export const useInvalidateCurrentUser = () => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    queryClient.invalidateQueries(getCurrentUserKey());
   };
 };

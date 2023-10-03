@@ -1,4 +1,4 @@
-import SidebarHeader from "@/layout/sidebar-header";
+import SidebarHeader from "@/layout/Header";
 
 export default function Sidebar() {
   return (
