@@ -114,6 +114,7 @@ module.exports = {
         "7.5": "1.875rem",
         "8.5": "2.125rem",
         "10.5": "2.625rem",
+        "18": "4.5rem",
       },
       dropShadow: {
         DEFAULT: "0 4px 12px rgba(0,0,0,.16)",

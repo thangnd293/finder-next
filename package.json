@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "concurrently --kill-others \"next dev --port 9000\" \"npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 9001 --target 9000\"",
     "build": "next build",
-    "start": "next start --port 3001",
+    "start": "concurrently --kill-others \"next start --port 9000\" \"npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 9001 --target 9000\"",
     "lint": "next lint"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
     "i18next": "^23.2.11",
     "i18next-resources-to-backend": "^1.1.4",
     "lottie-react": "^2.4.0",
-    "next": "^13.5.2",
+    "next": "^13.5.3",
     "next-auth": "^4.22.5",
     "next-themes": "^0.2.1",
     "postcss": "8.4.26",
@@ -92,6 +92,7 @@
     "@types/react-slick": "^0.23.10",
     "@types/simple-peer": "^9.11.5",
     "@types/uuid": "^9.0.2",
+    "concurrently": "^8.2.1",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "simple-peer": "^9.11.1"

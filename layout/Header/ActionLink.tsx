@@ -6,13 +6,14 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React, { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 
-interface IActionLinkProps extends ComponentPropsWithoutRef<typeof Link> {}
-export default function ActionLink({
+interface ActionLinkProps extends ComponentPropsWithoutRef<typeof Link> {}
+
+const ActionLink = ({
   className,
   href,
   children,
   ...others
-}: PropsWithChildren<IActionLinkProps>) {
+}: PropsWithChildren<ActionLinkProps>) => {
   const pathname = usePathname();
 
   return (
@@ -28,4 +29,6 @@ export default function ActionLink({
       </ActionIcon>
     </Link>
   );
-}
+};
+
+export default ActionLink;
