@@ -54,7 +54,7 @@ export const UserCard = ({
 
           {bio && <p>{bio}</p>}
           <div className="flex flex-wrap justify-center gap-2">
-            {height && !setting.hiddenProfile.height && (
+            {height && setting?.hiddenProfile?.height && (
               <span className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
                 <PiRuler />
                 {height} cm

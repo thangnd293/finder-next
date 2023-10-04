@@ -32,7 +32,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           },
         },
 
-        async authorize(credentials, req) {
+        async authorize(credentials) {
           const res = await fetch(
             `${process.env.BACKEND_URL}/api/v1/auth/verify-otp`,
             {
