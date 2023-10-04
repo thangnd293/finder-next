@@ -93,7 +93,7 @@ const useRoomMachine = (local: string) => {
       init: (ctx) => () =>
         new Promise((resolve, reject) => {
           try {
-            const socket = io("http://localhost:4000/call", {
+            const socket = io("https://finder.sohe.in/call", {
               query: {
                 userId: ctx.localId,
               },
