@@ -108,7 +108,7 @@ const UploadImages = ({
   };
 
   return (
-    <div ref={containerRef} {...others}>
+    <div className="w-full" ref={containerRef} {...others}>
       <SortableList
         onSortEnd={handleSortEnd}
         className={cn("grid w-[500px] select-none gap-4", className)}

@@ -4,6 +4,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/Popover";
 import dynamic from "next/dynamic";
 import React from "react";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
+import { UseFormSetValue } from "react-hook-form";
+import { FormData } from ".";
 
 const MartEmojiPicker = dynamic(() => import("./MartEmojiPicker"), {
   loading: () => (
@@ -16,8 +18,12 @@ const MartEmojiPicker = dynamic(() => import("./MartEmojiPicker"), {
 
 interface EmojiPickerButtonProps {
   messageInputRef: React.RefObject<HTMLTextAreaElement>;
+  setValue: UseFormSetValue<FormData>;
 }
-const EmojiPickerButton = ({ messageInputRef }: EmojiPickerButtonProps) => {
+const EmojiPickerButton = ({
+  messageInputRef,
+  setValue,
+}: EmojiPickerButtonProps) => {
   const handleEmojiSelect = (emoji: any) => {
     const textareaEl = messageInputRef.current;
 
@@ -29,6 +35,8 @@ const EmojiPickerButton = ({ messageInputRef }: EmojiPickerButtonProps) => {
       value.slice(0, cursor) + emoji.native + value.slice(cursor);
     textareaEl.selectionStart = textareaEl.selectionEnd =
       cursor + emoji.native.length;
+
+    setValue("text", textareaEl.value);
   };
 
   return (

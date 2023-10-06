@@ -61,7 +61,7 @@ const PhotoSection = () => {
 
   return (
     <form
-      className="flex flex-col items-center"
+      className="flex w-full flex-col items-center"
       ref={formRef}
       onSubmit={handleSubmit(onSubmitForm)}
     >

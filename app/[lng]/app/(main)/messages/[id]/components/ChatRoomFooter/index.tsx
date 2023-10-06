@@ -18,7 +18,7 @@ import EmojiPickerButton from "./EmojiPickerButton";
 import InputImageMessage from "./InputImageMessage";
 import InputTextMessage from "./InputTextMessage";
 
-type FormData = {
+export type FormData = {
   text: string;
   imageFiles: File[];
 };
@@ -165,7 +165,10 @@ const ChatRoomFooter = () => {
             <InputTextMessage ref={messageInputRef} />
           </div>
 
-          <EmojiPickerButton messageInputRef={messageInputRef} />
+          <EmojiPickerButton
+            messageInputRef={messageInputRef}
+            setValue={setValue}
+          />
 
           <ActionIcon
             className="rounded-full"
