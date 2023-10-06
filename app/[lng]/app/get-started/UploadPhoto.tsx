@@ -68,18 +68,20 @@ const UploadPhoto = ({ currentStep, isLastStep, onNext }: UploadPhotoProps) => {
         <br /> Chọn những tấm hình tuyệt nhất của mình nhé
       </p>
 
-      <Controller
-        name="images"
-        control={control}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <UploadImages
-            maxImages={3}
-            error={error?.message}
-            value={value}
-            onChange={onChange}
-          />
-        )}
-      />
+      <div className="mx-auto w-fit">
+        <Controller
+          name="images"
+          control={control}
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <UploadImages
+              maxImages={3}
+              error={error?.message}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </div>
 
       <Button className="w-fit" type="submit">
         {isLastStep ? "Hoàn tất" : "Tiếp tục"}
