@@ -115,6 +115,13 @@ class CallVideoManager extends EventEmitter {
       stream,
     });
 
+    peer._debug = (message) => {
+      console.log(
+        "🚀 ~ file: web-rtc.ts:119 ~ CallVideoManager ~ createPeer ~ message:",
+        message,
+      );
+    };
+
     peer.on("stream", (stream) => {
       this.emit("stream", stream);
     });

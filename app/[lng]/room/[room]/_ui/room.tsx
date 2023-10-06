@@ -1,26 +1,20 @@
-import DialogConfirm, {
-  confirmAction,
-} from "@/app/[lng]/room/[room]/_comps/dialog-confirm";
-import CallVideoManager, { setSrcVideo } from "@/utils/web-rtc";
+import DialogConfirm from "@/app/[lng]/room/[room]/_comps/dialog-confirm";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdCallEnd, MdOutlineMic, MdVideocam } from "react-icons/md";
-import { io } from "socket.io-client";
 import useRoomMachine from "../_machine/useRoomMachine";
-
-
 
 export default function Room() {
   const searchParams = useSearchParams();
   const localName = searchParams?.get("localName") || "";
   const remoteName = searchParams?.get("remoteName") || "";
-  const {refLocalVideo,refRemoteVideo,send,state}= useRoomMachine(localName)
+  const { refLocalVideo, refRemoteVideo, send, state } =
+    useRoomMachine(localName);
   const [offer, setOffer] = useState<RTCSessionDescriptionInit>();
 
-  const handleCall = ()=>{
-    send({type:"CALL",remoteId:remoteName})
-  }
- 
+  const handleCall = () => {
+    send({ type: "CALL", remoteId: remoteName });
+  };
 
   const currentTime = useCurrentTime();
 
@@ -34,7 +28,7 @@ export default function Room() {
       ></audio>
       <DialogConfirm
         onConfirm={() => {
-          send({type:"RECEIVER_ACCEPT",})
+          send({ type: "RECEIVER_ACCEPT" });
         }}
         onCancel={() => {
           console.log("cancel");
@@ -84,9 +78,12 @@ export default function Room() {
               <button className="rounded-full bg-white/20 p-3">
                 <MdOutlineMic size={24} />
               </button>
-              <button onClick={()=>{
-                send({type:"END_CALL"})
-              }} className="rounded-xl bg-red-500 p-3">
+              <button
+                onClick={() => {
+                  send({ type: "END_CALL" });
+                }}
+                className="rounded-xl bg-red-500 p-3"
+              >
                 <MdCallEnd size={30} />
               </button>
               <button className="rounded-full bg-white/20 p-3">
