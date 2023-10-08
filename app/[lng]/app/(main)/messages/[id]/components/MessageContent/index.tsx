@@ -1,11 +1,20 @@
 import { Message, MessageType } from "@/service/message";
 import MessageImages from "./MessageImages";
 import MessageText from "./MessageText";
+import MessageCall from "./MessageCall";
+import { decodeFromBase64 } from "@/utils/base64";
 
 interface MessageContentProps {
   isSelf?: boolean;
   message: Message;
   className?: string;
+}
+
+interface ICallMessage {
+  userId: string;
+  receiverIds: string[];
+  startTime: string;
+  endTime: string;
 }
 
 const MessageContent = ({
@@ -14,6 +23,18 @@ const MessageContent = ({
   className,
 }: MessageContentProps) => {
   const { type, text, images } = message;
+  if (type === MessageType.Call) {
+    const data = decodeFromBase64<ICallMessage>(text);
+    return (
+      <MessageCall
+        isMiss={!Boolean(data.startTime)}
+        isSelf={isSelf}
+        startTime={data.startTime}
+        endTime={data.endTime}
+        className={className}
+      />
+    );
+  }
 
   if (type === MessageType.Image) {
     return <MessageImages className={className} images={images} />;

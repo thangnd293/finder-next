@@ -4,8 +4,9 @@ import ActionIcon from "@/components/ActionIcon";
 import Avatar from "@/components/Avatar";
 import { useConversationByID } from "@/service/conversation";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
 import { BsThreeDotsVertical, BsXLg } from "react-icons/bs";
+import { HiMiniVideoCamera } from "react-icons/hi2";
+import { IoCall } from "react-icons/io5";
 
 interface ChatRoomHeaderProps {
   onOpenSidebar: () => void;
@@ -32,7 +33,20 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
         </span>
       </div>
 
-      <div className="space-x-1">
+      <div className="flex items-center space-x-1">
+        <ActionIcon variant="ghost">
+          <IoCall size={18} />
+        </ActionIcon>
+
+        <ActionIcon
+          onClick={() => {
+            window.open(`/app/room/${id}`, "_blank", "width=800,height=600");
+          }}
+          variant="ghost"
+        >
+          <HiMiniVideoCamera size={18} />
+        </ActionIcon>
+
         <ActionIcon variant="ghost">
           <BsThreeDotsVertical />
         </ActionIcon>

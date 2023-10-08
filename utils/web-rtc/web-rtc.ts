@@ -1,37 +1,48 @@
 import { EventEmitter } from "events";
-import { Socket } from "socket.io-client";
 
 import SimplePeer from "simple-peer";
+import { ISocket } from "./socket";
 
 declare interface CallVideoManager {
-  on(
-    event: "offerReceived",
-    listener: (offer: SimplePeer.SignalData, userId: string) => void,
-  ): this;
-  on(
-    event: "answerReceived",
-    listener: (answer: SimplePeer.SignalData) => void,
-  ): this;
+  on(event: "offer", listener: (roomId: string) => void): this;
+  on(event: "answer", listener: (roomId: string) => void): this;
   on(event: "rejectConnection", listener: () => void): this;
   on(event: "hangup", listener: () => void): this;
   on(event: "stream", listener: (stream: MediaStream) => void): this;
+  on(
+    event: "checkRoom",
+    listener: (
+      payload:
+        | {
+            status: false;
+          }
+        | { status: true; offer: SimplePeer.SignalData },
+    ) => void,
+  ): this;
+  on(event: "verifyFirstConnection", listener: () => void): this;
+
+  emit(event: "offer", roomId: string): boolean;
+  emit(event: "answer", roomId: string): boolean;
   emit(
-    event: "offerReceived",
-    offer: SimplePeer.SignalData,
-    userId: string,
+    event: "checkRoom",
+    payload:
+      | {
+          status: false;
+        }
+      | { status: true; offer: SimplePeer.SignalData },
   ): boolean;
-  emit(event: "answerReceived", answer: SimplePeer.SignalData): boolean;
+  emit(event: "verifyFirstConnection"): boolean;
   emit(event: "rejectConnection"): boolean;
   emit(event: "hangup"): boolean;
   emit(event: "stream", stream: MediaStream): boolean;
 }
 
 class CallVideoManager extends EventEmitter {
-  private socket: Socket;
+  private socket: ISocket;
   private peer: SimplePeer.Instance | null;
   private stream: MediaStream | null;
 
-  constructor(socket: Socket) {
+  constructor(socket: ISocket) {
     super();
     this.socket = socket;
     this.peer = null;
@@ -41,12 +52,25 @@ class CallVideoManager extends EventEmitter {
   }
 
   initSocket() {
-    this.socket.on("offer", (offer, userId) => {
-      this.emit("offerReceived", offer, userId);
+    this.socket.on("verifyFirstConnection", () => {
+      this.emit("verifyFirstConnection");
+    });
+
+    this.socket.on("checkRoom", (payload) => {
+      this.emit("checkRoom", payload);
+    });
+
+    this.socket.on("offer", (payload) => {
+      console.log(
+        "🚀 ~ file: web-rtc.ts:71 ~ CallVideoManager ~ this.socket.on ~ payload:",
+        payload,
+      );
+      this.emit("offer", payload.roomId);
     });
 
     this.socket.on("answer", (answer) => {
-      this.emit("answerReceived", answer);
+      if (!this.peer) return;
+      this.peer.signal(answer.offer);
     });
 
     this.socket.on("reject", () => {
@@ -54,9 +78,6 @@ class CallVideoManager extends EventEmitter {
     });
 
     this.socket.on("hangup", () => {
-      console.log(
-        "🚀 ~ file: web-rtc.ts:59 ~ CallVideoManager ~ this.socket.on ~ hangup",
-      );
       this.emit("hangup");
     });
   }
@@ -64,31 +85,36 @@ class CallVideoManager extends EventEmitter {
   destroy() {
     this.peer?.destroy();
     this.peer = null;
+    this.stream = null;
   }
 
-  handleAnswerReceived(answer: SimplePeer.SignalData) {
-    if (!this.peer) return;
-    this.peer.signal(answer);
+  async checkRoom(roomId: string) {
+    this.socket.emit("checkRoom", {
+      roomId,
+    });
   }
 
-  async call(remoteId: string, videoStream: MediaStream) {
+  async call(roomId: string, videoStream: MediaStream) {
     this.stream = videoStream;
     this.peer = await this.createPeer(true, videoStream);
     this.peer.on("signal", (offer) => {
-      this.socket.emit("offer", remoteId, offer);
+      this.socket.emit("offer", {
+        offer,
+        roomId,
+      });
     });
   }
 
   async accept(
-    remoteId: string,
-    videoStream: MediaStream,
+    roomId: string,
     offer: SimplePeer.SignalData,
+    videoStream: MediaStream,
   ) {
     this.stream = videoStream;
     this.peer = await this.createPeer(false, videoStream);
     this.peer.signal(offer);
     this.peer.on("signal", (answer) => {
-      this.socket.emit("answer", remoteId, answer);
+      this.socket.emit("answer", { offer: answer, roomId });
     });
   }
 
@@ -97,7 +123,7 @@ class CallVideoManager extends EventEmitter {
   }
 
   end(remoteId: string) {
-    this.socket.emit("hangup", remoteId);
+    this.socket.emit("hangup");
     this.offStream();
   }
 
