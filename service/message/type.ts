@@ -3,6 +3,13 @@ import { Image } from "../user";
 export enum MessageType {
   Text = "Text",
   Image = "Image",
+  Call = "Call",
+}
+
+interface CallMessage {
+  type: MessageType.Call;
+  text: string;
+  images?: never;
 }
 
 interface ImageMessage {
@@ -50,7 +57,7 @@ export type Message = {
   createdAt: string;
   updatedAt: string;
   uuid?: string;
-} & (ImageMessage | TextMessage) &
+} & (ImageMessage | TextMessage | CallMessage) &
   (MessageSeen | MessageSent | MessageSending | MessageReceived);
 
 export enum MessageStatus {

@@ -1,6 +1,5 @@
 import { dir } from "i18next";
 import type { Metadata } from "next";
-import xstateNinja, { LogLevels } from 'xstate-ninja';
 
 import "@/styles/draft-js.css";
 import "@/styles/global.css";
@@ -49,12 +48,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
-if (typeof window !== 'undefined') {
-  xstateNinja({
-    enabled: process.env.NODE_ENV !== 'production',
-    logLevel: LogLevels.debug,
-  })
-}
-
