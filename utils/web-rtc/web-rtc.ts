@@ -1,10 +1,10 @@
 import { EventEmitter } from "events";
 
 import SimplePeer from "simple-peer";
-import { ISocket } from "./socket";
+import { ISocket, OfferMessageResponse } from "./socket";
 
 declare interface CallVideoManager {
-  on(event: "offer", listener: (roomId: string) => void): this;
+  on(event: "offer", listener: (payload: OfferMessageResponse) => void): this;
   on(event: "answer", listener: (roomId: string) => void): this;
   on(event: "rejectConnection", listener: () => void): this;
   on(event: "hangup", listener: () => void): this;
@@ -21,7 +21,7 @@ declare interface CallVideoManager {
   ): this;
   on(event: "verifyFirstConnection", listener: () => void): this;
 
-  emit(event: "offer", roomId: string): boolean;
+  emit(event: "offer", payload: OfferMessageResponse): boolean;
   emit(event: "answer", roomId: string): boolean;
   emit(
     event: "checkRoom",
@@ -61,11 +61,7 @@ class CallVideoManager extends EventEmitter {
     });
 
     this.socket.on("offer", (payload) => {
-      console.log(
-        "🚀 ~ file: web-rtc.ts:71 ~ CallVideoManager ~ this.socket.on ~ payload:",
-        payload,
-      );
-      this.emit("offer", payload.roomId);
+      this.emit("offer", payload);
     });
 
     this.socket.on("answer", (answer) => {

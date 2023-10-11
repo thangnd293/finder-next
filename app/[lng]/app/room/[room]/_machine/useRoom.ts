@@ -1,8 +1,13 @@
+import {
+  ISocket,
+  OfferMessageResponse,
+  socketInstance,
+} from "@/utils/web-rtc/socket";
 import CallVideoManager, { setSrcVideo } from "@/utils/web-rtc/web-rtc";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SimplePeer from "simple-peer";
 import { confirmAction } from "../_comps/dialog-confirm";
-import { ISocket, socketInstance } from "@/utils/web-rtc/socket";
+import { useReceiver } from "@/service/conversation";
 
 const createMediaStream = () => {
   return navigator.mediaDevices.getUserMedia({
@@ -50,6 +55,8 @@ export const useRoomEvent = (roomId: string) => {
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [videoStatus, setVideoStatus] = useState<boolean>(true);
   const [audioStatus, setAudioStatus] = useState<boolean>(true);
+  const [isAccept, setIsAccept] = useState<boolean>(false);
+  const { receiver } = useReceiver(roomId);
 
   const handleInitRoom = useCallback(
     async (roomId: string) => {
@@ -68,6 +75,7 @@ export const useRoomEvent = (roomId: string) => {
       const localVideoStream = await createMediaStream();
       setMediaStream(localVideoStream);
       setSrcVideo(refLocalVideo.current!, localVideoStream);
+      setIsAccept(true);
       callVideo.accept(roomId, answer, localVideoStream);
     },
     [callVideo],
@@ -87,11 +95,6 @@ export const useRoomEvent = (roomId: string) => {
         handleInitRoom(roomId);
       } else {
         handleInitAccpect(roomId, payload.offer);
-        console.log(
-          "🚀 ~ file: useRoom.ts:70 ~ callVideo.on ~ roomId, payload.offer:",
-          roomId,
-          payload.offer,
-        );
       }
     });
 
@@ -119,6 +122,8 @@ export const useRoomEvent = (roomId: string) => {
     refRemoteVideo,
     audioStatus,
     videoStatus,
+    isAccept,
+    receiver,
     hangup: () => {
       if (!callVideo) return;
       callVideo.end(roomId);
@@ -130,25 +135,30 @@ export const useRoomEvent = (roomId: string) => {
 
 export const useRoomListener = () => {
   const callVideo = useCallVideo();
-  const [roomId, setRoomId] = useState<string | null>(null);
+  const [offerData, setOfferData] = useState<OfferMessageResponse | null>(null);
 
   const handleAccept = useCallback(() => {
-    if (!callVideo || !roomId) return;
-    window.open(`/app/room/${roomId}`, "_blank", "width=800,height=600");
+    if (!callVideo || !offerData?.roomId) return;
+    window.open(
+      `/app/room/${offerData?.roomId}`,
+      "_blank",
+      "width=800,height=600",
+    );
     confirmAction.setOpen(false);
-  }, [callVideo, roomId]);
+    setOfferData(null);
+  }, [callVideo, offerData?.roomId]);
 
   const handleReject = useCallback(() => {
-    if (!callVideo || !roomId) return;
-    callVideo.reject(roomId);
+    if (!callVideo || !offerData?.roomId) return;
+    callVideo.reject(offerData?.roomId);
     confirmAction.setOpen(false);
-  }, [callVideo, roomId]);
+    setOfferData(null);
+  }, [callVideo, offerData?.roomId]);
 
   useEffect(() => {
     if (!callVideo) return;
-    callVideo.on("offer", (roomId) => {
-      console.log("🚀 ~ file: useRoom.ts:101 ~ callVideo.on ~ roomId:", roomId);
-      setRoomId(roomId);
+    callVideo.on("offer", (payload) => {
+      setOfferData(payload);
       confirmAction.setOpen(true);
     });
   }, [callVideo]);
@@ -156,5 +166,6 @@ export const useRoomListener = () => {
   return {
     handleAccept,
     handleReject,
+    offerData,
   };
 };
