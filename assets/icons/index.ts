@@ -3,6 +3,7 @@ export * from "./upload-photo-icon";
 export * from "./welcome-icon";
 export * from "./location-icon";
 export * from "./awesome-icon";
-export * from "./facebook-icon"
+export * from "./facebook-icon";
 export * from "./verified-icon";
 export * from "./site-information-icon";
+export * from "./shield-icon";

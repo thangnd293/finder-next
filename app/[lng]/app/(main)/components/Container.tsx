@@ -8,7 +8,7 @@ import { User, useRecommendedUsers } from "@/service/user";
 import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 const EMPTY_USERS: User[] = [];
 const EMPTY_OBJECT: InfiniteData<User> = {
@@ -26,6 +26,7 @@ interface ContainerProps {
     onBack: () => void;
     onLike: () => void;
     onUnLike: () => void;
+    onReportDone: () => void;
   }) => React.ReactNode;
 }
 
@@ -104,6 +105,11 @@ export const Container = ({ children }: ContainerProps) => {
     }
   }, 800);
 
+  const handleReportDone = useCallback(() => {
+    handleNextIndex();
+    canBack.current = false;
+  }, []);
+
   let visibleUsers =
     recommendedUsers.slice(
       currentIndex > 0 && currentIndex < recommendedUsers.length
@@ -156,6 +162,7 @@ export const Container = ({ children }: ContainerProps) => {
         onBack: handleBack,
         onLike: handleLike,
         onUnLike: handleUnLike,
+        onReportDone: handleReportDone,
       })}
     </>
   );

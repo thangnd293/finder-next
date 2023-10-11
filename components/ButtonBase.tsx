@@ -11,14 +11,27 @@ export interface ButtonBaseProps
 }
 
 const ButtonBase = React.forwardRef<HTMLButtonElement, ButtonBaseProps>(
-  ({ className, variant, size, disabled, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, disabled, asChild = false, onClick, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : "button";
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    };
     return (
       <Comp
         className={cn(buttonBaseVariants({ variant, size, className }), {
           "bg-gray-300": disabled,
         })}
         ref={ref}
+        disabled={disabled}
+        onClick={handleClick}
         {...props}
       />
     );
@@ -44,7 +57,7 @@ export const buttonBaseVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         accent:
           "bg-accent-background text-accent shadow-sm hover:bg-accent-background/70",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-background-50 hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         social: "bg-background/80 hover:bg-background border shadow-sm",
       },
