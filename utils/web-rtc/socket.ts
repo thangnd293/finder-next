@@ -2,6 +2,7 @@ import { Socket } from "socket.io-client";
 
 import { socket } from "@/lib/socket";
 import SimplePeer from "simple-peer";
+import { Image } from "@/service/user";
 
 export type CheckRoomMessage = {
   roomId: string;
@@ -20,6 +21,10 @@ export type OfferMessage = {
 
 export type OfferMessageResponse = {
   roomId: string;
+  onwner: {
+    name: string;
+    image: Image;
+  };
 };
 
 export type AnswerMessage = {
