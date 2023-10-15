@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 
 import SimplePeer from "simple-peer";
 import { ISocket, OfferMessageResponse } from "./socket";
+import axios from "axios";
 
 declare interface CallVideoManager {
   on(event: "offer", listener: (payload: OfferMessageResponse) => void): this;
@@ -130,53 +131,37 @@ class CallVideoManager extends EventEmitter {
     this.stream.getTracks().forEach((track) => track.stop());
   }
 
-  createPeer(initiator: boolean, stream: MediaStream): SimplePeer.Instance {
-    // stun.l.google.com:19302
-    // stun1.l.google.com:19302
-    // stun2.l.google.com:19302
-    // stun3.l.google.com:19302
-    // stun4.l.google.com:19302
-    // stun01.sipphone.com
-    // stun.ekiga.net
-    // stun.fwdnet.net
-    // stun.ideasip.com
-    // stun.iptel.org
-    // stun.rixtelecom.se
-    // stun.schlund.de
-    // stunserver.org
-    // stun.softjoys.com
-    // stun.voiparound.com
-    // stun.voipbuster.com
-    // stun.voipstunt.com
-    // stun.voxgratia.org
-    // stun.xten.com
+  async createPeer(
+    initiator: boolean,
+    stream: MediaStream,
+  ): Promise<SimplePeer.Instance> {
     const peer = new SimplePeer({
       initiator: initiator,
       trickle: false,
       stream,
       config: {
         iceServers: [
-          //
-          // STUN:freestun.net:3479
           {
-            urls: "stun:freestun.net:3479",
+            urls: "stun:global.stun.twilio.com:3478",
           },
-
-          // {
-          //   urls: "stun:stun.l.google.com:19302",
-          // },
-          // {
-          //   urls: "turn:stun1.l.google.com:19302",
-          // },
-          // {
-          //   urls: "turn:stun2.l.google.com:19302",
-          // },
-          // {
-          //   urls: "turn:stun3.l.google.com:19302",
-          // },
-          // {
-          //   urls: "turn:stun4.l.google.com:19302",
-          // },
+          {
+            username:
+              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
+            urls: "turn:global.turn.twilio.com:3478?transport=udp",
+            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
+          },
+          {
+            username:
+              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
+            urls: "turn:global.turn.twilio.com:3478?transport=tcp",
+            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
+          },
+          {
+            username:
+              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
+            urls: "turn:global.turn.twilio.com:443?transport=tcp",
+            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
+          },
         ],
       },
     });
