@@ -131,10 +131,90 @@ class CallVideoManager extends EventEmitter {
   }
 
   createPeer(initiator: boolean, stream: MediaStream): SimplePeer.Instance {
+    // stun.l.google.com:19302
+    // stun1.l.google.com:19302
+    // stun2.l.google.com:19302
+    // stun3.l.google.com:19302
+    // stun4.l.google.com:19302
+    // stun01.sipphone.com
+    // stun.ekiga.net
+    // stun.fwdnet.net
+    // stun.ideasip.com
+    // stun.iptel.org
+    // stun.rixtelecom.se
+    // stun.schlund.de
+    // stunserver.org
+    // stun.softjoys.com
+    // stun.voiparound.com
+    // stun.voipbuster.com
+    // stun.voipstunt.com
+    // stun.voxgratia.org
+    // stun.xten.com
     const peer = new SimplePeer({
       initiator: initiator,
       trickle: false,
       stream,
+      config: {
+        iceServers: [
+          {
+            urls: "stun:stun.l.google.com:19302",
+          },
+          {
+            urls: "turn:stun1.l.google.com:19302",
+          },
+          {
+            urls: "turn:stun2.l.google.com:19302",
+          },
+          {
+            urls: "turn:stun3.l.google.com:19302",
+          },
+          {
+            urls: "turn:stun4.l.google.com:19302",
+          },
+          {
+            urls: "turn:stun01.sipphone.com",
+          },
+          {
+            urls: "turn:stun.ekiga.net",
+          },
+          {
+            urls: "turn:stun.fwdnet.net",
+          },
+          {
+            urls: "turn:stun.ideasip.com",
+          },
+          {
+            urls: "turn:stun.iptel.org",
+          },
+          {
+            urls: "turn:stun.rixtelecom.se",
+          },
+          {
+            urls: "turn:stun.schlund.de",
+          },
+          {
+            urls: "turn:stunserver.org",
+          },
+          {
+            urls: "turn:stun.softjoys.com",
+          },
+          {
+            urls: "turn:stun.voiparound.com",
+          },
+          {
+            urls: "turn:stun.voipbuster.com",
+          },
+          {
+            urls: "turn:stun.voipstunt.com",
+          },
+          {
+            urls: "turn:stun.voxgratia.org",
+          },
+          {
+            urls: "turn:stun.xten.com",
+          },
+        ],
+      },
     });
 
     peer._debug = (message) => {
