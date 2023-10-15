@@ -37,10 +37,10 @@ export default function Room() {
           autoPlay
           playsInline
         ></video>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-          <div className="flex items-center gap-2">
-            <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-solid border-primary-500">
-              {image && !isAccept ? (
+        {image && !isAccept ? (
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+            <div className="flex items-center gap-2">
+              <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-solid border-primary-500">
                 <NextImage
                   src={image.url}
                   alt="avatar"
@@ -49,10 +49,10 @@ export default function Room() {
                   fill
                   unoptimized
                 />
-              ) : null}
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
       <div className="fixed bottom-0 right-0 aspect-video w-[24vw] overflow-hidden rounded-md">
         <video
