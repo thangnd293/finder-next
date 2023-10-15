@@ -156,63 +156,27 @@ class CallVideoManager extends EventEmitter {
       stream,
       config: {
         iceServers: [
+          //
+          // STUN:freestun.net:3479
           {
-            urls: "stun:stun.l.google.com:19302",
+            urls: "stun:freestun.net:3479",
           },
-          {
-            urls: "turn:stun1.l.google.com:19302",
-          },
-          {
-            urls: "turn:stun2.l.google.com:19302",
-          },
-          {
-            urls: "turn:stun3.l.google.com:19302",
-          },
-          {
-            urls: "turn:stun4.l.google.com:19302",
-          },
-          {
-            urls: "turn:stun01.sipphone.com",
-          },
-          {
-            urls: "turn:stun.ekiga.net",
-          },
-          {
-            urls: "turn:stun.fwdnet.net",
-          },
-          {
-            urls: "turn:stun.ideasip.com",
-          },
-          {
-            urls: "turn:stun.iptel.org",
-          },
-          {
-            urls: "turn:stun.rixtelecom.se",
-          },
-          {
-            urls: "turn:stun.schlund.de",
-          },
-          {
-            urls: "turn:stunserver.org",
-          },
-          {
-            urls: "turn:stun.softjoys.com",
-          },
-          {
-            urls: "turn:stun.voiparound.com",
-          },
-          {
-            urls: "turn:stun.voipbuster.com",
-          },
-          {
-            urls: "turn:stun.voipstunt.com",
-          },
-          {
-            urls: "turn:stun.voxgratia.org",
-          },
-          {
-            urls: "turn:stun.xten.com",
-          },
+
+          // {
+          //   urls: "stun:stun.l.google.com:19302",
+          // },
+          // {
+          //   urls: "turn:stun1.l.google.com:19302",
+          // },
+          // {
+          //   urls: "turn:stun2.l.google.com:19302",
+          // },
+          // {
+          //   urls: "turn:stun3.l.google.com:19302",
+          // },
+          // {
+          //   urls: "turn:stun4.l.google.com:19302",
+          // },
         ],
       },
     });
