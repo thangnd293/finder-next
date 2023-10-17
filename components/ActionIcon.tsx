@@ -34,7 +34,7 @@ ActionIcon.displayName = "ActionIcon";
 export default ActionIcon;
 
 const actionIconVariants = cva(
-  "inline-flex items-center justify-center cursor-poiter rounded-md flex-shrink-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
+  "inline-flex items-center cursor-pointer justify-center rounded-md flex-shrink-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
   {
     variants: {
       variant: {
