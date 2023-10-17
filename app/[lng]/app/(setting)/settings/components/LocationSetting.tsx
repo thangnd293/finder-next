@@ -85,7 +85,7 @@ const RequestPermissionDialog = (props: RequestPermissionDialogProps) => {
           Location &gt; Allow
         </p>
         <div className="mx-auto w-fit">
-          <Button onClick={() => props.onOpenChange(false)}>Đã hiểu</Button>
+          <Button onClick={() => props.onOpenChange?.(false)}>Đã hiểu</Button>
         </div>
       </div>
     </Modal>

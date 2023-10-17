@@ -1,6 +1,7 @@
 import React from "react";
 import NextImage from "next/image";
 import { Image } from "@/service/user";
+import { DEFAULT_IMAGE } from "@/constant/common";
 
 type NextImageProps = React.ComponentProps<typeof NextImage>;
 interface CustomImageProps
@@ -11,7 +12,7 @@ interface CustomImageProps
 const CustomImage = ({ image, ...others }: CustomImageProps) => {
   return (
     <NextImage
-      src={image?.url || "/images/placeholder-image.jpg"}
+      src={image?.url || DEFAULT_IMAGE}
       placeholder={image?.blur ? "blur" : "empty"}
       blurDataURL={image?.blur}
       {...others}
