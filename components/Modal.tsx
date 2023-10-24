@@ -105,7 +105,7 @@ function ModalFooter({ children }: PropsWithChildren) {
 }
 
 const modalVariants = cva(
-  "relative items-center flex flex-col sm:my-10 w-full gap-4 bg-modal py-8 px-8 sm:rounded-lg shadow",
+  "absolute items-center flex flex-col sm:my-10 w-full gap-4 bg-modal py-8 px-8 sm:rounded-lg shadow",
   {
     variants: {
       size: {
@@ -115,6 +115,7 @@ const modalVariants = cva(
         lg: "w-full h-screen sm:h-auto sm:w-[620px]",
         xl: "w-full h-screen sm:h-auto sm:w-[780px]",
         auto: "w-full h-screen sm:h-auto sm:w-max",
+        full: "w-full !my-0 min-h-screen h-fit !rounded-none left-0 top-0",
       },
     },
 
