@@ -8,6 +8,7 @@ import "@draft-js-plugins/emoji/lib/plugin.css";
 import "draft-js/dist/Draft.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 import { inter } from "@/assets/fonts";
 import { supportedLngs } from "@/lib/i18n/settings";

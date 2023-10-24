@@ -7,3 +7,5 @@ export * from "./facebook-icon";
 export * from "./verified-icon";
 export * from "./site-information-icon";
 export * from "./shield-icon";
+export * from "./premium-icon";
+export * from "./plus-icon";

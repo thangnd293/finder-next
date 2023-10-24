@@ -4,6 +4,7 @@ import Link from "next/link";
 import NavList from "./NavList";
 import { ROUTE } from "@/constant/route";
 import CurrentUserAvatar from "@/components/CurrentUserAvatar";
+import PacketList from "./PacketList";
 
 const Sidebar = () => {
   return (
@@ -19,6 +20,7 @@ const Sidebar = () => {
           <CurrentUserAvatar />
         </Link>
       </header>
+      <PacketList />
       <NavList />
     </>
   );
