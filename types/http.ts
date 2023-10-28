@@ -20,3 +20,8 @@ export interface List<T> {
     totalPage: number;
   };
 }
+
+export interface Data<T> {
+  data: T;
+  success: boolean;
+}
