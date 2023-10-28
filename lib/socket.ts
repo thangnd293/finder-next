@@ -41,7 +41,7 @@ interface ClientToServerEvents {
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "https://3d22-113-161-87-138.ngrok-free.app",
+  "https://finder.sohe.in",
   {
     autoConnect: false,
     auth: {

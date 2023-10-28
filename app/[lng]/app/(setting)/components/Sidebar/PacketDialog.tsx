@@ -3,48 +3,89 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import { cn } from "@/lib/utils";
+import { PayPackagePayload, usePayPackage } from "@/service/helper";
+import { Offer, Package } from "@/service/offer";
+import Image from "next/image";
 import React, { useState } from "react";
 import Cards, { Focused } from "react-credit-cards-2";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
 
-import {
-  BsCalendar,
-  BsCreditCard,
-  BsLock,
-  BsPerson,
-  BsQuestionCircle,
-} from "react-icons/bs";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
+import { BsCalendar, BsCreditCard, BsLock, BsPerson } from "react-icons/bs";
 
 interface FormValues {
   number: string;
+  name: string;
   expiry: string;
   cvc: string;
-  name: string;
-  focus: Focused;
 }
 
-interface PacketDialogProps {
+const validatePaymentForm = yup.object({
+  number: yup.string().required("Please enter your card number"),
+  name: yup.string().required("Please enter your name"),
+  expiry: yup
+    .string()
+    .required("Please enter expiry date")
+    .matches(/\b\d{2}\/(?:\d{2}|\d{4})\b/, "Is not in correct format"),
+  cvc: yup.string().length(3, "CVC không hợp lệ").required("Please enter CVC"),
+});
+
+interface PacketDialogProps extends Offer {
   onClose: () => void;
 }
-const PacketDialog = ({ onClose }: PacketDialogProps) => {
-  const [state, setState] = useState<FormValues>({
-    number: "",
-    expiry: "",
-    cvc: "",
-    name: "",
-    focus: "",
+const PacketDialog = ({
+  _id,
+  type,
+  iconUrl,
+  merchandising,
+  packages,
+  primaryColor,
+  onClose,
+}: PacketDialogProps) => {
+  const [selectedPackage, setSelectedPackage] = useState<Package>(packages[0]);
+
+  const [focused, setFocused] = useState<Focused>("");
+  const paymentFormResolver = useYupValidationResolver(validatePaymentForm);
+
+  const { control, watch, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      number: "4242424242424242",
+      name: "Giang Nguyen",
+      expiry: "10/2050",
+      cvc: "123",
+    },
+    resolver: paymentFormResolver,
   });
 
-  const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = evt.target;
-
-    setState((prev) => ({ ...prev, [name]: value }));
-  };
+  const payPackage = usePayPackage();
 
   const handleInputFocus = (
     evt: React.FocusEvent<HTMLInputElement, Element>,
   ) => {
-    setState((prev) => ({ ...prev, focus: evt.target.name as Focused }));
+    setFocused(evt.target.name as Focused);
   };
+
+  const onSubmit = ({ cvc, expiry, number, name }: FormValues) => {
+    const payload: PayPackagePayload = {
+      cardNumber: {
+        cvc: cvc,
+        exp_month: +expiry.split("/")[0],
+        number: number,
+        exp_year: +expiry.split("/")[1],
+      },
+      packageId: selectedPackage._id,
+      holderName: name,
+      offeringId: _id,
+      postalCode: "10000",
+    };
+    payPackage.mutate(payload);
+  };
+
+  const number = watch("number");
+  const name = watch("name");
+  const expiry = watch("expiry");
+  const cvc = watch("cvc");
 
   return (
     <Modal
@@ -53,135 +94,208 @@ const PacketDialog = ({ onClose }: PacketDialogProps) => {
       closeOnClickOutside={false}
       onOpenChange={onClose}
     >
-      <header className="flex items-center justify-center gap-2 text-3xl font-semibold text-yellow-500">
-        <PremiumIcon width={30} /> Premium
+      <header
+        className="flex items-center justify-center gap-2 text-3xl font-semibold"
+        style={{
+          color: primaryColor,
+        }}
+      >
+        <Image width={30} height={30} src={iconUrl} alt={type} />
+        {type}
       </header>
 
       <div className="w-full max-w-4xl rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-8">
-        <h3 className="text-lg font-semibold">Mở khóa Finder Premium</h3>
+        <h3 className="text-lg font-semibold">Mở khóa {type}</h3>
 
         <div className="mt-4 flex gap-4">
-          <div className="flex flex-1 flex-col justify-between text-sm font-semibold">
+          <div className="flex flex-1 flex-col justify-between space-y-20 text-sm font-semibold">
             <div className="space-y-2.5">
-              <p>See who&apos;s swiped right on you in your Beeline</p>
-              <p>
-                Focus on what you&apos;re really looking for with Advanced
-                Filters
-              </p>
-              <p>
-                You also get all Boost features like Rematch, Extend, Spotlight
-                and more.
-              </p>
+              {Object.values(merchandising).map((item, index) => (
+                <p key={index} className="flex items-center gap-2">
+                  <Image
+                    width={30}
+                    height={30}
+                    src={item.iconUrl}
+                    alt={item.text}
+                  />
+
+                  <span>{item.text}</span>
+                </p>
+              ))}
             </div>
 
-            <p>You will be charged 889,000₫ every 6 months. Cancel anytime</p>
+            <p>
+              Bạn sẽ thanh toán{" "}
+              {new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: selectedPackage.currency,
+              }).format(selectedPackage.price)}{" "}
+              cứ sau 12 tháng. Tuy nhiên bạn có thể hủy bất cứ lúc nào
+            </p>
           </div>
 
           <div className="flex-1 space-y-2">
-            {Array.from({ length: 5 }).map((_, index) => (
+            {packages.map((item) => (
               <button
-                key={index}
+                key={item._id}
                 className={cn(
                   "flex w-full items-center justify-between rounded-md border bg-background px-3 py-2 font-semibold",
                   {
-                    "border-2 border-black": true,
+                    "border-2 border-black": item._id === selectedPackage._id,
                   },
                 )}
+                onClick={() => setSelectedPackage(item)}
               >
                 <div className="flex items-center gap-2">
-                  <PremiumIcon width={46} />6 months
+                  <PremiumIcon width={46} />
+                  {item.refreshInterval} tháng
                 </div>
 
-                <span>889,000₫</span>
+                <span>
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: item.currency,
+                  }).format(item.price)}
+                </span>
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-4xl space-y-6 rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-8">
+      <form
+        className="w-full max-w-4xl space-y-6 rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-8"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <h3 className="text-center text-lg font-semibold">
-          Enter your card details
+          Nhập thẻ thanh toán của bạn
         </h3>
 
         <div className="flex gap-4">
           <div className="flex-1">
             <Cards
-              number={state.number}
-              expiry={state.expiry}
-              cvc={state.cvc}
-              name={state.name}
-              focused={state.focus}
+              number={number}
+              expiry={expiry}
+              cvc={cvc}
+              name={name}
+              focused={focused}
+              locale={{ valid: "Giá trị tới" }}
             />
           </div>
-          <form className="flex-1 space-y-6">
-            <Input
+          <div className="flex-1 space-y-6">
+            <Controller
+              control={control}
               name="name"
-              label="Cardholder Name"
-              placeholder="Nhập tên thẻ của bạn"
-              leftIcon={<BsPerson />}
-              value={state.name}
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <Input
+                  name="name"
+                  label="Tên chủ thẻ"
+                  placeholder="Nhập tên thẻ của bạn"
+                  leftIcon={<BsPerson />}
+                  value={value}
+                  error={error?.message}
+                  onChange={onChange}
+                  onFocus={handleInputFocus}
+                />
+              )}
             />
-            <Input
-              type="number"
+            <Controller
+              control={control}
               name="number"
-              label="Card Number"
-              placeholder="Nhập số thẻ của bạn"
-              leftIcon={<BsCreditCard />}
-              value={state.number}
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <Input
+                  type="number"
+                  name="number"
+                  label="Số thẻ"
+                  placeholder="Nhập số thẻ của bạn"
+                  leftIcon={<BsCreditCard />}
+                  value={value}
+                  error={error?.message}
+                  onChange={onChange}
+                  onFocus={handleInputFocus}
+                />
+              )}
             />
 
             <div className="flex gap-3">
-              <Input
-                className="flex-1"
+              <Controller
+                control={control}
                 name="expiry"
-                label="Expiry"
-                placeholder="MM/YY"
-                leftIcon={<BsCalendar />}
-                value={state.expiry}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <Input
+                    className="flex-1"
+                    name="expiry"
+                    label="Ngày hết hạn"
+                    placeholder="MM/YY"
+                    leftIcon={<BsCalendar />}
+                    value={value}
+                    error={error?.message}
+                    onChange={onChange}
+                    onFocus={handleInputFocus}
+                  />
+                )}
               />
-              <Input
-                className="flex-1"
-                type="number"
+
+              <Controller
+                control={control}
                 name="cvc"
-                label="CVC"
-                placeholder="CVC"
-                leftIcon={<BsLock />}
-                rightIcon={<BsQuestionCircle />}
-                value={state.cvc}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <Input
+                    className="flex-1"
+                    type="number"
+                    name="cvc"
+                    label="CVC"
+                    placeholder="CVC"
+                    leftIcon={<BsLock />}
+                    error={error?.message}
+                    value={value}
+                    onChange={onChange}
+                    onFocus={handleInputFocus}
+                  />
+                )}
               />
             </div>
             <div className="space-y-2 rounded-xl bg-yellow-100 p-4 text-sm">
-              <h4 className="font-semibold">How to find the CVC ?</h4>
+              <h4 className="font-semibold">Không tìm được CVC ?</h4>
               <p>
-                The CVC is a 3-digit number on the back of your card. It appears
-                after and to the right of your card number.
+                CVC là số có 3 chữ số ở mặt sau thẻ của bạn. Nó xuất hiện ở mặt
+                sau và bên phải số thẻ của bạn.
               </p>
             </div>
-          </form>
+          </div>
         </div>
 
         <p className="rounded-xl border bg-yellow-100 p-4 font-semibold ">
-          Recurring Billing. Your subscription will automatically renew and your
-          payment method will be charged for the same period and price unless
-          you cancel at least 24 hours before the period ends. For instructions
-          on how to cancel, visit our FAQs page. By tapping on Accept and Pay,
-          you agree to save your payment details for future purchases, to
-          Recurring Billing and to Finder&apos;s Terms of Service.
+          Thanh toán định kỳ. Đăng ký của bạn sẽ tự động gia hạn và phương thức
+          thanh toán sẽ được tính phí trong cùng thời gian và mức giá trừ khi
+          bạn hủy ít nhất 24 giờ trước khi thời gian kết thúc. Để được hướng dẫn
+          về cách hủy, hãy truy cập trang Câu hỏi thường gặp của chúng tôi. Bằng
+          cách nhấn vào Chấp nhận và thanh toán, bạn đồng ý lưu chi tiết thanh
+          toán của mình cho các lần mua hàng trong tương lai, để Thanh toán định
+          kỳ và Điều khoản dịch vụ của Finder.
         </p>
 
-        <Button className="mx-auto flex w-fit" variant="accent">
-          Accept and Pay
+        <Button
+          className="mx-auto flex w-fit"
+          variant="accent"
+          type="submit"
+          loading={payPackage.isLoading}
+        >
+          Thanh toán
         </Button>
-      </div>
+      </form>
     </Modal>
   );
 };

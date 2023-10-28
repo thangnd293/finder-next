@@ -1,43 +1,50 @@
 "use client";
 
-import { PlusIcon, PremiumIcon } from "@/assets/icons";
+import ErrorView from "@/components/ErrorView";
+import LoadingView from "@/components/LoadingView";
+import { cn } from "@/lib/utils";
+import { Offer, useOffers } from "@/service/offer";
+import Image from "next/image";
 import { useState } from "react";
 import PacketDialog from "./PacketDialog";
 
 const PacketList = () => {
-  const [activePacket, setActivePacket] = useState("");
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+  const { data: offers, isLoading, isError } = useOffers();
+
+  if (isLoading) return <LoadingView variant="spinner" size={34} />;
+
+  if (isError) return <ErrorView />;
 
   return (
     <>
       <div className="space-y-3 p-4">
-        <button
-          className="w-full cursor-pointer space-y-1 rounded-md from-green-200 to-green-300 py-2 text-center md:bg-gradient-to-r md:px-8"
-          onClick={() => setActivePacket("plus")}
-        >
-          <h1 className="flex items-center justify-center gap-2 font-semibold">
-            <PlusIcon className="text-green-500" width={30} />{" "}
-            <span className="hidden md:block">Finder Plus</span>
-          </h1>
-          <p className="hidden text-sm md:block">
-            Mở khóa tất cả các tính năng bản Pro của ứng dụng
-          </p>
-        </button>
-
-        <button
-          className="cursor-pointer space-y-1 rounded-md bg-gradient-to-r from-yellow-200 to-yellow-300 px-8 py-2 text-center"
-          onClick={() => setActivePacket("premium")}
-        >
-          <h1 className="flex items-center justify-center gap-2 font-semibold">
-            <PremiumIcon className="text-yellow-500" width={30} /> Finder
-            Premium
-          </h1>
-          <p className="text-sm">
-            Mở khóa tất cả các tính năng bản Pro của ứng dụng
-          </p>
-        </button>
+        {offers.map((offer) => (
+          <button
+            key={offer._id}
+            className={cn(
+              "w-full cursor-pointer space-y-1 rounded-md py-2 text-center md:px-8",
+              offer.background,
+            )}
+            onClick={() => setActiveOffer(offer)}
+          >
+            <h1 className="flex items-center justify-center gap-2 font-semibold">
+              <Image
+                width={30}
+                height={30}
+                src={offer.iconUrl}
+                alt={offer.type}
+              />
+              <span className="hidden md:block">{offer.type}</span>
+            </h1>
+            <p className="hidden text-sm md:block">{offer.text}</p>
+          </button>
+        ))}
       </div>
 
-      {activePacket && <PacketDialog onClose={() => setActivePacket("")} />}
+      {activeOffer && (
+        <PacketDialog {...activeOffer} onClose={() => setActiveOffer(null)} />
+      )}
     </>
   );
 };
