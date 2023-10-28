@@ -17,6 +17,11 @@ const ScheduleEditor = ({
 }: ScheduleEditorProps) => {
   const [isShowDetailDialog, setIsShowDetailDialog] = useState(false);
 
+  const onCreateDone = () => {
+    setIsShowDetailDialog(false);
+    onCloseEditor();
+  };
+
   return (
     <>
       <div className="flex h-screen w-full">
@@ -35,6 +40,7 @@ const ScheduleEditor = ({
         <CreateScheduleDialog
           selectedPlaces={selectedPlaces}
           onClose={() => setIsShowDetailDialog(false)}
+          onCreateDone={onCreateDone}
         />
       )}
     </>

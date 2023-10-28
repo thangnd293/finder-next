@@ -2,12 +2,12 @@
 
 import { NewMatchedNotification, socket } from "@/lib/socket";
 
+import { useInvalidateMatchRequest } from "@/service/matchRequest";
 import {
   NotificationStatus,
   NotificationType,
   useInvalidateAllNotifications,
-  useInvalidateNotificationCount,
-  useUpdateStatus,
+  useUpdateStatus
 } from "@/service/notification";
 import { useCurrentUserID } from "@/service/user";
 import dynamic from "next/dynamic";
@@ -17,7 +17,6 @@ import Button from "../Button";
 import CustomImage from "../CustomImage";
 import Modal from "../Modal";
 import congratulations from "./congratulations.json";
-import { useInvalidateMatchRequest } from "@/service/matchRequest";
 
 const Lottie = dynamic(() => import("lottie-react"));
 
@@ -28,7 +27,6 @@ const NotifyNewMatched = () => {
   const { currentUserID } = useCurrentUserID();
   const updateNotificationStatus = useUpdateStatus();
   const invalidateMatchRequest = useInvalidateMatchRequest();
-  const invalidateNotificationCount = useInvalidateNotificationCount();
   const invalidateAllNotifications = useInvalidateAllNotifications();
 
   const receiver = newMatched?.conversation?.members.find(
@@ -53,10 +51,7 @@ const NotifyNewMatched = () => {
         notification: {
           status: NotificationStatus.Seen,
         },
-      },
-      {
-        onSuccess: invalidateNotificationCount,
-      },
+      }
     );
 
     setNewMatched(null);

@@ -3,10 +3,15 @@ import { useCurrentUserID } from "@/service/user";
 import { getCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
 import useMessageStore from "./use-message-store";
+import { useInvalidateScheduleNotifications } from "@/service/notification/hooks/use-schedule-notification";
+import { useInvalidateScheduleNotificationCount } from "@/service/notification/hooks/use-schedule-notification-count";
 
 const useSocket = (active: boolean) => {
   const { currentUserID } = useCurrentUserID();
   const { addMessage, upsertMessage, markMessagesSeen } = useMessageStore();
+  const invalidateScheduleNotifications = useInvalidateScheduleNotifications();
+  const invalidateScheduleNotificationCount =
+    useInvalidateScheduleNotificationCount();
 
   const [isConnected, setIsConnected] = useState(false);
 
@@ -57,9 +62,14 @@ const useSocket = (active: boolean) => {
     });
 
     socket.on("seenMessage", (data) => {
-      console.log("seenMessage", data);
-
       markMessagesSeen(data);
+    });
+
+    socket.on("notiSchedule", (data) => {
+      console.log("notiSchedule", data);
+
+      invalidateScheduleNotifications();
+      invalidateScheduleNotificationCount();
     });
 
     return () => {
@@ -67,7 +77,13 @@ const useSocket = (active: boolean) => {
       socket.off("seenMessage");
       socket.off("receivedMessage");
     };
-  }, [isConnected, addMessage, markMessagesSeen]);
+  }, [
+    isConnected,
+    addMessage,
+    markMessagesSeen,
+    invalidateScheduleNotifications,
+    invalidateScheduleNotificationCount,
+  ]);
 };
 
 export default useSocket;

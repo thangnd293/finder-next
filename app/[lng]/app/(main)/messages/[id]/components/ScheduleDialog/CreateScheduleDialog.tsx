@@ -11,6 +11,9 @@ import { useConversationByID } from "@/service/conversation";
 import { useParams } from "next/navigation";
 import { useCreateSchedule } from "@/service/schedule/hooks";
 import PlaceItem from "./PlaceItem";
+import * as yup from "yup";
+import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
+import { AiOutlineClockCircle } from "react-icons/ai";
 
 interface FormValues {
   date: Date;
@@ -20,22 +23,34 @@ interface FormValues {
   hidePlace: boolean;
 }
 
+const validateForm = yup.object({
+  description: yup.string().required("Vui lòng nhập lời nhắn"),
+});
+
 interface CreateScheduleDialogProps {
   selectedPlaces: Place[];
   onClose: () => void;
+  onCreateDone?: () => void;
 }
 
 const CreateScheduleDialog = ({
   selectedPlaces,
   onClose,
+  onCreateDone,
 }: CreateScheduleDialogProps) => {
   const params = useParams();
 
   const { conversation } = useConversationByID(params?.["id"] as string);
   const createSchedule = useCreateSchedule();
+  const formResolver = useYupValidationResolver(validateForm);
 
   const currentDate = new Date();
-  const { handleSubmit, control, register } = useForm<FormValues>({
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors },
+  } = useForm<FormValues>({
     defaultValues: {
       date: currentDate,
       hour: currentDate.getHours().toString(),
@@ -43,6 +58,7 @@ const CreateScheduleDialog = ({
       description: "",
       hidePlace: false,
     },
+    resolver: formResolver,
   });
 
   const onSubmit = ({
@@ -66,32 +82,25 @@ const CreateScheduleDialog = ({
     };
 
     createSchedule.mutate(payload, {
-      onSuccess: console.log,
+      onSuccess: onCreateDone,
       onError: console.log,
     });
   };
 
+  const handleClose = () => {
+    if (createSchedule.isLoading) return;
+
+    onClose();
+  };
+
   return (
-    <Modal className="!overflow-hidden" onOpenChange={onClose}>
+    <Modal className="!overflow-hidden" onOpenChange={handleClose}>
       <form className="w-full space-y-2" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="text-center text-lg font-semibold">Tạo lời mời</h2>
 
         <div>
           <Label>Thời gian</Label>
           <div className="flex gap-2">
-            <Controller
-              name={"date"}
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  className="w-40"
-                  placeholder="Chọn ngày hẹn"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-
             <div className="flex gap-1">
               <Controller
                 name="hour"
@@ -103,6 +112,7 @@ const CreateScheduleDialog = ({
                       label: `${i < 10 ? `0${i}` : i}`,
                       value: `${i}`,
                     }))}
+                    leftIcon={<AiOutlineClockCircle />}
                     value={value}
                     onChange={onChange}
                   />
@@ -119,18 +129,36 @@ const CreateScheduleDialog = ({
                       label: `${i < 10 ? `0${i}` : i}`,
                       value: `${i}`,
                     }))}
+                    leftIcon={<AiOutlineClockCircle />}
                     value={value}
                     onChange={onChange}
                   />
                 )}
               />
             </div>
+            <Controller
+              name={"date"}
+              control={control}
+              render={({
+                field: { onChange, value },
+                formState: { errors },
+              }) => (
+                <DatePicker
+                  className="w-40"
+                  placeholder="Chọn ngày hẹn"
+                  error={errors.date?.message}
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            />
           </div>
         </div>
 
         <Textarea
           label="Lời nhắn"
           placeholder="Ví dụ: Bồ chỉ cần ngồi sau, cả thế giới để tôi lo :>"
+          error={errors.description?.message}
           {...register("description")}
         />
 

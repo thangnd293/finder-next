@@ -16,7 +16,7 @@ export default function SidebarHeader() {
           <MagnifyingGlassIcon width={16} height={16} />
         </ActionLink>
 
-        <ActionLink href={ROUTE.DATING}>
+        <ActionLink href={ROUTE.DATING_INVITATION}>
           <SewingPinIcon width={16} height={16} />
         </ActionLink>
       </div>
