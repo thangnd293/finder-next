@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        "3xl": "1800px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -121,6 +124,9 @@ module.exports = {
       },
       aspectRatio: {
         card: "3 / 2",
+      },
+      boxShadow: {
+        card: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
       },
     },
   },

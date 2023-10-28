@@ -28,7 +28,12 @@ const Conversation = ({ _id, user, lastMessage }: ConversationProps) => {
     const subject = getSubject();
 
     if (lastMessage.type === MessageType.Text) {
-      return `${subject}: ${lastMessage.text}`;
+      return `${subject}${isLastMessageFromMe ? ": " : " "}${lastMessage.text}`;
+    }
+
+    if (lastMessage.type === MessageType.Call) {
+      if (isLastMessageFromMe) return `Bạn đã gọi cho ${user.name}`;
+      return `${user.name} đã gọi cho bạn`;
     }
 
     if (lastMessage.status === MessageStatus.SENDING) {

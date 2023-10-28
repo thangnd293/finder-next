@@ -4,8 +4,7 @@ import {
   NotificationStatus,
   NotificationType,
   useInvalidateAllNotifications,
-  useInvalidateNotificationCount,
-  useUpdateStatus,
+  useUpdateStatus
 } from "@/service/notification";
 import Link from "next/link";
 import Card from "./Card";
@@ -22,7 +21,6 @@ const MatchedCard = ({
   isNew,
 }: MatchedCardProps) => {
   const updateStatus = useUpdateStatus();
-  const invalidateNotificationCount = useInvalidateNotificationCount();
   const invalidateAllNotifications = useInvalidateAllNotifications();
 
   const handleClick = () => {
@@ -37,7 +35,6 @@ const MatchedCard = ({
       },
       {
         onSuccess: () => {
-          invalidateNotificationCount();
           invalidateAllNotifications(NotificationType.Matched);
         },
       },

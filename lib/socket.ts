@@ -1,5 +1,6 @@
 import { Conversation } from "@/service/conversation";
 import { Message } from "@/service/message";
+import { Notification } from "@/service/notification";
 import { User } from "@/service/user";
 import { getCookie } from "@/utils/cookie";
 import { Socket, io } from "socket.io-client";
@@ -26,6 +27,7 @@ interface ServerToClientEvents {
   newMatched: (payload: NewMatchedNotification) => void;
   newMatchRequest: (user: User) => void;
   receivedMessage: (message: Message) => void;
+  notiSchedule: (notification: Notification) => void;
 }
 
 interface ClientToServerEvents {
@@ -39,7 +41,7 @@ interface ClientToServerEvents {
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "https://finder.sohe.in",
+  "https://3d22-113-161-87-138.ngrok-free.app",
   {
     autoConnect: false,
     auth: {

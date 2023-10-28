@@ -23,6 +23,7 @@ interface ComboboxProps {
   error?: string;
   value?: string;
   search?: string;
+  leftIcon?: React.ReactNode;
   onSearch?: (value: string) => void;
   onChange?: (value: string) => void;
 }
@@ -37,6 +38,7 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       onChange,
       search,
       onSearch,
+      leftIcon,
       ...others
     },
     ref,
@@ -106,6 +108,7 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                 rightIcon={<CaretSortIcon />}
                 ref={ref}
                 className={inputClassName}
+                leftIcon={leftIcon}
                 {...others}
               />
             </HeadlessCombobox.Button>

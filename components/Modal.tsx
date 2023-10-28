@@ -18,6 +18,7 @@ interface ModalProps
   withCloseButton?: boolean;
   hasAnimate?: boolean;
   children: React.ReactNode;
+  unMoutOnClose?: boolean;
 }
 const Modal = ({
   className,
@@ -31,8 +32,11 @@ const Modal = ({
   closeOnEscape = true,
   withCloseButton = true,
   hasAnimate = true,
+  unMoutOnClose = true,
   ...others
 }: ModalProps) => {
+  if (!open && unMoutOnClose) return null;
+
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange} modal {...others}>
       <RadixDialog.Portal>
@@ -98,9 +102,14 @@ const Modal = ({
 export default Modal;
 Modal.Footer = ModalFooter;
 
-function ModalFooter({ children }: PropsWithChildren) {
+function ModalFooter({
+  className,
+  children,
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="mt-4 flex w-full justify-end space-x-2">{children}</div>
+    <div className={cn("mt-4 flex w-full justify-end space-x-2", className)}>
+      {children}
+    </div>
   );
 }
 

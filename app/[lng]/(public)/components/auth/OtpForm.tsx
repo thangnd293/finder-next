@@ -111,7 +111,9 @@ const OtpForm = ({
         )}
       </p>
 
-      <Button type="submit">Xác thực</Button>
+      <Button type="submit" loading={signIn.isLoading}>
+        Xác thực
+      </Button>
     </form>
   );
 };

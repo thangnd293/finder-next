@@ -1,5 +1,6 @@
 import axiosInstance from "@/lib/axios";
-import { NotificationStatus, NotificationType } from "./type";
+import { List } from "@/types/http";
+import { Notification, NotificationStatus, NotificationType } from "./type";
 
 export interface UpdateStatusPayload {
   id: string;
@@ -15,6 +16,10 @@ export class NotificationService {
     getAllNotification: (type: NotificationType) =>
       `${NotificationService.prefix}/?page=1&size=100&type=${type}`,
     getNotificationCount: `${NotificationService.prefix}/count`,
+    getScheduleNotification: (page: number) =>
+      `${NotificationService.prefix}/schedule?page=${page}&size=10`,
+    getScheduleNotificationCount: `${NotificationService.prefix}/count-schedule`,
+    receiveNotifications: `${NotificationService.prefix}/schedule`,
   };
 
   static getAllNotifications = async (type: NotificationType) => {
@@ -41,6 +46,28 @@ export class NotificationService {
         totalCount: number;
       };
     }>(this.urls.getNotificationCount);
+    return data;
+  };
+
+  static getScheduleNotification = async (page: number) => {
+    const { data } = await axiosInstance.get<List<Notification>>(
+      this.urls.getScheduleNotification(page),
+    );
+    return data;
+  };
+
+  static getScheduleNotificationCount = async () => {
+    const { data } = await axiosInstance.get<{
+      data: {
+        totalCount: number;
+      };
+    }>(this.urls.getScheduleNotificationCount);
+    return data;
+  };
+
+  static receiveNotifications = async () => {
+    const { data } = await axiosInstance.patch(this.urls.receiveNotifications);
+
     return data;
   };
 }

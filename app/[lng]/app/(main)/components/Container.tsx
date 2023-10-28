@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyView from "@/components/EmptyView";
 import Loader from "@/components/Loader";
 import { CardBox } from "@/components/UserCard";
 import useCallbackDebounce from "@/hooks/use-callback-debounce";
@@ -125,7 +126,7 @@ export const Container = ({ children }: ContainerProps) => {
   if (isFetching && currentIndex === recommendedUsers.length)
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Loader size={128} variant="water-surface" />
+        <Loader />
       </div>
     );
 
@@ -148,7 +149,7 @@ export const Container = ({ children }: ContainerProps) => {
   }
 
   if (!isFetching && !visibleUsers.length) {
-    return <div>Het roi</div>;
+    return <EmptyView message="Hết rùi :(" />;
   }
 
   return (

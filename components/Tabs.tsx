@@ -29,7 +29,7 @@ const TabsTrigger = React.forwardRef<
   <RadixTab.Trigger
     ref={ref}
     className={cn(
-      "-mb-[2px] inline-flex items-center justify-center whitespace-nowrap border-b-[3px] border-transparent px-2 py-3 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-primary data-[state=active]:text-foreground",
+      "[state=active]:font-medium -mb-[2px] inline-flex items-center justify-center whitespace-nowrap border-b-[3px] border-transparent px-2 py-3 text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-primary data-[state=active]:text-foreground",
       className,
     )}
     {...props}

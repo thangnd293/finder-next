@@ -1,8 +1,9 @@
 import { ROUTE } from "@/constant/route";
-import { MagnifyingGlassIcon, SewingPinIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ActionLink from "./ActionLink";
 import UserInfo from "./UserInfo";
+import ScheduleNotification from "./ScheduleNotification";
 
 export default function SidebarHeader() {
   return (
@@ -15,10 +16,7 @@ export default function SidebarHeader() {
         <ActionLink href={ROUTE.EXPLORE}>
           <MagnifyingGlassIcon width={16} height={16} />
         </ActionLink>
-
-        <ActionLink href={ROUTE.DATING}>
-          <SewingPinIcon width={16} height={16} />
-        </ActionLink>
+        <ScheduleNotification />
       </div>
     </header>
   );

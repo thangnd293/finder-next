@@ -16,7 +16,7 @@ const nextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: `https://finder.sohe.in/api/v1/:path*`,
+        destination: `https://3d22-113-161-87-138.ngrok-free.app/api/v1/:path*`,
       },
     ];
   },
