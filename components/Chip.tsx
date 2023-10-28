@@ -13,6 +13,7 @@ const Chip = ({ className, icon, label, ...others }: ChipProps) => {
         "flex items-center gap-1 rounded-full border bg-background px-3 py-2 text-sm font-medium shadow",
         className,
       )}
+      type="button"
       {...others}
     >
       {icon}
