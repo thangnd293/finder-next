@@ -75,7 +75,7 @@ const InvitationList = () => {
 
   return (
     <ScrollArea className="flex-1">
-      <div className="absolute inset-0 mt-8 p-11">
+      <div className="mt-8 p-11">
         <ActionIcon className="w-12 rounded-full border-2" onClick={open}>
           <FilterIcon />
         </ActionIcon>
@@ -97,7 +97,7 @@ const InvitationList = () => {
           </div>
         )}
 
-        {!schedules.pages.length && <EmptyView />}
+        {!schedules.pages.length && <EmptyView className="min-h-[50vh]" />}
       </div>
 
       {isOpen && (
