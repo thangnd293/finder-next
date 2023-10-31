@@ -85,7 +85,7 @@ const LocationPickerDialog = ({
 
   return (
     <Modal
-      className="!inset-0 !h-[calc(100vh-64px)]"
+      className="!h-[calc(100vh-64px)]"
       size="xl"
       withCloseButton={false}
       withOverlay={false}

@@ -1,12 +1,11 @@
+import { ServerService } from "@/service/server";
 import type { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import SpotifyProvider from "next-auth/providers/spotify";
 import CredentialsProvider from "next-auth/providers/credentials";
-import InstagramProvider from "next-auth/providers/instagram";
 import FacebookProvider from "next-auth/providers/facebook";
-import { customFetch } from "@/utils/http";
-import { ServerService } from "@/service/server";
+import GoogleProvider from "next-auth/providers/google";
+import InstagramProvider from "next-auth/providers/instagram";
+import SpotifyProvider from "next-auth/providers/spotify";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {

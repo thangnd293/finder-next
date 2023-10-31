@@ -20,7 +20,7 @@ const Sidebar = () => {
           <CurrentUserAvatar />
         </Link>
       </header>
-      <PacketList />
+      {/* <PacketList /> */}
       <NavList />
     </>
   );

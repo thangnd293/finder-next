@@ -17,7 +17,7 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
   const { id } = useParams() as {
     id: string;
   };
-  const { conversation } = useConversationByID(id);
+  const { data: conversation } = useConversationByID(id);
 
   const user = conversation?.user;
 

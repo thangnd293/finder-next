@@ -33,7 +33,6 @@ const ScheduleNotification = () => {
   const { data } = useScheduleNotificationCount();
 
   const count = data?.data.totalCount ?? 0;
-  console.log("data", data, count);
 
   const displayCount = count > 9 ? "9+" : count;
 

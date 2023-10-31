@@ -40,7 +40,7 @@ const CreateScheduleDialog = ({
 }: CreateScheduleDialogProps) => {
   const params = useParams();
 
-  const { conversation } = useConversationByID(params?.["id"] as string);
+  const { data: conversation } = useConversationByID(params?.["id"] as string);
   const createSchedule = useCreateSchedule();
   const formResolver = useYupValidationResolver(validateForm);
 

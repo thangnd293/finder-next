@@ -1,38 +1,67 @@
 import Slider from "./Slider";
 
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { cn } from "@/lib/utils";
 import { type Image, type User } from "@/service/user";
+import { getTagIcon } from "@/utils/tag";
+import { BsSpotify } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
+import { PiRuler } from "react-icons/pi";
+import Avatar from "../Avatar";
 import SlideCard from "./SlideCard";
 import SlideContentWithRightImage from "./SlideContentWithRightImage";
 import SlideImages from "./SlideImages";
-import { getTagIcon } from "@/utils/tag";
-import { PiRuler } from "react-icons/pi";
-import Avatar from "../Avatar";
-import { BsSpotify } from "react-icons/bs";
+import { MobileUserCard } from "./MobileUserCard";
+import { GoHome, GoLocation } from "react-icons/go";
 
-interface UserCardProps extends User {
+export interface UserCardProps {
   isShow?: boolean;
   isFirst?: boolean;
+  user: User;
+  canBack?: boolean;
+  onBack?: () => void;
+  onLike?: () => void;
+  onUnLike?: () => void;
+  onReportDone?: () => void;
 }
 
 export const UserCard = ({
   isShow,
   isFirst,
-  name,
-  age,
-  images,
-  bio,
-  tags,
-  height,
-  setting,
-  spotifyInfo,
+  user,
+  ...others
 }: UserCardProps) => {
+  const isMobile = useIsMobile();
+
+  const {
+    name,
+    age,
+    images,
+    bio,
+    tags,
+    height,
+    setting,
+    spotifyInfo,
+    address,
+    liveAt,
+    homeTown,
+  } = user;
+
   const { firstImage, lastImage, imageSlides } = getImageData(images);
+
+  if (isMobile)
+    return (
+      <MobileUserCard
+        isShow={isShow}
+        isFirst={isFirst}
+        user={user}
+        {...others}
+      />
+    );
 
   return (
     <Slider
-      className={cn("absolute flex h-full w-full", {
+      className={cn("absolute flex h-full w-full p-1.5 md:p-0", {
         "z-10": isShow,
       })}
       style={{
@@ -84,13 +113,27 @@ export const UserCard = ({
       <SlideContentWithRightImage image={lastImage}>
         <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-8 text-center">
           <p className="text-2xl font-extrabold text-gray-700">
-            {name}&apos;s location
+            Vị trí của {name}
           </p>
 
           <p>
             <MdLocationOn className="mb-1 inline-block" size={18} />
-            Thành phố Hồ Chí Minh, Việt Nam
+            {address?.fullAddress ?? "Thành phố Hồ Chí Minh, Việt Nam"}
           </p>
+
+          {homeTown.province && (
+            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+              {<GoHome />}
+              <span>Đến từ {homeTown.province}</span>
+            </span>
+          )}
+
+          {liveAt.province && (
+            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+              {<GoLocation />}
+              <span>Sống tại {liveAt.province}</span>
+            </span>
+          )}
 
           {spotifyInfo && (
             <div className="space-y-2">
@@ -119,11 +162,13 @@ export const UserCard = ({
 
 export * from "./CardBox";
 
-const getImageData = (images: Image[]) => {
+export const getImageData = (images: Image[]) => {
   const _images = [...images];
 
   const firstImage = _images.shift();
   const lastImage = _images.length % 2 === 0 ? firstImage : _images.pop();
+
+  const restImages = _images.splice(1);
 
   const imageSlides: [Image, Image][] = _images.reduce(
     (acc, _, i, arr) => {
@@ -140,5 +185,6 @@ const getImageData = (images: Image[]) => {
     firstImage,
     lastImage,
     imageSlides,
+    restImages,
   };
 };

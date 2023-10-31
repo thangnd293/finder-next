@@ -1,5 +1,5 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
-import React, { PropsWithChildren } from "react";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 import { Cross2Icon } from "@radix-ui/react-icons";

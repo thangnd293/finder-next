@@ -2,6 +2,7 @@
 
 import Tooltip from "@/components/Tooltip";
 import { ROUTE } from "@/constant/route";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types/common";
 import { eraseCookie } from "@/utils/cookie";
@@ -13,12 +14,11 @@ import {
   BsFillGearFill,
   BsFillPersonFill,
 } from "react-icons/bs";
-import { useMediaQuery } from "usehooks-ts";
 
 const NavList = () => {
   const pathname = usePathname();
 
-  const isMobileView = useMediaQuery("(max-width: 768px)");
+  const isMobileView = useIsMobile();
 
   return (
     <nav className="space-y-3 p-4">

@@ -19,7 +19,7 @@ const CurrentUserCard = () => {
             <Spinner />
           ) : (
             <>
-              <UserCard isShow {...currentUser} />
+              <UserCard isShow user={currentUser} />
               <Button
                 className="absolute bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full"
                 onClick={() => router.push("/app/profile/edit")}

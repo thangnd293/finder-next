@@ -4,18 +4,27 @@ import { useState } from "react";
 import { BsFlag } from "react-icons/bs";
 import { User } from "@/service/user";
 import ReportDialog from "@/components/ReportDialog";
+import { cn } from "@/lib/utils";
 
 interface BlockAndReportProps {
+  className?: string;
   target?: User;
   onReportDone?: () => void;
 }
-const BlockAndReport = ({ target, onReportDone }: BlockAndReportProps) => {
+const BlockAndReport = ({
+  className,
+  target,
+  onReportDone,
+}: BlockAndReportProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <button
-        className="absolute -bottom-6 left-3 z-50 flex items-center gap-1 text-xs font-medium text-muted-foreground"
+        className={cn(
+          "flex items-center gap-1 text-xs font-medium text-muted-foreground",
+          className,
+        )}
         onClick={() => setIsOpen(true)}
       >
         <BsFlag />
