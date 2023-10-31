@@ -21,7 +21,7 @@ const InputImageMessage = ({ onOpenFilePicker }: InputImageMessageProps) => {
   return (
     <>
       {selectedFiles.length > 0 && (
-        <div className="flex space-x-3 py-3">
+        <div className="flex space-x-3 overflow-x-auto overflow-y-hidden py-3">
           <ActionIcon
             className="h-12 w-12 !text-foreground hover:bg-background-200"
             variant="light"

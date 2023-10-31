@@ -9,13 +9,13 @@ const InputTextMessage = React.forwardRef<HTMLTextAreaElement>(
 
     return (
       <TextareaAutosize
-        className="flex w-full resize-none bg-transparent px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-muted-foreground"
+        className="flex w-full resize-none bg-transparent px-1.5 py-1 text-sm outline-none transition-colors placeholder:text-muted-foreground md:px-3 md:py-2.5"
         ref={(e) => {
           if (typeof forwardRef === "function") forwardRef(e);
           else if (forwardRef) forwardRef.current = e;
           register("text").ref(e);
         }}
-        placeholder="Message"
+        placeholder="Soan tin nhắn..."
         minRows={1}
         maxRows={4}
         onKeyDown={(e) => {

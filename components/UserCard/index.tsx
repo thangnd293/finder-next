@@ -121,14 +121,14 @@ export const UserCard = ({
             {address?.fullAddress ?? "Thành phố Hồ Chí Minh, Việt Nam"}
           </p>
 
-          {homeTown.province && (
+          {homeTown?.province && (
             <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
               {<GoHome />}
               <span>Đến từ {homeTown.province}</span>
             </span>
           )}
 
-          {liveAt.province && (
+          {liveAt?.province && (
             <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
               {<GoLocation />}
               <span>Sống tại {liveAt.province}</span>

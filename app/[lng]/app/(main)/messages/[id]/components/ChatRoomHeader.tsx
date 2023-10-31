@@ -29,9 +29,9 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
           <span className="font-medium">{user?.name}</span>
         </button>
 
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-background-200" />
+        <span className="hidden h-1.5 w-1.5 rounded-full bg-background-200 md:inline-block" />
 
-        <span className="text-sm text-secondary-foreground">
+        <span className="hidden text-sm text-secondary-foreground md:block">
           Ghép đôi vào ngày {conversation?.createdAt.prettyDate()}
         </span>
       </div>

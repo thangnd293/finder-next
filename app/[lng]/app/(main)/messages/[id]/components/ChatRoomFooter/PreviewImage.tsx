@@ -26,7 +26,7 @@ const PreviewImage = ({ file, onRemove }: PreviewImageProps) => {
   return (
     <div className="relative h-12 w-12 flex-shrink-0">
       <Image
-        className="rounded-md object-cover"
+        className="h-full w-full overflow-hidden rounded-md object-contain object-center"
         src={src}
         alt={file.name}
         width={48}

@@ -7,7 +7,7 @@ import {
   NotificationStatus,
   NotificationType,
   useInvalidateAllNotifications,
-  useUpdateStatus
+  useUpdateStatus,
 } from "@/service/notification";
 import { useCurrentUserID } from "@/service/user";
 import dynamic from "next/dynamic";
@@ -45,14 +45,12 @@ const NotifyNewMatched = () => {
 
   const handleClick = () => {
     if (!newMatched) return;
-    updateNotificationStatus.mutate(
-      {
-        id: newMatched.notificationId,
-        notification: {
-          status: NotificationStatus.Seen,
-        },
-      }
-    );
+    updateNotificationStatus.mutate({
+      id: newMatched.notificationId,
+      notification: {
+        status: NotificationStatus.Seen,
+      },
+    });
 
     setNewMatched(null);
   };
@@ -61,6 +59,7 @@ const NotifyNewMatched = () => {
 
   return (
     <Modal
+      className="justify-center md:justify-start"
       open={true}
       onOpenChange={() => {
         setNewMatched(null);
