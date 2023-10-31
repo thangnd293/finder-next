@@ -27,6 +27,7 @@ export interface IFile extends File {
 export type NavItem = {
   label: string;
   Icon: IconType;
+  notificationCount?: number;
 } & (
   | {
       href: string;

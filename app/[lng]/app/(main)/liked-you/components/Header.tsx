@@ -1,5 +1,6 @@
 "use client";
 
+import SendHeartIcon from "@/assets/icons/send-heart-icon";
 import ActionIcon from "@/components/ActionIcon";
 import { useMatchRequestCount } from "@/service/matchRequest";
 import { useRouter } from "next/navigation";
@@ -12,8 +13,8 @@ const Header = () => {
 
   return (
     <header className="flex h-20 w-full flex-shrink-0 items-center justify-between border-b px-4">
-      <p className="text-xl font-semibold">
-        {data?.totalCount ?? 0} Lượt thích
+      <p className="flex items-center gap-1 text-xl font-semibold text-yellow-500">
+        <SendHeartIcon /> {data?.totalCount ?? 0} Lượt thích
       </p>
       <ActionIcon className="rounded-full" onClick={() => router.push("/app")}>
         <BsXLg />

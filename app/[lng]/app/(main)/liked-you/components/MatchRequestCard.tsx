@@ -15,6 +15,7 @@ const MatchRequestCard = ({
   onSkip,
 }: MatchRequestCardProps) => {
   const { blurAvatar, images } = sender;
+
   return (
     <div className="relative overflow-hidden rounded-md">
       <AspectRatio className="relative" ratio={7 / 9}>
@@ -26,7 +27,6 @@ const MatchRequestCard = ({
             fill
           />
         )}
-
         {images[0] && (
           <CustomImage
             className="object-cover object-center"
@@ -35,28 +35,34 @@ const MatchRequestCard = ({
             fill
           />
         )}
+        <div className="absolute bottom-2 left-2 w-full space-y-1">
+          <div className="h-2.5 w-1/2 rounded-full bg-gray-300" />
+          <div className="h-2.5 w-1/3 rounded-full bg-background-200" />
+        </div>
       </AspectRatio>
-      <div
-        className="absolute bottom-0 flex w-full items-center justify-evenly py-1.5"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255, 255, 255, 0) -2%, rgba(0, 0, 0, 0.4) 20%)",
-        }}
-      >
-        <ActionIcon
-          className="h-11 w-11 rounded-full !border-destructive text-destructive  hover:bg-destructive hover:text-white"
-          onClick={() => onSkip(sender._id)}
+      {images.length > 0 && (
+        <div
+          className="absolute bottom-0 flex w-full items-center justify-evenly py-1.5"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255, 255, 255, 0) -2%, rgba(0, 0, 0, 0.4) 20%)",
+          }}
         >
-          <BsXLg size={18} />
-        </ActionIcon>
+          <ActionIcon
+            className="h-11 w-11 rounded-full !border-destructive text-destructive  hover:bg-destructive hover:text-white"
+            onClick={() => onSkip(sender._id)}
+          >
+            <BsXLg size={18} />
+          </ActionIcon>
 
-        <ActionIcon
-          className="h-11 w-11 rounded-full !border-primary text-primary hover:bg-primary hover:text-white"
-          onClick={() => onLike(sender._id)}
-        >
-          <BsCheckLg size={22} />
-        </ActionIcon>
-      </div>
+          <ActionIcon
+            className="h-11 w-11 rounded-full !border-primary text-primary hover:bg-primary hover:text-white"
+            onClick={() => onLike(sender._id)}
+          >
+            <BsCheckLg size={22} />
+          </ActionIcon>
+        </div>
+      )}
     </div>
   );
 };

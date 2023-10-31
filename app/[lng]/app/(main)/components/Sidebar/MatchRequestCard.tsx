@@ -3,6 +3,7 @@ import Card from "./Card";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ROUTE } from "@/constant/route";
 
 interface MatchRequestCardProps {
   className?: string;
@@ -21,7 +22,7 @@ const MatchRequestCard = ({
         className,
       )}
     >
-      <Link href={"/app/liked-you"}>
+      <Link href={ROUTE.LIKED_YOU}>
         <div className="absolute left-1/2 top-1/2 z-10 flex aspect-square h-8 w-8 flex-shrink-0 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-lg font-bold text-white drop-shadow-sm">
           {totalCount}
         </div>
