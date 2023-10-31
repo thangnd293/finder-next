@@ -135,36 +135,32 @@ class CallVideoManager extends EventEmitter {
     initiator: boolean,
     stream: MediaStream,
   ): Promise<SimplePeer.Instance> {
+    const response = await axios.post(
+      'https://api.twilio.com/2010-04-01/Accounts/ACba847817f5755207571ee3173fc85b49/Tokens.json',
+      '',
+      {
+        auth: {
+          username: 'ACba847817f5755207571ee3173fc85b49',
+          password: '060fe7f817a84ef2e7230873d0f36bf0'
+        }
+      }
+    );
+
+    console.log(
+      "🚀 ~ file: web-rtc.ts:119 ~ CallVideoManager ~ createPeer ~ response:",
+      response,
+    );
+
     const peer = new SimplePeer({
       initiator: initiator,
       trickle: false,
       stream,
       config: {
-        iceServers: [
-          {
-            urls: "stun:global.stun.twilio.com:3478",
-          },
-          {
-            username:
-              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
-            urls: "turn:global.turn.twilio.com:3478?transport=udp",
-            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
-          },
-          {
-            username:
-              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
-            urls: "turn:global.turn.twilio.com:3478?transport=tcp",
-            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
-          },
-          {
-            username:
-              "bb1589b01d7aa3f84eea74933e697da9082a95f649cfd47fd34d5ad82e2bc23d",
-            urls: "turn:global.turn.twilio.com:443?transport=tcp",
-            credential: "zO7ZeNkai+OT2L0b09AlbqKazwU1TthxPePxlJDFodw=",
-          },
-        ],
+        iceServers: response.data.ice_servers,
       },
     });
+
+
 
     peer._debug = (message) => {
       console.log(
