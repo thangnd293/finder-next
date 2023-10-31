@@ -79,4 +79,5 @@ export interface User {
   weight?: number;
   address?: Address;
   blurAvatar: string;
+  school?: string;
 }

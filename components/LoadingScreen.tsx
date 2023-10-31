@@ -3,8 +3,8 @@ import Loader from "./Loader";
 
 const LoadingScreen = () => {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-primary-100">
-      <Loader />
+    <div className="flex h-screen w-full items-center justify-center">
+      <Loader size={60} />
     </div>
   );
 };

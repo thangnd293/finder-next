@@ -4,5 +4,6 @@ export const ROUTE = {
   SETTING: "/app/settings",
   EDIT_PROFILE: "/app/profile/edit",
   EXPLORE: "/app/explore",
-  DATING: "/app/dating",
+  DATING_INVITATION: "/app/dating-invitation",
+  LIKED_YOU: "/app/liked-you",
 };

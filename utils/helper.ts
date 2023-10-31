@@ -47,3 +47,7 @@ export function toggleFullscreen(fullscreen: boolean, element: any) {
 export function randomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export function uniqueArray<T extends Object>(arr: T[], key: keyof T): T[] {
+  return [...new Map(arr.map((item) => [item[key], item])).values()];
+}

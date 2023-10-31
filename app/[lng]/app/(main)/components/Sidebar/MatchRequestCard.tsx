@@ -2,16 +2,28 @@ import React from "react";
 import Card from "./Card";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { ROUTE } from "@/constant/route";
 
 interface MatchRequestCardProps {
+  className?: string;
   totalCount: number;
   blur: string;
 }
-const MatchRequestCard = ({ totalCount, blur }: MatchRequestCardProps) => {
+const MatchRequestCard = ({
+  className,
+  totalCount,
+  blur,
+}: MatchRequestCardProps) => {
   return (
-    <Link href={"/app/liked-you"}>
-      <Card className="relative flex items-center justify-center overflow-hidden rounded-md">
-        <div className="absolute z-10 flex aspect-square h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary p-2 text-lg font-bold text-white drop-shadow-sm">
+    <Card
+      className={cn(
+        "relative flex items-center justify-center overflow-hidden rounded-md",
+        className,
+      )}
+    >
+      <Link href={ROUTE.LIKED_YOU}>
+        <div className="absolute left-1/2 top-1/2 z-10 flex aspect-square h-8 w-8 flex-shrink-0 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary p-2 text-lg font-bold text-white drop-shadow-sm">
           {totalCount}
         </div>
 
@@ -20,8 +32,8 @@ const MatchRequestCard = ({ totalCount, blur }: MatchRequestCardProps) => {
         </p>
 
         <Image className="origin-center object-cover" src={blur} alt="" fill />
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 

@@ -33,7 +33,7 @@ const PreviewProfile = () => {
                     {isLoading || !data ? (
                       <Spinner />
                     ) : (
-                      <UserCard isShow {...data} />
+                      <UserCard isShow user={data} />
                     )}
                   </div>
                 )}

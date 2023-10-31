@@ -7,6 +7,9 @@ const nextConfig = {
       "picsum.photos",
       "scontent.cdninstagram.com",
       "i.scdn.co",
+      "maps.googleapis.com",
+      "lh5.googleusercontent.com",
+      "console.cloudinary.com"
     ],
   },
 

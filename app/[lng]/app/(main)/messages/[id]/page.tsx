@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import ChatRoomHeader from "./components/ChatRoomHeader";
-import ProfileSidebar from "./components/ProfileSidebar";
-import MessageList from "./components/MessageList";
-import ChatRoomFooter from "./components/ChatRoomFooter";
 import ChatRoomBody from "./components/ChatRoomBody";
+import ChatRoomFooter from "./components/ChatRoomFooter";
+import ChatRoomHeader from "./components/ChatRoomHeader";
+import MessageList from "./components/MessageList";
+import ProfileSidebar from "./components/ProfileSidebar";
 
 export default function ChatPage({
   params: { id },

@@ -1,5 +1,6 @@
 import { Conversation } from "@/service/conversation";
 import { Message } from "@/service/message";
+import { Notification } from "@/service/notification";
 import { User } from "@/service/user";
 import { getCookie } from "@/utils/cookie";
 import { Socket, io } from "socket.io-client";
@@ -26,6 +27,7 @@ interface ServerToClientEvents {
   newMatched: (payload: NewMatchedNotification) => void;
   newMatchRequest: (user: User) => void;
   receivedMessage: (message: Message) => void;
+  notiSchedule: (notification: Notification) => void;
 }
 
 interface ClientToServerEvents {

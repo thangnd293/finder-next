@@ -186,6 +186,7 @@ input[type="number"] {
   left: 0;
   right: 0;
   bottom: 0;
+
   display: grid;
   place-items: center;
   overflow-y: auto;
@@ -215,3 +216,12 @@ input[type="number"] {
     top: 100%;
   }
 }
+
+a {
+  cursor: pointer;
+}
+
+.gm-ui-hover-effect {
+  display: none !important;
+}
+

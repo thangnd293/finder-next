@@ -6,13 +6,14 @@ import { useAllProvince } from "@/service/helper";
 
 interface ProvinceSelectProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Combobox>, "data"> {
-  label: string;
+  label?: string;
   className?: string;
+  inputClassName?: string;
   value?: string;
   onChange?: (value: string) => void;
 }
 const ProvinceSelect = React.forwardRef<HTMLInputElement, ProvinceSelectProps>(
-  ({ className, label, value, onChange, ...others }, ref) => {
+  ({ className,inputClassName, label, value, onChange, ...others }, ref) => {
     const { provinces } = useAllProvince();
     const [province, setProvince] = useState(value);
 
@@ -34,6 +35,7 @@ const ProvinceSelect = React.forwardRef<HTMLInputElement, ProvinceSelectProps>(
       <Combobox
         ref={ref}
         className={className}
+        inputClassName={inputClassName}
         label={label}
         data={provinceData}
         value={province}

@@ -137,30 +137,12 @@ const ChatRoomFooter = () => {
         className="flex items-end border-t"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex items-center gap-4 px-7 py-6">
-          <ActionIcon
-            className="rounded-full"
-            type="button"
-            title="Gửi file âm thanh"
-            variant="light"
-          >
-            <BsMicFill />
-          </ActionIcon>
-
+        <div className="flex items-center gap-4 px-3.5 py-3 md:px-7 md:py-6">
           <AddImageButton onOpenFilePicker={handleOpenFilePicker} />
-
-          <ActionIcon
-            className="rounded-full"
-            type="button"
-            title="Chọn file gif"
-            variant="light"
-          >
-            <HiGif />
-          </ActionIcon>
         </div>
 
-        <div className="flex flex-1 items-end space-x-3 overflow-visible py-6 pr-7">
-          <div className="flex flex-1 flex-col overflow-auto rounded-sm bg-background-100 px-3.5 py-2 text-sm">
+        <div className="flex flex-1 items-end space-x-1 overflow-hidden py-3 pr-3.5 md:space-x-3 md:py-6 md:pr-7">
+          <div className="flex flex-1 flex-col overflow-hidden rounded-sm bg-background-100 px-3.5 py-2 text-sm">
             <InputImageMessage onOpenFilePicker={handleOpenFilePicker} />
             <InputTextMessage ref={messageInputRef} />
           </div>

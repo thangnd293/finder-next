@@ -23,7 +23,7 @@ export const MessageTab = () => {
             alt={""}
             priority
           />
-          <p className="text-secondary-foreground">
+          <p className="text-secondary-foreground text-center">
             Tích cực lướt để gặp đúng người
           </p>
         </div>

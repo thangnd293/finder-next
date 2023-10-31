@@ -45,6 +45,7 @@ const avatarVariants = cva(
         sm: "h-8 w-8",
         default: "h-12 w-12",
         lg: "h-16 w-16",
+        xl: "h-20 w-20",
         "3xl": "h-32 w-32",
       },
     },

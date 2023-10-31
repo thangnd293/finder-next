@@ -10,6 +10,7 @@ declare global {
     fromNow(): string;
     prettyDate(): string;
     prettyFullDate(): string;
+    truncate(length: number): string;
   }
 }
 
@@ -29,6 +30,12 @@ String.prototype.prettyFullDate = function () {
 
 String.prototype.fromNow = function () {
   return dayjs(String(this)).locale("vi").fromNow();
+};
+
+String.prototype.truncate = function (length: number) {
+  return this.length > length
+    ? this.substring(0, length) + "..."
+    : this.toString();
 };
 
 export {};
