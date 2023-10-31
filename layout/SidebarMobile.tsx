@@ -4,13 +4,17 @@ import { ROUTE } from "@/constant/route";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types/common";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { BiSolidUser } from "react-icons/bi";
 import { BsChatFill, BsHouseFill } from "react-icons/bs";
 
 interface SidebarMobileProps extends React.HTMLAttributes<HTMLDivElement> {}
 const SidebarMobile = ({ className }: SidebarMobileProps) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const path = `${pathname}${
+    searchParams ? "?" + searchParams.toString() : ""
+  }`;
 
   return (
     <nav
@@ -30,7 +34,7 @@ const SidebarMobile = ({ className }: SidebarMobileProps) => {
             className={cn(
               "flex grow items-center justify-center py-3 text-center font-medium text-muted-foreground hover:bg-background-50 hover:text-foreground",
               {
-                "text-foreground": pathname?.endsWith(navItem.href),
+                "text-foreground": path?.endsWith(navItem.href),
               },
             )}
             href={navItem.href}
@@ -57,7 +61,7 @@ const navList: NavItem[] = [
     Icon: BsHouseFill,
   },
   {
-    href: ROUTE.SETTING,
+    href: `${ROUTE.HOME}?tab=message`,
     label: "Chat",
     Icon: BsChatFill,
   },

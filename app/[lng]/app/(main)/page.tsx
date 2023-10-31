@@ -5,17 +5,23 @@ import { CardAction, Container, Header } from "./components";
 import BlockAndReport from "./components/BlockAndReport";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { CSSProperties } from "react";
+import { useSearchParams } from "next/navigation";
+import MobileMessagePage from "./MobileMessagePage";
 
 export default function HomePage() {
+  const searchParams = useSearchParams();
   const isMobileView = useIsMobile();
   const mobileStyle: CSSProperties = {
     width: "100%",
     height: "100%",
     alignSelf: "flex-start",
   };
+  const tab = searchParams?.get("tab");
+
+  if (tab === "message" && isMobileView) return <MobileMessagePage />;
 
   return (
-    <div className="flex h-screen flex-1 flex-col">
+    <div className="flex h-full flex-1 flex-col">
       <Header />
       <Container>
         {({

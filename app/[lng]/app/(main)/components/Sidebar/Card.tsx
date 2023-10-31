@@ -8,15 +8,17 @@ interface CardProps {
 }
 const Card = ({ className, children }: CardProps) => {
   return (
-    <AspectRatio
-      ratio={7 / 9}
-      className={cn(
-        "relative cursor-pointer transition-transform hover:scale-105",
-        className,
-      )}
-    >
-      {children}
-    </AspectRatio>
+    <div className={className}>
+      <AspectRatio
+        asChild
+        ratio={7 / 9}
+        className={cn(
+          "relative cursor-pointer transition-transform hover:scale-105",
+        )}
+      >
+        {children}
+      </AspectRatio>
+    </div>
   );
 };
 

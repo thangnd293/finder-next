@@ -7,7 +7,7 @@ import { useDebounce } from "usehooks-ts";
 
 const HometownSetting = () => {
   const { data } = useCurrentUser({
-    select: (user) => user.homeTown.province,
+    select: (user) => user.homeTown?.province,
   });
 
   const [hometown, setHometown] = useState(data ?? "");

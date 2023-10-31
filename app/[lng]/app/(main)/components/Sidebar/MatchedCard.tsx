@@ -4,12 +4,13 @@ import {
   NotificationStatus,
   NotificationType,
   useInvalidateAllNotifications,
-  useUpdateStatus
+  useUpdateStatus,
 } from "@/service/notification";
 import Link from "next/link";
 import Card from "./Card";
 
 interface MatchedCardProps extends Conversation {
+  className?: string;
   notificationId?: string;
   isNew?: boolean;
 }
@@ -19,6 +20,7 @@ const MatchedCard = ({
   notificationId,
   user,
   isNew,
+  className,
 }: MatchedCardProps) => {
   const updateStatus = useUpdateStatus();
   const invalidateAllNotifications = useInvalidateAllNotifications();
@@ -42,8 +44,8 @@ const MatchedCard = ({
   };
 
   return (
-    <Link href={`/app/messages/${_id}`} onClick={handleClick}>
-      <Card>
+    <Card className={className}>
+      <Link href={`/app/messages/${_id}`} onClick={handleClick}>
         <CustomImage
           className="rounded-md object-cover object-center"
           fill
@@ -58,8 +60,8 @@ const MatchedCard = ({
         {isNew && (
           <div className="absolute right-1 top-1 h-4 w-4 -translate-y-1/2 translate-x-1/2 rounded-full border-2 border-white bg-primary shadow-sm" />
         )}
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 

@@ -5,7 +5,10 @@ import AspectRatio from "@/components/AspectRatio";
 import CustomImage from "@/components/CustomImage";
 import ErrorView from "@/components/ErrorView";
 import LoadingView from "@/components/LoadingView";
+import Modal from "@/components/Modal";
 import ScrollArea from "@/components/ScrollArea";
+import { useIsMobile } from "@/hooks/use-is-mobile";
+import { cn } from "@/lib/utils";
 import { useReceiver } from "@/service/conversation";
 import { User } from "@/service/user";
 import { getTagIcon } from "@/utils/tag";
@@ -22,7 +25,7 @@ const ProfileSidebar = ({
   onCloseSidebar,
 }: ProfileSidebarProps) => {
   const { receiver, isError, isLoading } = useReceiver(conversationID);
-
+  const isMobile = useIsMobile();
   if (isLoading)
     return (
       <div className="flex h-full w-80 items-center justify-center">
@@ -37,18 +40,27 @@ const ProfileSidebar = ({
       </div>
     );
 
+  const Container = isMobile ? Modal : "div";
   return (
-    <div className="relative h-full w-80">
-      <ActionIcon
-        className="text-shadow absolute right-3 top-2 z-10 text-white"
-        variant="transparent"
-        onClick={onCloseSidebar}
-      >
-        <BsXLg size={22} />
-      </ActionIcon>
+    <Container
+      className={cn("relative h-full", {
+        "w-80": !isMobile,
+        "p-0": isMobile,
+      })}
+      onOpenChange={onCloseSidebar}
+    >
+      {!isMobile && (
+        <ActionIcon
+          className="text-shadow absolute right-3 top-2 z-10 text-white"
+          variant="transparent"
+          onClick={onCloseSidebar}
+        >
+          <BsXLg size={22} />
+        </ActionIcon>
+      )}
 
       <VerticalUserCard {...receiver} />
-    </div>
+    </Container>
   );
 };
 
@@ -131,10 +143,10 @@ const VerticalUserCard = ({
             <MdLocationOn className="mb-1 inline-block" size={18} />
             {address?.province}
           </p>
-          {homeTown.province && (
+          {homeTown?.province && (
             <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
               {<GoHome />}
-              <span>Đến từ {homeTown.province}</span>
+              <span>Đến từ {homeTown?.province}</span>
             </span>
           )}
 
