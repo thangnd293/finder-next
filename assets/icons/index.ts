@@ -10,3 +10,4 @@ export * from "./shield-icon";
 export * from "./premium-icon";
 export * from "./plus-icon";
 export * from "./filter-icon";
+export * from "./send-heart-icon";

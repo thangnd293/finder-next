@@ -18,6 +18,7 @@ export default function HomePage() {
   const invalidateMatchRequest = useInvalidateMatchRequest();
 
   const isEmpty = !isLoading && matchRequests.length === 0;
+
   const like = useLike({
     onSuccess: invalidateMatchRequest,
   });
@@ -48,7 +49,7 @@ export default function HomePage() {
 
       {!isEmpty && (
         <ScrollArea>
-          <div className="grid gap-4 p-3 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-7">
+          <div className="grid grid-cols-2 gap-4 p-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-7">
             {isLoading &&
               Array.from({ length: randomNumber(6, 12) }).map((_, i) => (
                 <AspectRatio key={i} ratio={7 / 9}>
