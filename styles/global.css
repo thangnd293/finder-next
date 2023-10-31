@@ -197,3 +197,21 @@ input[type="number"] {
   padding: 30px;
   border-radius: 4px;
 }
+
+
+.record-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: record-animation 1s ease-in-out infinite alternate forwards;
+}
+
+
+@keyframes record-animation {
+  0% {
+   top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
