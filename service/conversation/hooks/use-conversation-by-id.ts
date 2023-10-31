@@ -1,35 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Conversation, ConversationService } from "..";
-import { useCallback } from "react";
 
 export const getConversationKey = (conversationID: string) => [
   "conversation",
   conversationID,
 ];
 
-export const useConversationByID = (conversationID: string) => {
-  const { data, ...others } = useQuery({
+export const useConversationByID = <TData = Conversation>(
+  conversationID: string,
+  config: UseQueryOptions<Conversation, unknown, TData, string[]> = {},
+) => {
+  return useQuery({
     queryKey: getConversationKey(conversationID),
     queryFn: () => ConversationService.getConversation(conversationID),
     enabled: !!conversationID,
+    ...config,
   });
-
-  return {
-    conversation: data,
-    ...others,
-  };
 };
 
 export const useReceiver = (conversationID: string) => {
-  const { data, ...others } = useQuery({
-    queryKey: getConversationKey(conversationID),
-    queryFn: () => ConversationService.getConversation(conversationID),
-    select: useCallback((conversation: Conversation) => conversation.user, []),
-    enabled: !!conversationID,
+  const { data, isError, isLoading } = useConversationByID(conversationID, {
+    select: (conversation) => conversation.user,
   });
-
   return {
     receiver: data,
-    ...others,
+    isError,
+    isLoading,
   };
 };

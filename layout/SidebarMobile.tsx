@@ -8,11 +8,17 @@ import { usePathname } from "next/navigation";
 import { BiSolidUser } from "react-icons/bi";
 import { BsChatFill, BsHouseFill } from "react-icons/bs";
 
-const SidebarMobile = () => {
+interface SidebarMobileProps extends React.HTMLAttributes<HTMLDivElement> {}
+const SidebarMobile = ({ className }: SidebarMobileProps) => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 mx-auto flex w-full items-center justify-evenly border-t bg-background">
+    <nav
+      className={cn(
+        "fixed bottom-0 mx-auto flex w-full items-center justify-evenly border-t bg-background",
+        className,
+      )}
+    >
       {navList.map((navItem) => {
         const Icon = navItem.Icon;
 

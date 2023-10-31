@@ -41,7 +41,7 @@ export default function MatchedTab() {
             alt={""}
             priority
           />
-          <p className="text-secondary-foreground">
+          <p className="text-center text-secondary-foreground">
             Tích cực lướt để gặp đúng người
           </p>
         </div>

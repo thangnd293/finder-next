@@ -3,8 +3,8 @@ import SidebarMobile from "./SidebarMobile";
 
 const MainLayoutMobile = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      <div className="flex flex-1 pb-[52px]">{children}</div>
+    <div className="relative w-full">
+      <div className="h-screen pb-[52px]">{children}</div>
       <SidebarMobile />
     </div>
   );

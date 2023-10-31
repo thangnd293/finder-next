@@ -10,8 +10,8 @@ import PackFeature from "./PackFeature";
 const MobileProfilePage = () => {
   return (
     <MainLayoutMobile>
-      <div className="container mt-10 flex w-full flex-col items-center gap-3">
-        <div className="relative">
+      <div className="container flex w-full flex-col items-center gap-3">
+        <div className="relative mt-10">
           <CurrentUserAvatar className="border-8 border-white" size="3xl" />
 
           <CircleProgress
