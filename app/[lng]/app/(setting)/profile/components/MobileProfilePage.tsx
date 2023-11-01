@@ -1,3 +1,5 @@
+"use client";
+
 import CurrentUserAvatar from "@/components/CurrentUserAvatar";
 import { ROUTE } from "@/constant/route";
 import MainLayoutMobile from "@/layout/MainLayoutMobile";
@@ -6,8 +8,12 @@ import Link from "next/link";
 import CircleProgress from "./CircleProgress";
 import CurrentUserInfo from "./CurrentUserInfo";
 import PackFeature from "./PackFeature";
+import { useCurrentUser } from "@/service/user";
 
 const MobileProfilePage = () => {
+  const { data: totalFinishProfile } = useCurrentUser({
+    select: (user) => user.totalFinishProfile,
+  });
   return (
     <MainLayoutMobile>
       <div className="container flex w-full flex-col items-center gap-3">
@@ -16,7 +22,7 @@ const MobileProfilePage = () => {
 
           <CircleProgress
             className="absolute left-0 top-0 "
-            percentage={45}
+            percentage={totalFinishProfile ?? 0}
             size={128}
             strokeWidth={4}
           />

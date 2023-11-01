@@ -110,7 +110,7 @@ const PacketDialog = ({
         <div className="mt-4 flex gap-4">
           <div className="flex flex-1 flex-col justify-between space-y-20 text-sm font-semibold">
             <div className="space-y-2.5">
-              {Object.values(merchandising).map((item, index) => (
+              {merchandising.map((item, index) => (
                 <p key={index} className="flex items-center gap-2">
                   <Image
                     width={30}
@@ -130,7 +130,7 @@ const PacketDialog = ({
                 style: "currency",
                 currency: selectedPackage.currency,
               }).format(selectedPackage.price)}{" "}
-              cứ sau 12 tháng. Tuy nhiên bạn có thể hủy bất cứ lúc nào
+              cứ sau {selectedPackage.refreshInterval} tháng
             </p>
           </div>
 

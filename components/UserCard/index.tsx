@@ -118,7 +118,7 @@ export const UserCard = ({
 
           <p>
             <MdLocationOn className="mb-1 inline-block" size={18} />
-            {address?.fullAddress ?? "Thành phố Hồ Chí Minh, Việt Nam"}
+            {address?.province ?? "Thành phố Hồ Chí Minh, Việt Nam"}
           </p>
 
           {homeTown?.province && (

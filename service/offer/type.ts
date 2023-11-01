@@ -6,7 +6,7 @@ export interface Offer {
   type: string;
   background: string;
   packages: Package[];
-  merchandising: Record<string, Feature>;
+  merchandising: Feature[];
 }
 
 export interface Package {

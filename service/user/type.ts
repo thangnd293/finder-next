@@ -80,4 +80,5 @@ export interface User {
   address?: Address;
   blurAvatar: string;
   school?: string;
+  totalFinishProfile: number;
 }
