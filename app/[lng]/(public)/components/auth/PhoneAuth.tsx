@@ -33,7 +33,7 @@ const PhoneAuth = () => {
 
   const phoneForm = useForm<PhoneForm>({
     defaultValues: {
-      phoneNumber: "0344329446",
+      phoneNumber: "+84344329446",
     },
     resolver: phoneFormResolver,
   });

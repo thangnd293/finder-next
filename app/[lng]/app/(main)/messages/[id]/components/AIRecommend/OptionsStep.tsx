@@ -42,7 +42,7 @@ const OptionsStep = ({
               "bg-primary text-white": internalValue === type,
             })}
             variant="outline"
-            size="xs"
+            size="sm"
             onClick={() => onChangeValue(type)}
           >
             {type}
@@ -52,11 +52,11 @@ const OptionsStep = ({
 
       {isEditing && (
         <div className="flex items-center justify-end gap-2 px-3">
-          <Button variant="ghost" size="xs" onClick={onCancel}>
+          <Button variant="ghost" size="sm" onClick={onCancel}>
             Huỷ
           </Button>
           <Button
-            size="xs"
+            size="sm"
             disabled={internalValue === value}
             onClick={onUpdate}
           >

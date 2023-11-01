@@ -14,6 +14,7 @@ import PlaceItem from "./PlaceItem";
 import * as yup from "yup";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import { useRef } from "react";
 
 interface FormValues {
   date: Date;
@@ -39,6 +40,7 @@ const CreateScheduleDialog = ({
   onCreateDone,
 }: CreateScheduleDialogProps) => {
   const params = useParams();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { data: conversation } = useConversationByID(params?.["id"] as string);
   const createSchedule = useCreateSchedule();
@@ -94,108 +96,115 @@ const CreateScheduleDialog = ({
   };
 
   return (
-    <Modal className="!overflow-hidden" onOpenChange={handleClose}>
-      <form className="w-full space-y-2" onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="text-center text-lg font-semibold">Tạo lời mời</h2>
+    <Modal onOpenChange={handleClose}>
+      <Modal.Header withCloseButton>Tạo lời mời</Modal.Header>
 
-        <div>
-          <Label>Thời gian</Label>
-          <div className="flex gap-2">
-            <div className="flex gap-1">
-              <Controller
-                name="hour"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <Combobox
-                    placeholder="Giờ"
-                    data={Array.from({ length: 24 }, (_, i) => ({
-                      label: `${i < 10 ? `0${i}` : i}`,
-                      value: `${i}`,
-                    }))}
-                    leftIcon={<AiOutlineClockCircle />}
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
-              />
-
-              <Controller
-                name="minute"
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <Combobox
-                    placeholder="Phút"
-                    data={Array.from({ length: 60 }, (_, i) => ({
-                      label: `${i < 10 ? `0${i}` : i}`,
-                      value: `${i}`,
-                    }))}
-                    leftIcon={<AiOutlineClockCircle />}
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
-              />
-            </div>
-            <Controller
-              name={"date"}
-              control={control}
-              render={({
-                field: { onChange, value },
-                formState: { errors },
-              }) => (
-                <DatePicker
-                  className="w-40"
-                  placeholder="Chọn ngày hẹn"
-                  error={errors.date?.message}
-                  value={value}
-                  onChange={onChange}
+      <Modal.Body className="px-6 py-4">
+        <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Label>Thời gian</Label>
+            <div className="flex gap-2">
+              <div className="flex gap-1">
+                <Controller
+                  name="hour"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Combobox
+                      placeholder="Giờ"
+                      data={Array.from({ length: 24 }, (_, i) => ({
+                        label: `${i < 10 ? `0${i}` : i}`,
+                        value: `${i}`,
+                      }))}
+                      leftIcon={<AiOutlineClockCircle />}
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )}
                 />
-              )}
-            />
-          </div>
-        </div>
-
-        <Textarea
-          label="Lời nhắn"
-          placeholder="Ví dụ: Bồ chỉ cần ngồi sau, cả thế giới để tôi lo :>"
-          error={errors.description?.message}
-          {...register("description")}
-        />
-
-        {selectedPlaces.length > 0 && (
-          <>
-            <div className="w-full">
-              <Label>Địa điểm</Label>
-              <div className="w-full space-y-2">
-                {selectedPlaces.map((place) => (
-                  <PlaceItem key={place.place_id} className="p-0" {...place} />
-                ))}
+                <Controller
+                  name="minute"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Combobox
+                      placeholder="Phút"
+                      data={Array.from({ length: 60 }, (_, i) => ({
+                        label: `${i < 10 ? `0${i}` : i}`,
+                        value: `${i}`,
+                      }))}
+                      leftIcon={<AiOutlineClockCircle />}
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )}
+                />
               </div>
+              <Controller
+                name={"date"}
+                control={control}
+                render={({
+                  field: { onChange, value },
+                  formState: { errors },
+                }) => (
+                  <DatePicker
+                    className="w-40"
+                    placeholder="Chọn ngày hẹn"
+                    error={errors.date?.message}
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
             </div>
-            <Controller
-              name="hidePlace"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <Checkbox
-                  label="Ẩn địa điểm với người kia"
-                  description="Lưu ý chỉ dùng khi 2 bạn đã đủ thân nếu không khả năng cao bạn sẽ bị từ chối"
-                  checked={value}
-                  onCheckedChange={onChange}
-                />
-              )}
-            />
-          </>
-        )}
+          </div>
+          <Textarea
+            label="Lời nhắn"
+            placeholder="Ví dụ: Bồ chỉ cần ngồi sau, cả thế giới để tôi lo :>"
+            error={errors.description?.message}
+            {...register("description")}
+          />
+          {selectedPlaces.length > 0 && (
+            <>
+              <div className="w-full">
+                <Label>Địa điểm</Label>
+                <div className="w-full space-y-2">
+                  {selectedPlaces.map((place) => (
+                    <PlaceItem
+                      key={place.place_id}
+                      className="p-0"
+                      {...place}
+                    />
+                  ))}
+                </div>
+              </div>
+              <Controller
+                name="hidePlace"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <Checkbox
+                    label="Ẩn địa điểm với người kia"
+                    description="Lưu ý chỉ dùng khi 2 bạn đã đủ thân nếu không khả năng cao bạn sẽ bị từ chối"
+                    checked={value}
+                    onCheckedChange={onChange}
+                  />
+                )}
+              />
+            </>
+          )}
+        </form>
+      </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="ghost" onClick={onClose}>
-            Huỷ
-          </Button>
-          <Button type="submit" loading={createSchedule.isLoading}>
-            Tạo
-          </Button>
-        </Modal.Footer>
-      </form>
+      <Modal.Footer>
+        <Button variant="ghost" onClick={onClose}>
+          Huỷ
+        </Button>
+        <Button
+          type="submit"
+          loading={createSchedule.isLoading}
+          onClick={() => formRef.current?.requestSubmit()}
+        >
+          Tạo
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

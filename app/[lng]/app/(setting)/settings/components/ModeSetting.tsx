@@ -5,7 +5,7 @@ import Modal from "@/components/Modal";
 import ModeRadioGroup from "@/components/ModeRadioGroup";
 import { ModeGoal, useCurrentUser, useUpdateSetting } from "@/service/user";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 interface FormValues {
@@ -13,6 +13,8 @@ interface FormValues {
 }
 
 const ModeSetting = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const { data: discovery } = useCurrentUser({
     select: (user) => user.setting.discovery,
@@ -55,35 +57,33 @@ const ModeSetting = () => {
       </Button>
 
       <Modal open={isOpen || updateSetting.isLoading} onOpenChange={setIsOpen}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1 className="mb-4 text-center text-xl font-semibold">
-            Chọn chế độ
-          </h1>
-
-          <Controller
-            name="modeGoal"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { value, onChange } }) => (
-              <ModeRadioGroup
-                className="space-y-1.5"
-                label="Bạn đang tìm kiếm gì"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-
-          <div className="mx-auto w-fit">
-            <Button
-              className="mt-6 rounded-full"
-              type="submit"
-              loading={updateSetting.isLoading}
-            >
-              Tiếp tục với {watch("modeGoal")}
-            </Button>
-          </div>
-        </form>
+        <Modal.Header withCloseButton>Chọn chế độ</Modal.Header>
+        <Modal.Body className="p-4">
+          <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="modeGoal"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <ModeRadioGroup
+                  className="space-y-1.5"
+                  label="Bạn đang tìm kiếm gì"
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            type="submit"
+            loading={updateSetting.isLoading}
+            onClick={() => formRef.current?.requestSubmit()}
+          >
+            Tiếp tục với {watch("modeGoal")}
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );

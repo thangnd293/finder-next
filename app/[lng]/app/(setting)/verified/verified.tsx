@@ -1,8 +1,8 @@
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/service/user";
-import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuScanFace } from "react-icons/lu";
 import { create } from "zustand";
 
@@ -153,19 +153,18 @@ export default function Verified() {
   return (
     isOpen && (
       <Modal
+        className={cn({
+          "p-6": isDone,
+        })}
         size="auto"
         open={true}
         closeOnEscape={false}
         withCloseButton={false}
         onOpenChange={verifyAction.setOpen}
       >
-        <div className={`grid gap-4 ${isDone ? "hidden" : "block"}`}>
-          <div>
-            <h1 className="text-center text-xl font-semibold">
-              Xác thực tài khoản
-            </h1>
-          </div>
-          <div className="relative h-[420px] w-[560px] overflow-hidden rounded-sm bg-black">
+        <div className={`${isDone ? "hidden" : "block"}`}>
+          <Modal.Header withCloseButton>Xác thực tài khoản</Modal.Header>
+          <div className="relative h-[420px] w-[560px] overflow-hidden bg-black">
             <video
               ref={videoRef}
               className="[transform:rotateY(180deg)]"
@@ -180,6 +179,7 @@ export default function Verified() {
                 ref={imageAfterRecognizeRef}
               />
             )}
+
             {imageAfterRecognize && imageAfterRecognize.faceTotal !== 1 && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-800/20">
                 <LuScanFace size={100} className="text-red-500" />
@@ -199,7 +199,7 @@ export default function Verified() {
             )}
           </div>
 
-          <div className="flex justify-around">
+          <Modal.Footer>
             <Button
               onClick={() => verifyAction.setOpen(false)}
               variant="outline"
@@ -213,7 +213,7 @@ export default function Verified() {
             >
               Ghi hình
             </Button>
-          </div>
+          </Modal.Footer>
           <canvas ref={canvasRef} id="canvas" style={{ display: "none" }} />
         </div>
 
@@ -227,7 +227,6 @@ export default function Verified() {
             <Button
               onClick={() => verifyAction.setOpen(false)}
               variant="outline"
-              className="text-xl font-semibold"
             >
               Chúc mừng bạn đã xác nhận thành công
             </Button>

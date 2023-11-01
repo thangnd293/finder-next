@@ -1,9 +1,13 @@
+"use client";
+
 import * as RadixDialog from "@radix-ui/react-dialog";
 import React from "react";
 
 import { cn } from "@/lib/utils";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { VariantProps, cva } from "class-variance-authority";
+import { ModalBody } from "./ModalBody";
+import { ModalFooter } from "./ModalFooter";
+import { ModalHeader } from "./ModalHeader";
 
 interface ModalProps
   extends React.ComponentProps<typeof RadixDialog.Root>,
@@ -20,6 +24,7 @@ interface ModalProps
   children: React.ReactNode;
   unMoutOnClose?: boolean;
 }
+
 const Modal = ({
   className,
   title,
@@ -35,14 +40,12 @@ const Modal = ({
   unMoutOnClose = true,
   ...others
 }: ModalProps) => {
-  if (!open && unMoutOnClose) return null;
-
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange} modal {...others}>
       <RadixDialog.Portal>
         <RadixDialog.Overlay
           className={cn(
-            "fixed inset-0 z-50 place-items-center overflow-y-auto sm:grid",
+            "fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center md:py-10",
             {
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0":
                 hasAnimate,
@@ -70,28 +73,7 @@ const Modal = ({
               }
             }}
           >
-            {title && (
-              <RadixDialog.DialogTitle
-                className={cn(
-                  "text-xl font-medium",
-                  !withCloseButton && "text-center",
-                )}
-              >
-                {title}
-              </RadixDialog.DialogTitle>
-            )}
-
             {children}
-
-            {withCloseButton && (
-              <RadixDialog.Close
-                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-                onClick={() => onOpenChange?.(false)}
-              >
-                <Cross2Icon className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </RadixDialog.Close>
-            )}
           </RadixDialog.Content>
         </RadixDialog.Overlay>
       </RadixDialog.Portal>
@@ -100,30 +82,21 @@ const Modal = ({
 };
 
 export default Modal;
+Modal.Header = ModalHeader;
+Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
 
-function ModalFooter({
-  className,
-  children,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("mt-4 flex w-full justify-end space-x-2", className)}>
-      {children}
-    </div>
-  );
-}
-
 const modalVariants = cva(
-  "absolute items-center flex flex-col sm:my-10 w-full gap-4 bg-modal py-8 px-8 sm:rounded-lg shadow",
+  "flex flex-col max-h-full w-full bg-modal sm:rounded-lg shadow mx-auto overflow-hidden",
   {
     variants: {
       size: {
-        xs: "w-full h-screen sm:h-auto sm:w-[320px]",
-        sm: "w-full h-screen sm:h-auto sm:w-[380px]",
-        default: "w-full h-screen sm:h-auto sm:w-[440px]",
-        lg: "w-full h-screen sm:h-auto sm:w-[620px]",
-        xl: "w-full h-screen sm:h-auto sm:w-[780px]",
-        auto: "w-full h-screen sm:h-auto sm:w-max",
+        xs: "w-full h-screen sm:h-fit sm:w-[320px]",
+        sm: "w-full h-screen sm:h-fit sm:w-[380px]",
+        default: "w-full h-screen sm:h-fit sm:w-[440px]",
+        lg: "w-full h-screen sm:h-fit sm:w-[620px]",
+        xl: "w-full h-screen sm:h-fit sm:w-[780px]",
+        auto: "w-full h-screen sm:h-fit sm:w-max",
         full: "w-full !my-0 min-h-screen h-fit !rounded-none left-0 top-0",
       },
     },

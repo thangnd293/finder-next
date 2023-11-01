@@ -28,7 +28,7 @@ const AuthModal = ({
   };
 
   return (
-    <Modal open={isOpen} onOpenChange={onOpenChange}>
+    <Modal className="p-6" open={isOpen} onOpenChange={onOpenChange}>
       {
         {
           [EAuthMode.SIGN_UP]: (

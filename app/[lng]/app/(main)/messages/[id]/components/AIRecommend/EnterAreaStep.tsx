@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import LocationPicker from "@/components/LocationPicker";
 import Modal from "@/components/Modal";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useEffect, useState } from "react";
 
 interface EnterAreaStepProps {
@@ -28,10 +29,10 @@ const EnterAreaStep = ({
           <p className="text-sm">{value}</p>
 
           <div className="ml-auto w-fit">
-            <Button variant="ghost" size="xs" onClick={onCancel}>
+            <Button variant="ghost" size="sm" onClick={onCancel}>
               Huỷ
             </Button>
-            <Button size="xs" onClick={onOpenLocationPicker}>
+            <Button size="sm" onClick={onOpenLocationPicker}>
               Chọn khu vực
             </Button>
           </div>
@@ -41,7 +42,7 @@ const EnterAreaStep = ({
           <Button
             className="rounded-full"
             variant="outline"
-            size="xs"
+            size="sm"
             onClick={onOpenLocationPicker}
           >
             Chọn khu vực
@@ -72,6 +73,8 @@ const LocationPickerDialog = ({
   onChange,
   onClose,
 }: LocationPickerDialogProps) => {
+  const isMobile = useIsMobile();
+
   const [location, setLocation] = useState(value ?? "");
 
   useEffect(() => {
@@ -85,13 +88,13 @@ const LocationPickerDialog = ({
 
   return (
     <Modal
-      className="!h-[calc(100vh-64px)]"
+      className="h-full md:h-[calc(100vh-64px)]"
       size="xl"
-      withCloseButton={false}
+      withCloseButton={isMobile}
       withOverlay={false}
       onOpenChange={onClose}
     >
-      <h1 className="text-center text-lg font-semibold">Chọn khu vực</h1>
+      <Modal.Header withCloseButton>Chọn khu vực</Modal.Header>
       <LocationPicker value={location} onChange={setLocation} />
 
       <Modal.Footer>

@@ -59,7 +59,7 @@ const NotifyNewMatched = () => {
 
   return (
     <Modal
-      className="justify-center md:justify-start"
+      className="justify-center p-6 md:justify-start"
       open={true}
       onOpenChange={() => {
         setNewMatched(null);

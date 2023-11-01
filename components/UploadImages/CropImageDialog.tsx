@@ -74,6 +74,7 @@ const CropImageDialog = ({
 
   return (
     <Modal
+      className="p-6"
       title="Chỉnh sửa ảnh"
       open={isVisible}
       size="auto"

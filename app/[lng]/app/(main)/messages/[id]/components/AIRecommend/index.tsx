@@ -84,7 +84,7 @@ const AIRecommend = ({
   };
 
   return (
-    <div className="flex min-h-[394px] w-full flex-col">
+    <div className="flex h-full min-h-[50vh] w-full flex-col">
       <div className="flex-1 space-y-2">
         <MachineMessage
           isLoading={false}

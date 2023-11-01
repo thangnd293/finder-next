@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import { MdOutlineMyLocation } from "react-icons/md";
 import ActionIcon from "./ActionIcon";
 import useMapControl from "@/hooks/use-map-control";
+import LoadingView from "./LoadingView";
 
 const libraries: Libraries = ["places"];
 
@@ -91,7 +92,7 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
     );
   }, [value, isLoaded, map]);
 
-  if (!isLoaded) return null;
+  if (!isLoaded) return <LoadingView />;
 
   return (
     <GoogleMap

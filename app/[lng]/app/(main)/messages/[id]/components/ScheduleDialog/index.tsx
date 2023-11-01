@@ -4,12 +4,15 @@ import { Place } from "@/types/map";
 import { useState } from "react";
 import AIRecommend from "../AIRecommend";
 import ScheduleEditor from "./ScheduleEditor";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 interface ScheduleDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 const ScheduleDialog = ({ isOpen, onClose }: ScheduleDialogProps) => {
+  const isMobile = useIsMobile();
+
   const [isShowScheduleEditor, setIsShowScheduleEditor] = useState(false);
   const [selectedPlaces, setSelectedPlaces] = useState<Place[]>([]);
 
@@ -22,22 +25,24 @@ const ScheduleDialog = ({ isOpen, onClose }: ScheduleDialogProps) => {
 
   return (
     <Modal
-      className={cn("p-4", {
-        "left-0 top-0 !m-0 !h-screen !w-screen overflow-hidden !rounded-none !p-0":
-          isShowScheduleEditor,
-      })}
+      className={cn("")}
       open={isOpen}
       onOpenChange={onClose}
-      size="lg"
+      size={isShowScheduleEditor ? "full" : "lg"}
       hasAnimate={!isShowScheduleEditor}
-      withCloseButton={false}
+      withCloseButton={isMobile}
       closeOnEscape={!isShowScheduleEditor}
     >
       {!isShowScheduleEditor && (
-        <AIRecommend
-          onSelectedPlacesChange={setSelectedPlaces}
-          onOpenScheduleEditor={onOpenScheduleEditor}
-        />
+        <>
+          <Modal.Header withCloseButton>Finder bot</Modal.Header>
+          <Modal.Body className="overflow-hidden p-4">
+            <AIRecommend
+              onSelectedPlacesChange={setSelectedPlaces}
+              onOpenScheduleEditor={onOpenScheduleEditor}
+            />
+          </Modal.Body>
+        </>
       )}
 
       {isShowScheduleEditor && (

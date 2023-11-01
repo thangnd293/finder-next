@@ -74,7 +74,7 @@ interface RequestPermissionDialogProps
   extends Omit<React.ComponentProps<typeof Modal>, "children"> {}
 const RequestPermissionDialog = (props: RequestPermissionDialogProps) => {
   return (
-    <Modal className="gap-0 text-center" size="lg" {...props}>
+    <Modal className="p-6 text-center" size="lg" {...props}>
       <SiteInformationIcon className="w-full" />
       <div className="space-y-3">
         <h2 className="text-xl font-semibold">

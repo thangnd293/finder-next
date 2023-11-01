@@ -22,12 +22,12 @@ const ConfirmCancel = ({ onCancel: _onCancel }: ConfirmCancelProps) => {
       </Button>
 
       <Modal className="gap-2" size="xs" open={isOpen} onOpenChange={setIsOpen}>
-        <div>
-          <h2 className="text-lg font-semibold">Huỷ hành động?</h2>
-          <p className="text-muted-foreground">
-            Thao tác này không thể hoàn tác
-          </p>
-        </div>
+        <Modal.Header>Huỷ hành động?</Modal.Header>
+
+        <Modal.Body className="px-4 py-2">
+          Thao tác này sẽ không thể hoàn tác
+        </Modal.Body>
+
         <Modal.Footer>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Huỷ

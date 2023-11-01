@@ -38,6 +38,7 @@ const InvitationList = () => {
     size: "10",
     ...(filter as Partial<FilterScheduleArgs>),
   });
+
   const { data: currentUserID } = useCurrentUser({
     select: (user) => user._id,
   });
@@ -75,7 +76,7 @@ const InvitationList = () => {
 
   return (
     <ScrollArea className="flex-1">
-      <div className="mt-8 p-11">
+      <div className="mt-4 p-5 md:mt-8 md:p-11">
         <ActionIcon className="w-12 rounded-full border-2" onClick={open}>
           <FilterIcon />
         </ActionIcon>

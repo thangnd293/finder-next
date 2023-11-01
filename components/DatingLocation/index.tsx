@@ -2,9 +2,9 @@ import { DEFAULT_IMAGE } from "@/constant/common";
 import { cn } from "@/lib/utils";
 import { Place } from "@/types/map";
 import Image from "next/image";
-import DatingSkeletonSkeleton from "./DatingSkeleton";
-import UserRating from "../UserRating";
 import { buttonBaseVariants } from "../ButtonBase";
+import UserRating from "../UserRating";
+import DatingSkeletonSkeleton from "./DatingSkeleton";
 
 interface DatingLocationProps extends Place {}
 const DatingLocation = ({
@@ -18,7 +18,7 @@ const DatingLocation = ({
 }: DatingLocationProps) => {
   return (
     <div className="flex gap-3">
-      <div className="relative h-48 w-48 overflow-hidden rounded-md">
+      <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md md:h-48 md:w-48">
         <Image
           className="origin-center object-cover"
           src={image ?? DEFAULT_IMAGE}
@@ -26,7 +26,7 @@ const DatingLocation = ({
           fill
         />
       </div>
-      <div className="flex-1">
+      <div className="w-full flex-1 overflow-hidden">
         <p className="font-semibold">{name}</p>
         {rating && userRatingsTotal && (
           <UserRating rating={rating} total={userRatingsTotal} />
@@ -35,13 +35,13 @@ const DatingLocation = ({
           Giá cả: {priceLevel ? "đ".repeat(priceLevel) : "Không xác định"}
         </p>
 
-        <div className="my-2 w-full border-y border-gray-400 py-2">
-          {reviews ? (
-            reviews
-              .slice(2)
-              .map((review, i) => (
-                <p key={i}>&quot;{review.text.truncate(40)}&quot;</p>
-              ))
+        <div className="my-2 w-full border-y  border-gray-400 py-2">
+          {!!reviews?.length ? (
+            reviews.slice(2).map((review, i) => (
+              <p key={i} className="truncate">
+                {review.text}
+              </p>
+            ))
           ) : (
             <p>Chưa có đánh giá</p>
           )}
@@ -58,7 +58,7 @@ const DatingLocation = ({
           href={url}
           target="_blank"
         >
-          Xem thêm
+          Chi tiết
         </a>
       </div>
     </div>

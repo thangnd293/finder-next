@@ -14,7 +14,7 @@ const GetStartedStep = ({
       <Button
         className="rounded-full"
         variant="outline"
-        size="xs"
+        size="sm"
         onClick={onOpenScheduleEditor}
       >
         Tự tạo lịch hẹn
@@ -22,13 +22,12 @@ const GetStartedStep = ({
       <Button
         className="rounded-full"
         variant="outline"
-        size="xs"
+        size="sm"
         onClick={onNextStep}
       >
         Giúp tôi tạo lịch hẹn
       </Button>
     </div>
-    
   );
 };
 
