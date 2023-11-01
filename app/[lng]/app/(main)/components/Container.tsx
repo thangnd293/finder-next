@@ -9,7 +9,9 @@ import { User, useRecommendedUsers } from "@/service/user";
 import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { ImSad2 } from "react-icons/im";
 
 const EMPTY_USERS: User[] = [];
 const EMPTY_OBJECT: InfiniteData<User> = {
@@ -36,9 +38,20 @@ export const Container = ({ children }: ContainerProps) => {
   const isFirstRender = useRef(true);
   const canBack = useRef(false);
   const lastLike = useRef<number | null>(null);
+  const [lastIndexSuccess, setLastIndexSuccess] = useState(0);
   const currentIndex = useStore((state) => state.currentIndex);
   const setCurrentIndex = useStore((state) => state.setCurrentIndex);
-  const like = useLike();
+  const like = useLike({
+    onSuccess: () => {
+      setLastIndexSuccess(currentIndex);
+    },
+    onError: () => {
+      setCurrentIndex(lastIndexSuccess);
+      toast.error("Bạn đã sử dụng hết lượt thích trong ngày", {
+        icon: <ImSad2 className="text-red-500" />,
+      });
+    },
+  });
   const skip = useSkip();
 
   const {

@@ -13,6 +13,8 @@ import "@/utils/prototype";
 import { redirect, usePathname } from "next/navigation";
 import { PropsWithChildren } from "react";
 import DialogConfirm from "./room/[room]/_comps/dialog-confirm";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const IS_DONE_GET_STARTED = 4;
 export default function AppLayout({ children }: PropsWithChildren) {
@@ -53,6 +55,7 @@ export default function AppLayout({ children }: PropsWithChildren) {
       <NotifyNewLiked />
       <NotifyNewMatched />
       <UpdateLocation />
+      <ToastContainer />
     </>
   );
 }
