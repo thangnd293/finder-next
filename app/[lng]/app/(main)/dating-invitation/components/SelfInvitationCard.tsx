@@ -33,20 +33,29 @@ const SelfInvitationCard = ({
 
   return (
     <div
-      className="relative flex cursor-pointer gap-3 rounded-sm border p-4 hover:bg-background-50"
+      className="relative flex cursor-pointer flex-col gap-3 rounded-sm border p-4 hover:bg-background-50 md:flex-row"
       onClick={onClick}
     >
       {statusBadge[status]}
 
-      <div className="space-y-1">
-        <p className="text-center text-sm font-medium text-secondary-foreground">
+      <div>
+        <p className="text-left text-sm font-medium text-secondary-foreground md:text-center">
           Người nhận
         </p>
-        <Avatar size="xl" src={receiver.images?.[0]?.url} />
+        <div className="flex items-center gap-4">
+          <Avatar size="xl" src={receiver.images?.[0]?.url} />
+          <div className="pb-3.5 md:hidden">
+            <p className="font-medium">{receiver.name}</p>
+            <p className="line-clamp-3 w-full text-sm text-secondary-foreground">
+              <BiMessageDetail className="inline-block" />
+              &nbsp;{description}
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 divide-y overflow-hidden">
-        <div className="pb-3.5">
+        <div className="hidden pb-3.5 md:block">
           <p className="font-medium">{receiver.name}</p>
           <p className="line-clamp-3 w-full text-sm text-secondary-foreground">
             <BiMessageDetail className="inline-block" />

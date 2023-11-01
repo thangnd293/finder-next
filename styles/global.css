@@ -199,7 +199,6 @@ input[type="number"] {
   border-radius: 4px;
 }
 
-
 .record-animation {
   position: absolute;
   top: 0;
@@ -207,10 +206,9 @@ input[type="number"] {
   animation: record-animation 1s ease-in-out infinite alternate forwards;
 }
 
-
 @keyframes record-animation {
   0% {
-   top: 0;
+    top: 0;
   }
   100% {
     top: 100%;
@@ -225,3 +223,22 @@ a {
   display: none !important;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

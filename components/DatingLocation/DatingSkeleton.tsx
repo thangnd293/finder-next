@@ -4,7 +4,7 @@ import { Skeleton } from "../Skeleton";
 const DatingSkeletonSkeleton = () => {
   return (
     <div className="flex gap-3">
-      <Skeleton className="relative h-48 w-48 overflow-hidden rounded-md" />
+      <Skeleton className="relative h-28 w-28 overflow-hidden rounded-md md:h-48 md:w-48" />
       <div className="flex-1">
         <div className="space-y-2">
           <Skeleton className="h-5 w-1/3" />
@@ -18,7 +18,7 @@ const DatingSkeletonSkeleton = () => {
               key={i}
               className="h-5"
               style={{
-                width: `${randomNumber(40, 80)}%`,
+                width: `${randomNumber(60, 100)}%`,
               }}
             />
           ))}

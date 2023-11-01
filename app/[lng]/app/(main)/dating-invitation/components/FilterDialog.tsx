@@ -44,7 +44,11 @@ const FilterDialog = ({ filter, onFilter, close }: FilterDialogProps) => {
               render={({ field: { value, onChange } }) => (
                 <OptionPicker
                   options={senderFilter}
-                  value={value ?? senderFilter[0].value}
+                  value={
+                    value && value !== senderFilter[0].value
+                      ? "me"
+                      : senderFilter[0].value
+                  }
                   onChange={onChange}
                 />
               )}

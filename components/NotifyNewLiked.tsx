@@ -39,7 +39,7 @@ const NotificationDialog = ({ newLiked, onClose }: NotificationDialogProps) => {
 
   return (
     <Modal
-      className="justify-center"
+      className="justify-center p-6"
       open={true}
       onOpenChange={onClose}
       withCloseButton={false}

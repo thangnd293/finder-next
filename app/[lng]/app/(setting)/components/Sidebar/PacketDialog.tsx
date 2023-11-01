@@ -11,8 +11,15 @@ import Cards, { Focused } from "react-credit-cards-2";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
+import ActionIcon from "@/components/ActionIcon";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
-import { BsCalendar, BsCreditCard, BsLock, BsPerson } from "react-icons/bs";
+import {
+  BsCalendar,
+  BsCreditCard,
+  BsLock,
+  BsPerson,
+  BsXLg,
+} from "react-icons/bs";
 
 interface FormValues {
   number: string;
@@ -89,11 +96,18 @@ const PacketDialog = ({
 
   return (
     <Modal
-      className="gap-8"
+      className="items-center gap-8 overflow-y-auto p-8"
       size="full"
       closeOnClickOutside={false}
       onOpenChange={onClose}
     >
+      <ActionIcon
+        className="absolute right-3 top-2 rounded-full"
+        variant="ghost"
+        onClick={onClose}
+      >
+        <BsXLg />
+      </ActionIcon>
       <header
         className="flex items-center justify-center gap-2 text-3xl font-semibold"
         style={{

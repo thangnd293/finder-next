@@ -75,12 +75,12 @@ export const BasicSettingDialog = ({
   };
 
   const Content = steps[emptyStep[currentStepIndex]];
-  
+
   const currentValue =
     tags?.find((tag) => tag.type === emptyStep[currentStepIndex])?._id || "";
 
   return (
-    <Modal open={true} onOpenChange={() => setShowConfirmDialog(true)}>
+    <Modal className="p-6" onOpenChange={() => setShowConfirmDialog(true)}>
       <ConfirmAlert
         isShow={showConfirmDialog}
         onClose={handleClose}

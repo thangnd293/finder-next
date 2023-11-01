@@ -87,31 +87,33 @@ const ReportDialog = ({
       onOpenChange={handleClose}
       closeOnClickOutside={false}
     >
-      <FormProvider {...methods}>
-        <form
-          className="flex w-full flex-col"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <ActionIcon
-            className={cn("absolute left-5 top-5", {
-              hidden: isFirstStep,
-            })}
-            disabled={submitReport.isLoading || isFirstStep}
-            variant="ghost"
-            onClick={handlePrev}
+      <Modal.Body className="p-6">
+        <FormProvider {...methods}>
+          <form
+            className="flex w-full flex-col"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <ArrowLeftIcon width={16} height={16} />
-          </ActionIcon>
+            <ActionIcon
+              className={cn("absolute left-5 top-5", {
+                hidden: isFirstStep,
+              })}
+              disabled={submitReport.isLoading || isFirstStep}
+              variant="ghost"
+              onClick={handlePrev}
+            >
+              <ArrowLeftIcon width={16} height={16} />
+            </ActionIcon>
 
-          <Progress className="mx-auto h-1 w-1/2" value={percent} />
+            <Progress className="mx-auto h-1 w-1/2" value={percent} />
 
-          <Step
-            isSubmitting={submitReport.isLoading}
-            onNext={isLastStep ? undefined : handleNext}
-            onPrev={handlePrev}
-          />
-        </form>
-      </FormProvider>
+            <Step
+              isSubmitting={submitReport.isLoading}
+              onNext={isLastStep ? undefined : handleNext}
+              onPrev={handlePrev}
+            />
+          </form>
+        </FormProvider>
+      </Modal.Body>
     </Modal>
   );
 };

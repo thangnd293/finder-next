@@ -26,7 +26,7 @@ interface CountrySelectProps {
   value: Country;
   onChange: (value: Country) => void;
 }
-const CountrySelect = ({ value, onChange }: CountrySelectProps) => {
+const CountrySelect = ({ value = "VN", onChange }: CountrySelectProps) => {
   const countries = getCountries();
 
   const [open, setOpen] = useState(false);
@@ -52,7 +52,7 @@ const CountrySelect = ({ value, onChange }: CountrySelectProps) => {
                 ? `+${getCountryCallingCode(
                     value.toUpperCase() as CountryCode,
                   )}`
-                : "Select country..."}
+                : "Chọn quốc gia..."}
               <CaretSortIcon className="absolute right-1 ml-2 h-4 w-4 shrink-0 opacity-50" />
             </div>
           </ButtonBase>
