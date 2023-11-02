@@ -76,8 +76,8 @@ const SearchPlace = () => {
   return (
     <div
       className={cn(
-        "absolute left-0 top-3 z-10 flex items-center transition-[gap]",
-        !!(searchResults || placeDetail) && "gap-4",
+        "absolute left-0 top-3 z-10 flex w-full flex-col items-center gap-4 transition-[gap] md:flex-row md:gap-0",
+        !!(searchResults || placeDetail) && "!gap-4",
       )}
     >
       <SearchPlacesAutocomplete

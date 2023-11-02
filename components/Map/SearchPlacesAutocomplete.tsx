@@ -47,7 +47,7 @@ const SearchPlacesAutocomplete = ({
   };
 
   return (
-    <div className="w-[25vw] max-w-sm px-4">
+    <div className="w-full px-4 md:w-[25vw] md:min-w-[314px] md:max-w-sm">
       <Combobox value={keyword} onChange={handleQuickSearch}>
         {({ open }) => {
           const isShowAutocomplete =

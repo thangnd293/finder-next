@@ -41,7 +41,7 @@ const PlaceItem = ({
 
       {onRemovePlace && (
         <ActionIcon
-          className="absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-full bg-background-200 text-muted-foreground hover:bg-destructive hover:text-destructive-foreground active:!-translate-y-1/2 active:brightness-90 group-hover:flex"
+          className="absolute right-2 top-1/2 flex -translate-y-1/2 rounded-full bg-background-200 text-muted-foreground hover:bg-destructive hover:text-destructive-foreground active:!-translate-y-1/2 active:brightness-90 group-hover:flex md:hidden"
           variant="filled"
           size="sm"
           onClick={(e) => {
@@ -56,4 +56,4 @@ const PlaceItem = ({
   );
 };
 
-export default PlaceItem
+export default PlaceItem;

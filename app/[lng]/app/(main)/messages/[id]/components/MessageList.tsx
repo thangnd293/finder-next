@@ -42,7 +42,7 @@ const MessageList = () => {
         <Avatar className="h-48 w-48" src={receiver?.images[0]?.url} />
 
         <p className="text-secondary-foreground">
-          👋 Mở lời chào tới ngay thôi, đừng ngại
+          👋 Đừng ngại, mở lời tới ngay thôi nào
         </p>
       </div>
     );

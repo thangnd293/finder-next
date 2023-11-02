@@ -8,6 +8,11 @@ import Image from "next/image";
 import { useShallow } from "zustand/react/shallow";
 import { DEFAULT_ZOOM, LNG_PADDING } from "@/constant/map";
 import PlaceItem from "./PlaceItem";
+import { useState } from "react";
+import ActionIcon from "@/components/ActionIcon";
+import { BsChevronDown, BsListUl } from "react-icons/bs";
+import { useIsMobile } from "@/hooks/use-is-mobile";
+import { cn } from "@/lib/utils";
 
 interface SelectedPlaceProps {
   selectedPlaces: Place[];
@@ -21,10 +26,15 @@ const SelectedPlaces = ({
   onCloseEditor,
   onOpenDetailDialog,
 }: SelectedPlaceProps) => {
-  const { map, setPlaceDetail } = useStore(
+  const isMobile = useIsMobile();
+
+  const [isHidden, setIsHidden] = useState(isMobile);
+
+  const { map, setPlaceDetail, searchResults } = useStore(
     useShallow((state) => ({
       map: state.map,
       setPlaceDetail: state.setPlaceDetail,
+      searchResults: state.searchResults,
     })),
   );
 
@@ -52,9 +62,34 @@ const SelectedPlaces = ({
     onSelectedPlacesChange(newPlaces);
   };
 
+  if (isHidden)
+    return (
+      <button
+        className={cn(
+          "absolute bottom-32 right-3 flex items-center gap-2 rounded-md border bg-background px-4 py-2.5 text-sm text-primary shadow-xl",
+          {
+            "bottom-3": !!searchResults,
+          },
+        )}
+        onClick={() => setIsHidden(false)}
+      >
+        <BsListUl />
+        Địa điểm đã chọn{" "}
+        {selectedPlaces.length > 0 && `(${selectedPlaces.length})`}
+      </button>
+    );
+
   return (
-    <div className="flex h-screen w-[25vw] max-w-[408px] flex-shrink-0 flex-col overflow-hidden border-l">
-      <h2 className="border-b p-3 text-center text-lg font-semibold">
+    <div className="flex h-screen w-full flex-shrink-0 flex-col overflow-hidden border-l md:flex md:w-[25vw] md:min-w-[314px] md:max-w-[408px]">
+      <h2 className="relative border-b p-3 text-center text-lg font-semibold">
+        <ActionIcon
+          className="absolute left-3 top-1/2 -translate-y-1/2 active:-translate-y-1/2"
+          title="Ẩn danh sách địa điểm đã chọn"
+          variant="ghost"
+          onClick={() => setIsHidden(true)}
+        >
+          <BsChevronDown />
+        </ActionIcon>
         Địa điểm đã chọn
       </h2>
       <div className="w-full flex-1 overflow-auto py-1">

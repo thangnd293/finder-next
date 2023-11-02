@@ -100,7 +100,11 @@ const CreateScheduleDialog = ({
       <Modal.Header withCloseButton>Tạo lời mời</Modal.Header>
 
       <Modal.Body className="px-6 py-4">
-        <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="space-y-3"
+          ref={formRef}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <Label>Thời gian</Label>
             <div className="flex gap-2">

@@ -67,8 +67,8 @@ const SearchResult = ({
       {showSidebar && (
         <div
           className={cn(
-            "absolute bottom-0 left-0 top-0 w-[25vw] max-w-sm border-r bg-background",
-            !!searchResults && "pt-18",
+            "absolute bottom-0 left-0 top-1/2 w-full rounded-xl border-r bg-background py-3 md:top-0 md:w-[25vw] md:min-w-[314px] md:max-w-sm md:rounded-none md:pt-0",
+            !!searchResults && "md:pt-18",
           )}
         >
           <ScrollArea className="h-full w-full overflow-hidden">
@@ -136,6 +136,7 @@ const SearchResult = ({
           )}
           onAddPlace={handleAddPlace}
           onRemovePlace={handleRemovePlace}
+          onClose={() => setPlaceDetail(null)}
         />
       )}
     </>
