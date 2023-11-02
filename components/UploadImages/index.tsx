@@ -120,7 +120,7 @@ const UploadImages = ({
         }}
       >
         {images.map((image, index) => {
-          const isSortable = image ? true : false;
+          const isSortable = image.url ? true : false;
           const Wrapper = isSortable ? SortableItem : Fragment;
 
           return (

@@ -1,10 +1,9 @@
 import Spinner from "@/components/Spinner";
 import { useCldUpload } from "@/lib/cloudinary";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
-import { BsXLg } from "react-icons/bs";
-import CropImageDialog from "./CropImageDialog";
 import { Image } from "@/service/user";
+import React from "react";
+import { BsXLg } from "react-icons/bs";
 import CustomImage from "../CustomImage";
 
 interface ImageCardProps {
@@ -15,21 +14,11 @@ interface ImageCardProps {
 }
 const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
   ({ image, error, onImageChange, onRemoveImage }, ref) => {
-    const [file, setFile] = useState<File>();
-    const [isOpenCropDialog, setIsOpenCropDialog] = useState(false);
     const cldUpload = useCldUpload();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (!file) return;
-
-      setFile(file);
-      setIsOpenCropDialog(true);
-    };
-
-    const handleCropDone = (file: File) => {
-      setIsOpenCropDialog(false);
-      setFile(undefined);
 
       cldUpload.mutate(file, {
         onSuccess: (result) => {
@@ -47,18 +36,17 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
             "image-card",
             "min-w-40 relative block aspect-square w-full cursor-pointer overflow-hidden rounded-xl border bg-background p-2",
             error && "border-destructive",
-            image && "image-card--has-image",
+            image.url && "image-card--has-image",
             cldUpload.isLoading && "image-card--is-loading",
           )}
         >
           {image.url && !cldUpload.isLoading && (
-            <>
+            <div className="relative h-full w-full">
               <CustomImage
                 image={image}
-                className="pointer-events-none select-none rounded-lg object-cover"
+                className="pointer-events-none select-none rounded-lg object-cover object-center"
                 alt={""}
-                width={138}
-                height={138}
+                fill
               />
               <button
                 className="absolute right-0 top-0 cursor-pointer rounded-md bg-background p-2"
@@ -67,7 +55,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
               >
                 <BsXLg />
               </button>
-            </>
+            </div>
           )}
           {!image.url && !cldUpload.isLoading && (
             <div className="pointer-events-none flex h-full w-full items-center justify-center rounded-lg bg-background-100">
@@ -92,16 +80,6 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
             hidden
           />
         </div>
-
-        <CropImageDialog
-          isVisible={isOpenCropDialog}
-          file={file}
-          onCropDone={handleCropDone}
-          closeModal={() => {
-            setIsOpenCropDialog(false);
-            setFile(undefined);
-          }}
-        />
       </div>
     );
   },

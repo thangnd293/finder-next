@@ -21,21 +21,26 @@ const ConfirmCancel = ({ onCancel: _onCancel }: ConfirmCancelProps) => {
         Huỷ
       </Button>
 
-      <Modal className="gap-2" size="xs" open={isOpen} onOpenChange={setIsOpen}>
-        <Modal.Header>Huỷ hành động?</Modal.Header>
+      <Modal
+        className="!h-fit w-fit gap-2 rounded-md p-6"
+        size="xs"
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
+        <h1 className="text-center text-lg font-extrabold md:text-xl">
+          Huỷ hành động?
+        </h1>
 
-        <Modal.Body className="px-4 py-2">
-          Thao tác này sẽ không thể hoàn tác
-        </Modal.Body>
+        <div className="px-4 py-2">Thao tác này sẽ không thể hoàn tác</div>
 
-        <Modal.Footer>
+        <div className="flex items-center justify-end gap-2">
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Huỷ
           </Button>
           <Button size="sm" onClick={onClose}>
             Quay lại
           </Button>
-        </Modal.Footer>
+        </div>
       </Modal>
     </>
   );
