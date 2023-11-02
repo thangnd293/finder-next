@@ -18,3 +18,9 @@ export interface Schedule {
 export interface ScheduleDetail extends Omit<Schedule, "locationDating"> {
   locationDating: Place[];
 }
+
+export enum DatingStatus {
+  YES = "Yes",
+  NO = "No",
+  HALFWAY = "Halfway",
+}

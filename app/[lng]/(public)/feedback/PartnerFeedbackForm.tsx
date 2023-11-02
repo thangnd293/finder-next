@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "./RadioGroup";
 import { Option } from "@/components/RadioGroup";
 import {
+  DatingStatus,
   FeedbackSchedulePayload,
   useFeedbackSchedule,
   useVerifyFormToken,
@@ -13,7 +14,7 @@ import ThankForFeedback from "./ThankForFeedback";
 interface FormValues {
   feedback: string;
   partnerFeedback: string;
-  isContinue: string;
+  isContinue: DatingStatus | "";
   comment: string;
 }
 
@@ -32,7 +33,7 @@ const PartnerFeedbackForm = () => {
   if (!data) return null;
 
   const onSubmit = (values: FormValues) => {
-    if (!data.token) return;
+    if (!data.token || !values.isContinue) return;
 
     const detail = questions
       .filter((question) => !question.options)
@@ -61,7 +62,7 @@ const PartnerFeedbackForm = () => {
             key={question.key}
             className="overflow-hidden rounded-md border bg-background"
           >
-            <h3 className="bg-primary p-3 text-white">
+            <h3 className="bg-primary p-3 text-sm text-white md:text-base">
               {question.question} {question.isRequired && <span>*</span>}
             </h3>
             <div className="p-3">
@@ -98,7 +99,9 @@ const PartnerFeedbackForm = () => {
             key={question.key}
             className="overflow-hidden rounded-md border bg-background"
           >
-            <h3 className="bg-primary p-3 text-white">{question.question}</h3>
+            <h3 className="bg-primary p-3 text-sm text-white md:text-base">
+              {question.question}
+            </h3>
             <Textarea
               className="!border-none p-3 !outline-none !ring-0"
               placeholder="Câu trả lời của bạn"
@@ -141,15 +144,15 @@ const questions: {
     question: "Bạn có muốn tiến tới với đối tác này không?",
     options: [
       {
-        value: "1",
+        value: DatingStatus.YES,
         label: "Có, tôi muốn tiến tới",
       },
       {
-        value: "0",
+        value: DatingStatus.HALFWAY,
         label: "Chưa chắc chắn",
       },
       {
-        value: "-1",
+        value: DatingStatus.NO,
         label: "Không, tôi không muốn tiến tới",
       },
     ],

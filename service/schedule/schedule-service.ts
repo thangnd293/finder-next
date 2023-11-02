@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axios";
 import { Data, List } from "@/types/http";
-import { Schedule, ScheduleDetail } from "./type";
+import { DatingStatus, Schedule, ScheduleDetail } from "./type";
 import { User } from "../user";
 
 export interface SuggestDatePayload {
@@ -35,7 +35,7 @@ export type ScheduleActionArgs = {
 export type FeedbackSchedulePayload = {
   token: string;
   isJoin?: boolean;
-  datingStatus?: string;
+  datingStatus?: DatingStatus;
   detail?: {
     question: string;
     answer: string;

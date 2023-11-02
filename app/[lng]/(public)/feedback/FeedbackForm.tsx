@@ -36,7 +36,7 @@ const FeedbackForm = () => {
   };
 
   if (sendFeedback.isSuccess) return <ThankForFeedback />;
-  
+
   return (
     <>
       {isJoined ? (
@@ -44,13 +44,13 @@ const FeedbackForm = () => {
       ) : (
         <>
           <div className="overflow-hidden rounded-md border bg-background">
-            <div className="h-2.5 bg-primary" />
+            <div className="h-1.5 bg-primary md:h-2.5" />
             <div className="divide-y p-4">
-              <h1 className="pb-3 text-2xl font-bold">
+              <h1 className="pb-3 text-xl font-bold md:text-2xl">
                 Buổi hẹn của bạn thế nào
               </h1>
               <div>
-                <p className="pt-3">
+                <p className="pt-3 text-sm md:text-base">
                   Chào <span className="font-semibold">{currentUser.name}</span>
                   , chúng tôi rất vui khi bạn đã có một buổi hẹn với{" "}
                   <span className="font-semibold">{partner.name}</span> vào lúc{" "}
@@ -65,7 +65,7 @@ const FeedbackForm = () => {
           </div>
 
           <div className="overflow-hidden rounded-md border bg-background">
-            <h3 className="bg-primary p-3 text-white">
+            <h3 className="bg-primary p-3 text-sm text-white md:text-base">
               Bạn có tham gia buổi hẹn này không?
             </h3>
             <div className="flex items-center justify-end gap-2 p-3">

@@ -6,7 +6,7 @@ import VerifyFormToken from "./VerifyFormToken";
 export default function FeedbackPage() {
   return (
     <VerifyFormToken>
-      <div className="min-h-screen w-full bg-primary-50">
+      <div className="min-h-screen w-full bg-primary-50 px-4 pb-4">
         <header className="flex h-14 w-full flex-shrink-0 items-center justify-center md:h-20">
           <Logo />
         </header>

@@ -22,8 +22,8 @@ const InvalidToken = () => {
     <div className="flex h-screen w-full items-center justify-center">
       <div>
         <Image src="/images/cat.png" alt="" width={520} height={520} />
-        <p className="text-center text-3xl font-semibold text-primary">
-          Form không hợp lệ
+        <p className="px-6 text-center text-xl font-semibold text-primary md:text-3xl">
+          Form bạn đang truy cập không tồn tại
         </p>
       </div>
     </div>
