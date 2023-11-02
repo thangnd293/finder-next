@@ -1,5 +1,7 @@
 "use client";
 
+import "@/utils/prototype";
+
 import {
   QueryClient,
   QueryClientConfig,

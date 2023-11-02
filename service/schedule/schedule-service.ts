@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios";
 import { Data, List } from "@/types/http";
 import { Schedule, ScheduleDetail } from "./type";
+import { User } from "../user";
 
 export interface SuggestDatePayload {
   content: string;
@@ -30,6 +31,16 @@ export type ScheduleActionArgs = {
   action: ScheduleAction;
   id: string;
 };
+
+export type FeedbackSchedulePayload = {
+  token: string;
+  isJoin?: boolean;
+  datingStatus?: string;
+  detail?: {
+    question: string;
+    answer: string;
+  }[];
+};
 export class ScheduleService {
   static prefix = "/schedule";
 
@@ -40,6 +51,9 @@ export class ScheduleService {
     getSchedulesDetail: (id: string) => `${this.prefix}/${id}`,
     actionSchedule: (action: ScheduleAction, id: string) =>
       `${this.prefix}/${action}/${id}`,
+    verifyToken: (token: string) =>
+      `${this.prefix}/verify-token?token=${token}`,
+    feedbackSchedule: (token: string) => `${this.prefix}/review?token=${token}`,
   };
 
   static suggestDate = async (payload: SuggestDatePayload) => {
@@ -70,6 +84,27 @@ export class ScheduleService {
   static actionSchedule = async ({ action, id }: ScheduleActionArgs) => {
     const { data } = await axiosInstance.post<Data<Schedule>>(
       this.urls.actionSchedule(action, id),
+    );
+    return data;
+  };
+
+  static verifyToken = async (token: string) => {
+    const { data } = await axiosInstance.get<
+      Data<{
+        schedule: Schedule;
+        currentUser: User;
+      }>
+    >(this.urls.verifyToken(token));
+    return data.data;
+  };
+
+  static feedbackSchedule = async ({
+    token,
+    ...payload
+  }: FeedbackSchedulePayload) => {
+    const { data } = await axiosInstance.post<Data<Schedule>>(
+      this.urls.feedbackSchedule(token),
+      payload,
     );
     return data;
   };
