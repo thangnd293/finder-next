@@ -1,21 +1,16 @@
 "use client";
 
 import { CardBox, UserCard } from "@/components/UserCard";
-import { CardAction, Container, Header } from "./components";
-import BlockAndReport from "./components/BlockAndReport";
 import { useIsMobile } from "@/hooks/use-is-mobile";
-import { CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import MobileMessagePage from "./MobileMessagePage";
+import { CardAction, Container, Header } from "./components";
+import BlockAndReport from "./components/BlockAndReport";
 
 export default function HomePage() {
   const searchParams = useSearchParams();
   const isMobileView = useIsMobile();
-  const mobileStyle: CSSProperties = {
-    width: "100%",
-    height: "100%",
-    alignSelf: "flex-start",
-  };
+
   const tab = searchParams?.get("tab");
 
   if (tab === "message" && isMobileView) return <MobileMessagePage />;
@@ -39,10 +34,7 @@ export default function HomePage() {
             {(style) => {
               const currentUser = recommendedUsers[currentIndex];
               return (
-                <div
-                  className="relative mb-10"
-                  style={isMobileView ? mobileStyle : style}
-                >
+                <div className="relative mb-10" style={style}>
                   {visibleUsers.map((user, _, arr) => (
                     <UserCard
                       key={user._id}
@@ -54,6 +46,7 @@ export default function HomePage() {
                       onLike={onLike}
                       onUnLike={onUnLike}
                       onReportDone={onReportDone}
+                      onSuperLike={onLike}
                     />
                   ))}
                   {!isMobileView && (

@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import React, { CSSProperties } from "react";
 import { useElementSize } from "usehooks-ts";
 
@@ -9,16 +10,23 @@ interface CardBoxProps
 }
 
 export const CardBox = ({ children }: CardBoxProps) => {
+  const isMobileView = useIsMobile();
+  const mobileStyle: CSSProperties = {
+    width: "100%",
+    height: "100%",
+    alignSelf: "flex-start",
+  };
+
   const [boxRef, { width, height }] = useElementSize();
 
-  const dimensions = calcDimensions(width * 0.85, height * 0.85);
+  const style = calcDimensions(width * 0.85, height * 0.85);
 
   return (
     <div
       ref={boxRef}
       className="flex h-full w-full items-center justify-center"
     >
-      {children(dimensions)}
+      {children(isMobileView ? mobileStyle : style)}
     </div>
   );
 };

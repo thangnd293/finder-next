@@ -14,16 +14,28 @@ import SlideImages from "./SlideImages";
 import { MobileUserCard } from "./MobileUserCard";
 import { GoHome, GoLocation } from "react-icons/go";
 
-export interface UserCardProps {
+type UserCardWithActionProps = {
+  canBack: boolean;
+  onBack: () => void;
+  onLike: () => void;
+  onUnLike: () => void;
+  onReportDone: () => void;
+  onSuperLike: () => void;
+};
+
+type UserCardWithoutActionProps = {
+  canBack?: never;
+  onBack?: never;
+  onLike?: never;
+  onUnLike?: never;
+  onReportDone?: never;
+  onSuperLike?: never;
+};
+export type UserCardProps = {
   isShow?: boolean;
   isFirst?: boolean;
   user: User;
-  canBack?: boolean;
-  onBack?: () => void;
-  onLike?: () => void;
-  onUnLike?: () => void;
-  onReportDone?: () => void;
-}
+} & (UserCardWithActionProps | UserCardWithoutActionProps);
 
 export const UserCard = ({
   isShow,

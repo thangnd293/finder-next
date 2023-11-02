@@ -123,7 +123,7 @@
 }
 
 @layer utilities {
-  text-shadow {
+  .text-shadow {
     text-shadow: #000 1px 0 10px;
   }
   .no-scrollbar::-webkit-scrollbar {

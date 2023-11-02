@@ -41,7 +41,7 @@ export default function HomePage() {
       {isEmpty && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-3">
           <Image src={"/images/empty.png"} width={128} height={128} alt={""} />
-          <p className="text-secondary-foreground">
+          <p className="px-6 text-center text-secondary-foreground">
             Hãy chuẩn bị một profile thật xịn xò để tăng khả năng tương tác
           </p>
         </div>

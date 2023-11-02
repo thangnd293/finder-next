@@ -25,11 +25,11 @@ const PreviewProfile = () => {
           </Button>
         </RadixDialog.Trigger>
         <RadixDialog.Portal>
-          <RadixDialog.Overlay className="fixed inset-0 z-50 hidden place-items-center overflow-hidden bg-modal-overplay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:grid">
-            <RadixDialog.Content className="h-2/3 w-2/3">
+          <RadixDialog.Overlay className="fixed inset-0 z-50 place-items-center overflow-hidden bg-modal-overplay data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:grid">
+            <RadixDialog.Content className="h-full w-full md:h-2/3 md:w-2/3">
               <CardBox>
                 {(style) => (
-                  <div className="relative" style={style}>
+                  <div className="relative " style={style}>
                     {isLoading || !data ? (
                       <Spinner />
                     ) : (
@@ -41,9 +41,9 @@ const PreviewProfile = () => {
 
               <RadixDialog.Close
                 asChild
-                className="absolute right-4 top-5 rounded-full border-white/80 text-white hover:border-white"
+                className="absolute right-4 top-5 z-10 rounded-full border"
               >
-                <ActionIcon>
+                <ActionIcon variant="filled">
                   <BsXLg />
                 </ActionIcon>
               </RadixDialog.Close>

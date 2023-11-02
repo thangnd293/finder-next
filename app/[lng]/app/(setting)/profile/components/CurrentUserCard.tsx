@@ -21,10 +21,13 @@ const CurrentUserCard = () => {
             <>
               <UserCard isShow user={currentUser} />
               <Button
-                className="absolute bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full"
+                className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center whitespace-nowrap rounded-full"
                 onClick={() => router.push("/app/profile/edit")}
               >
-                Sửa thông tin
+                Sửa thông tin&nbsp;
+                <span className="text-sm">
+                  ({currentUser.totalFinishProfile}% hoàn thành)
+                </span>
               </Button>
             </>
           )}
