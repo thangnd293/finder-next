@@ -45,9 +45,7 @@ const ModeRadioGroup = ({
               <Image src={item.icon} alt={""} width={50} height={50} />
               <div>
                 <p className={item.color}>{item.label}</p>
-                <p className="text-sm">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                </p>
+                <p className="text-sm">{item.content}</p>
               </div>
             </div>
             <RadioGroup.Item
@@ -73,11 +71,13 @@ const data = [
     label: "date",
     icon: "/images/date.png",
     color: "text-primary",
+    content: "Bạn ế quá lâu?. Đừng lo chúng tôi ở đây để giúp bạn",
   },
   {
     value: "Bff",
     label: "bff",
     icon: "/images/bff.png",
     color: "text-green-600",
+    content: "Hãy tìm người tốt, đừng tìm người xấu",
   },
 ];

@@ -28,7 +28,11 @@ const AuthModal = ({
   };
 
   return (
-    <Modal className="p-6" open={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      className="overflow-y-auto p-6"
+      open={isOpen}
+      onOpenChange={onOpenChange}
+    >
       {
         {
           [EAuthMode.SIGN_UP]: (

@@ -51,3 +51,20 @@ export function randomNumber(min: number, max: number) {
 export function uniqueArray<T extends Object>(arr: T[], key: keyof T): T[] {
   return [...new Map(arr.map((item) => [item[key], item])).values()];
 }
+
+export function requestLocationPermission(): Promise<GeolocationPosition> {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Geolocation is not supported by this browser."));
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve(position);
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+}

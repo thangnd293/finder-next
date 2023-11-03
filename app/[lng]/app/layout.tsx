@@ -1,9 +1,8 @@
 "use client";
 
-import UpdateLocation from "@/components/UpdateLocation";
 import LoadingScreen from "@/components/LoadingScreen";
-import NotifyNewLiked from "@/components/NotifyNewLiked";
 import Notification from "@/components/Notification";
+import NotifyNewLiked from "@/components/NotifyNewLiked";
 import NotifyNewMatched from "@/components/NotifyNewMatched";
 import useDetectUserFocusState from "@/hooks/use-detect-user-focus-state";
 import useSocket from "@/hooks/use-socket";
@@ -12,16 +11,22 @@ import { eraseCookie } from "@/utils/cookie";
 import "@/utils/prototype";
 import { redirect, usePathname } from "next/navigation";
 import { PropsWithChildren } from "react";
-import DialogConfirm from "./room/[room]/_comps/dialog-confirm";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DialogConfirm from "./room/[room]/_comps/dialog-confirm";
+import { ROUTE } from "@/constant/route";
+import CheckLocation from "@/components/CheckLocation";
 
 const IS_DONE_GET_STARTED = 4;
 export default function AppLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
 
   const { data: currentUser, isLoading, isError } = useCurrentUser();
-  const active = !isError && !!currentUser;
+  const active =
+    !isError &&
+    !!currentUser &&
+    currentUser.stepStarted === IS_DONE_GET_STARTED &&
+    !!currentUser.geoLocation;
 
   useSocket(active);
   useDetectUserFocusState();
@@ -35,16 +40,24 @@ export default function AppLayout({ children }: PropsWithChildren) {
 
   if (
     currentUser.stepStarted !== IS_DONE_GET_STARTED &&
-    !pathname?.includes("/app/get-started")
+    !pathname?.includes(ROUTE.GET_STARTED)
   ) {
-    redirect("/app/get-started");
+    redirect(ROUTE.GET_STARTED);
   }
 
   if (
     currentUser.stepStarted === IS_DONE_GET_STARTED &&
-    pathname?.includes("/app/get-started")
+    !pathname?.includes(ROUTE.LOCATION_PERMISSION) &&
+    !currentUser.geoLocation
   ) {
-    redirect("/app");
+    redirect(ROUTE.LOCATION_PERMISSION);
+  }
+
+  if (
+    currentUser.stepStarted === IS_DONE_GET_STARTED &&
+    pathname?.includes(ROUTE.GET_STARTED)
+  ) {
+    redirect(ROUTE.HOME);
   }
 
   return (
@@ -54,8 +67,8 @@ export default function AppLayout({ children }: PropsWithChildren) {
       <Notification />
       <NotifyNewLiked />
       <NotifyNewMatched />
-      <UpdateLocation />
       <ToastContainer />
+      <CheckLocation />
     </>
   );
 }

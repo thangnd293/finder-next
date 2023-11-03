@@ -23,8 +23,6 @@ const useSocket = (active: boolean) => {
     setIsConnected(true);
 
     socket.on("connect", () => {
-      console.log("connected");
-
       socket.emit("verifyFirstConnection");
     });
 

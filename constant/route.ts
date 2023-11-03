@@ -6,4 +6,6 @@ export const ROUTE = {
   EXPLORE: "/app/explore",
   DATING_INVITATION: "/app/dating-invitation",
   LIKED_YOU: "/app/liked-you",
+  LOCATION_PERMISSION: "/app/location-permission",
+  GET_STARTED: "/app/get-started",
 };

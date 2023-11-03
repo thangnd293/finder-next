@@ -81,4 +81,8 @@ export interface User {
   blurAvatar: string;
   school?: string;
   totalFinishProfile: number;
+  geoLocation: {
+    coordinates: number[];
+    type: string;
+  };
 }

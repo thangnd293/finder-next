@@ -1,13 +1,12 @@
 "use client";
 
-import SiteInformationIcon from "@/assets/icons/site-information-icon";
 import ActionIcon from "@/components/ActionIcon";
-import Button from "@/components/Button";
 import Label from "@/components/Label";
-import Modal from "@/components/Modal";
+import RequestPermissionDialog from "@/components/RequestPermissionDialog";
 import { useCurrentUser, useUpdateLocation } from "@/service/user";
+import { requestLocationPermission } from "@/utils/helper";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const LocationSetting = () => {
   const [isOpenPermissionDialog, setIsOpenPermissionDialog] = useState(false);
@@ -20,12 +19,8 @@ const LocationSetting = () => {
   const updateLocation = useUpdateLocation();
 
   const handleUpdateLocation = () => {
-    if (!navigator?.geolocation)
-      console.log("Browser does not support geolocation");
-
-    setIsLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
+    requestLocationPermission()
+      .then(({ coords: { latitude, longitude } }) =>
         updateLocation.mutate(
           {
             lat: latitude,
@@ -34,13 +29,12 @@ const LocationSetting = () => {
           {
             onSettled: () => setIsLoading(false),
           },
-        );
-      },
-      () => {
+        ),
+      )
+      .catch(() => {
         setIsLoading(false);
         setIsOpenPermissionDialog(true);
-      },
-    );
+      });
   };
 
   return (
@@ -69,25 +63,3 @@ const LocationSetting = () => {
 };
 
 export default LocationSetting;
-
-interface RequestPermissionDialogProps
-  extends Omit<React.ComponentProps<typeof Modal>, "children"> {}
-const RequestPermissionDialog = (props: RequestPermissionDialogProps) => {
-  return (
-    <Modal className="p-6 text-center" size="lg" {...props}>
-      <SiteInformationIcon className="w-full" />
-      <div className="space-y-3">
-        <h2 className="text-xl font-semibold">
-          Chúng tôi cần quyền truy cập vào vị trí của bạn
-        </h2>
-        <p className="font-medium">
-          Để cấp quyền, hãy làm theo hướng dẫn: 🔒 trên trình duyệt của bạn &gt;
-          Location &gt; Allow
-        </p>
-        <div className="mx-auto w-fit">
-          <Button onClick={() => props.onOpenChange?.(false)}>Đã hiểu</Button>
-        </div>
-      </div>
-    </Modal>
-  );
-};

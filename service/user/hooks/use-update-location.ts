@@ -20,8 +20,8 @@ export const useUpdateLocation = (
   const queryClient = useQueryClient();
   return useMutation(UserService.updateLocation, {
     ...config,
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries(getCurrentUserKey());
+    onSuccess: async (data, variables, context) => {
+      await queryClient.invalidateQueries(getCurrentUserKey());
       config.onSuccess?.(data, variables, context);
     },
   });
