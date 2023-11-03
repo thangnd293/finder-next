@@ -37,7 +37,6 @@ const RequestPermission = () => {
   };
   return (
     <>
-      {" "}
       <Button loading={isProcessing} onClick={handleLocationPermit}>
         Cho phép truy cập vị trí
       </Button>
