@@ -1,32 +1,19 @@
-"use client";
-
-import CurrentUserAvatar from "@/components/CurrentUserAvatar";
 import { ROUTE } from "@/constant/route";
 import MainLayoutMobile from "@/layout/MainLayoutMobile";
 import { GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import CircleProgress from "./CircleProgress";
 import CurrentUserInfo from "./CurrentUserInfo";
-import PackFeature from "./PackFeature";
-import { useCurrentUser } from "@/service/user";
+import MobileProfileAvatar from "./MobileProfileAvatar";
+import { ServerService } from "@/service/server";
+import PackageFeature from "./PackageFeature";
 
-const MobileProfilePage = () => {
-  const { data: totalFinishProfile } = useCurrentUser({
-    select: (user) => user.totalFinishProfile,
-  });
+const MobileProfilePage = async () => {
+  const data = await ServerService.getOffers();
+
   return (
     <MainLayoutMobile>
       <div className="container flex w-full flex-col items-center gap-3">
-        <div className="relative mt-10">
-          <CurrentUserAvatar className="border-8 border-white" size="3xl" />
-
-          <CircleProgress
-            className="absolute left-0 top-0 "
-            percentage={totalFinishProfile ?? 0}
-            size={128}
-            strokeWidth={4}
-          />
-        </div>
+        <MobileProfileAvatar />
         <CurrentUserInfo />
 
         <div className="flex w-full gap-2">
@@ -46,7 +33,10 @@ const MobileProfilePage = () => {
             <span>Chỉnh sửa</span>
           </Link>
         </div>
-        <PackFeature />
+        <PackageFeature
+          featureGroup={data.metadata.featureGroup}
+          results={data.results}
+        />
       </div>
     </MainLayoutMobile>
   );

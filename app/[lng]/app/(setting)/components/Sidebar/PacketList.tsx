@@ -2,19 +2,20 @@
 
 import ErrorView from "@/components/ErrorView";
 import LoadingView from "@/components/LoadingView";
+import PacketDialog from "@/components/PackageDialog";
 import { cn } from "@/lib/utils";
 import { Offer, useOffers } from "@/service/offer";
 import Image from "next/image";
 import { useState } from "react";
-import PacketDialog from "./PacketDialog";
 
 const PacketList = () => {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-  const { data: offers, isLoading, isError } = useOffers();
+  const { data, isLoading, isError } = useOffers();
 
-  if (isLoading) return <LoadingView variant="spinner" size={34} />;
+  if (isLoading) return <LoadingView className="h-32" size={34} />;
 
   if (isError) return <ErrorView />;
+  const { results: offers } = data;
 
   return (
     <>

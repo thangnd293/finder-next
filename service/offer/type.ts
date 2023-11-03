@@ -1,3 +1,5 @@
+import { List } from "@/types/http";
+
 export interface Offer {
   _id: string;
   iconUrl: string;
@@ -7,6 +9,7 @@ export interface Offer {
   background: string;
   packages: Package[];
   merchandising: Feature[];
+  isRetail?: boolean;
 }
 
 export interface Package {
@@ -20,6 +23,7 @@ export interface Package {
 }
 
 export interface Feature {
+  name: string;
   type: string;
   amount: number;
   refreshInterval: number;
@@ -27,3 +31,11 @@ export interface Feature {
   iconUrl: string;
   text: string;
 }
+
+interface OfferMetadata {
+  metadata: {
+    featureGroup: Offer["merchandising"];
+  };
+}
+
+export type OfferResponse = List<Offer> & OfferMetadata;

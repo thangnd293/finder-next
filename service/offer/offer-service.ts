@@ -1,6 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { List } from "@/types/http";
-import { Offer } from "./type";
+import { OfferResponse } from "./type";
 
 export class OfferService {
   static prefix = "/offering";
@@ -10,10 +9,10 @@ export class OfferService {
   };
 
   static async getOffers() {
-    const { data } = await axiosInstance.get<List<Offer>>(
+    const { data } = await axiosInstance.get<OfferResponse>(
       "/offering?page=1&size=100",
     );
 
-    return data.results;
+    return data;
   }
 }

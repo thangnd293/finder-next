@@ -15,7 +15,6 @@ import {
   BsFillPersonFill,
 } from "react-icons/bs";
 
-import { useMediaQuery } from "usehooks-ts";
 import Verified, { verifyAction } from "../../verified/verified";
 
 

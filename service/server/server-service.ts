@@ -1,5 +1,6 @@
 import { customFetch } from "@/utils/http";
 import "server-only";
+import { OfferResponse } from "../offer";
 
 export class ServerService {
   static urls = {
@@ -8,6 +9,7 @@ export class ServerService {
 
     linkInstagram: (instagramToken: string) =>
       `/ins/info?token=${instagramToken}`,
+    getOffers: `/offering?page=1&size=100`,
   };
 
   static linkSpotify = async (spotifyToken: string, accessToken: string) => {
@@ -27,5 +29,11 @@ export class ServerService {
       undefined,
       accessToken,
     ).then((res) => res.json());
+  };
+
+  static getOffers = async () => {
+    return await customFetch(this.urls.getOffers).then(
+      (res) => res.json() as Promise<OfferResponse>,
+    );
   };
 }
