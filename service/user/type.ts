@@ -85,4 +85,9 @@ export interface User {
     coordinates: number[];
     type: string;
   };
+  boostsSession: {
+    amount: number;
+    expiredDate: string;
+    refreshInterval: number;
+  };
 }

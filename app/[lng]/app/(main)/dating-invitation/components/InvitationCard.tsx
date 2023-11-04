@@ -4,6 +4,7 @@ import Tooltip from "@/components/Tooltip";
 import { cn } from "@/lib/utils";
 import { Schedule, useActionSchedule } from "@/service/schedule";
 import dayjs from "dayjs";
+import { ReactNode } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { BsQuestionCircle } from "react-icons/bs";
@@ -52,11 +53,7 @@ const InvitationCard = ({
       className="relative flex cursor-pointer flex-col gap-3 rounded-sm border p-4 hover:bg-background-50 md:flex-row"
       onClick={onClick}
     >
-      {status === "Cancel" && (
-        <div className="absolute right-2 top-2 rounded-sm bg-gray-500 px-2 py-1 text-sm text-white">
-          Đã hủy
-        </div>
-      )}
+      {statusBadge[status]}
 
       <div>
         <p className="text-left text-sm font-medium text-secondary-foreground md:text-center">
@@ -158,3 +155,26 @@ const InvitationCard = ({
 };
 
 export default InvitationCard;
+
+const statusBadge: Record<Schedule["status"], ReactNode> = {
+  "Wait for approval": (
+    <div className="absolute right-2 top-2 rounded-sm bg-yellow-500 px-2 py-1 text-sm text-white">
+      Đang chờ
+    </div>
+  ),
+  Accept: (
+    <div className="absolute right-2 top-2 rounded-sm bg-green-500 px-2 py-1 text-sm text-white">
+      Đã chấp nhận
+    </div>
+  ),
+  Decline: (
+    <div className="absolute right-2 top-2 rounded-sm bg-red-500 px-2 py-1 text-sm text-white">
+      Không đồng ý
+    </div>
+  ),
+  Cancel: (
+    <div className="absolute right-2 top-2 rounded-sm bg-gray-500 px-2 py-1 text-sm text-white">
+      Đã hủy
+    </div>
+  ),
+};

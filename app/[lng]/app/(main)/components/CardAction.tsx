@@ -1,6 +1,7 @@
 "use client";
 
 import ActionIcon from "@/components/ActionIcon";
+import BoostButton from "@/components/BoostButton";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { IoPlayBack } from "react-icons/io5";
@@ -19,15 +20,13 @@ export const CardAction = ({
 }: CardActionProps) => {
   return (
     <div className="absolute bottom-0 z-50 flex w-full translate-y-10 items-center justify-center gap-6">
-      {canBack && (
-        <ActionIcon
-          className="rounded-full border-yellow-300 text-yellow-500 hover:border-yellow-500"
-          size="lg"
-          onClick={onBack}
-        >
-          <IoPlayBack />
-        </ActionIcon>
-      )}
+      <ActionIcon
+        className="h-14 w-14 rounded-full border-yellow-300 bg-background text-yellow-500 hover:border-yellow-500"
+        disabled={!canBack}
+        onClick={onBack}
+      >
+        <IoPlayBack size={20} />
+      </ActionIcon>
       <ActionIcon
         className="h-20 w-20 rounded-full bg-white"
         onClick={onUnLike}
@@ -45,6 +44,8 @@ export const CardAction = ({
       >
         <BsCheckLg size={32} />
       </ActionIcon>
+
+      <BoostButton />
     </div>
   );
 };

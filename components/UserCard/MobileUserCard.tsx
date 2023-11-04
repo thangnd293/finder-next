@@ -16,6 +16,7 @@ import ActionIcon from "../ActionIcon";
 import Avatar from "../Avatar";
 import CustomImage from "../CustomImage";
 import ScrollArea from "../ScrollArea";
+import BoostButton from "../BoostButton";
 
 export const MobileUserCard = ({
   isShow,
@@ -207,6 +208,7 @@ export const MobileUserCard = ({
                       <BsCheckLg size={32} />
                     </ActionIcon>
                   )}
+                  <BoostButton className="fixed right-4 top-3/4" />
                 </div>
               )}
 

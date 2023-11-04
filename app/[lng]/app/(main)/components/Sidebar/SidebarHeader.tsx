@@ -2,7 +2,7 @@ import { ROUTE } from "@/constant/route";
 import { MagnifyingGlassIcon, SewingPinIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ActionLink from "./ActionLink";
-import UserInfo from "./UserInfo";
+import UserInfo from "@/layout/Header/UserInfo";
 
 export default function SidebarHeader() {
   return (

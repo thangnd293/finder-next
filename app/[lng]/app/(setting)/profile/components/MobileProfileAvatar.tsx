@@ -2,7 +2,7 @@
 
 import CurrentUserAvatar from "@/components/CurrentUserAvatar";
 import React from "react";
-import CircleProgress from "./CircleProgress";
+import CircleProgress from "@/components/CircleProgress";
 import { useCurrentUser } from "@/service/user";
 
 const MobileProfileAvatar = () => {
@@ -19,6 +19,7 @@ const MobileProfileAvatar = () => {
         percentage={totalFinishProfile ?? 0}
         size={128}
         strokeWidth={4}
+        label={`${totalFinishProfile ?? 0}% hoàn thành`}
       />
     </div>
   );
