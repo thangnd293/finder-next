@@ -3,6 +3,7 @@
 import { CardBox, UserCard } from "@/components/UserCard";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import MobileMessagePage from "./MobileMessagePage";
 import { CardAction, Container, Header } from "./components";
 import BlockAndReport from "./components/BlockAndReport";
@@ -10,15 +11,20 @@ import BlockAndReport from "./components/BlockAndReport";
 export default function HomePage() {
   const searchParams = useSearchParams();
   const isMobileView = useIsMobile();
+  const [key, setKey] = useState(0);
 
   const tab = searchParams?.get("tab");
 
   if (tab === "message" && isMobileView) return <MobileMessagePage />;
 
+  const onReload = () => {
+    setKey((key) => key + 1);
+  };
+
   return (
     <div className="flex h-full flex-1 flex-col">
-      <Header />
-      <Container>
+      <Header onReload={onReload} />
+      <Container key={key}>
         {({
           canBack,
           isFirstRender,
