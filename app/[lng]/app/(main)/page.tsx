@@ -29,6 +29,7 @@ export default function HomePage() {
           onLike,
           onUnLike,
           onReportDone,
+          onSuperLike,
         }) => (
           <CardBox>
             {(style) => {
@@ -56,6 +57,7 @@ export default function HomePage() {
                         onBack={onBack}
                         onLike={onLike}
                         onUnLike={onUnLike}
+                        onSuperLike={onSuperLike}
                       />
                       <BlockAndReport
                         key={currentIndex}

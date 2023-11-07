@@ -17,6 +17,7 @@ import Button from "../Button";
 import CustomImage from "../CustomImage";
 import Modal from "../Modal";
 import congratulations from "./congratulations.json";
+import { useInvalidateAllConversations } from "@/service/conversation";
 
 const Lottie = dynamic(() => import("lottie-react"));
 
@@ -27,6 +28,7 @@ const NotifyNewMatched = () => {
   const { currentUserID } = useCurrentUserID();
   const updateNotificationStatus = useUpdateStatus();
   const invalidateMatchRequest = useInvalidateMatchRequest();
+  const invalidateConversations = useInvalidateAllConversations();
   const invalidateAllNotifications = useInvalidateAllNotifications();
 
   const receiver = newMatched?.conversation?.members.find(
@@ -39,6 +41,8 @@ const NotifyNewMatched = () => {
     socket.on("newMatched", (newMatched) => {
       setNewMatched(newMatched);
       invalidateMatchRequest();
+      invalidateConversations(false);
+
       invalidateAllNotifications(NotificationType.Matched);
     });
   }, [socket.connected]);
@@ -59,12 +63,10 @@ const NotifyNewMatched = () => {
 
   return (
     <Modal
-      className="justify-center p-6 md:justify-start"
-      open={true}
+      className="justify-center overflow-y-auto overflow-x-hidden p-6 md:justify-start"
       onOpenChange={() => {
         setNewMatched(null);
       }}
-      withCloseButton={false}
     >
       <div className="flex w-full flex-col gap-5 text-center">
         <p className="text-4xl font-medium text-primary">BOOM!</p>
@@ -95,16 +97,25 @@ const NotifyNewMatched = () => {
           Hãy bắt đầu cuộc trò chuyện nào!
         </p>
 
-        <Link
-          href={`/app/messages/${newMatched?.conversation?._id}?tab=message`}
-        >
-          <Button className="mx-auto w-fit rounded-full" onClick={handleClick}>
-            Nhắn tin ngay
+        <div className="space-y-2">
+          <Link
+            href={`/app/messages/${newMatched?.conversation?._id}?tab=message`}
+          >
+            <Button
+              className="mx-auto w-fit rounded-full"
+              onClick={handleClick}
+            >
+              Nhắn tin ngay
+            </Button>
+          </Link>
+
+          <Button className="mx-auto flex w-fit rounded-full" variant="ghost">
+            Tiếp tục lướt
           </Button>
-        </Link>
+        </div>
       </div>
       <Lottie
-        className="pointer-events-none fixed z-[1000] aspect-square h-screen w-full"
+        className="pointer-events-none fixed left-0 top-0 z-50 aspect-square h-screen w-full"
         animationData={congratulations}
         loop={false}
       />

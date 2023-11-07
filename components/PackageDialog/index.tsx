@@ -15,7 +15,7 @@ const PacketDialog = ({
   _id,
   type,
   iconUrl,
-  primaryColor,
+  style,
   packages,
   merchandising,
   onClose,
@@ -40,7 +40,7 @@ const PacketDialog = ({
       <header
         className="flex items-center justify-center gap-2 text-3xl font-semibold"
         style={{
-          color: primaryColor,
+          color: style.primaryColor,
         }}
       >
         <Image width={30} height={30} src={iconUrl} alt={type} />

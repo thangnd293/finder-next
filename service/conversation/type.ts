@@ -7,4 +7,5 @@ export interface Conversation {
   lastMessage: Message;
   members: User[];
   createdAt: string;
+  type: string;
 }

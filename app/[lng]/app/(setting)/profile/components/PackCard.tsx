@@ -10,20 +10,28 @@ interface PackCardProps extends Offer {
 const PackCard = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<PackCardProps>
->(({ type, text, packages, background, onClick }, ref) => {
+>(({ type, text, packages, style, onClick }, ref) => {
   const minPrice = Math.min(...packages.map((pack) => pack.price));
 
   return (
     <div
-      className="flex w-full flex-shrink-0 snap-center flex-col items-center gap-1 rounded-2xl bg-gradient-to-r px-3.5 py-2.5 text-center"
+      className="flex w-full flex-shrink-0 snap-center flex-col items-center gap-1 rounded-2xl py-2.5 text-center"
       style={{
-        backgroundImage: background,
+        backgroundImage: style.background,
       }}
       ref={ref}
     >
       <h3 className="text-sm font-semibold">{type}</h3>
       <p className="text-xs">{text}</p>
-      <Button className={"rounded-full"} size="sm" onClick={onClick}>
+      <Button
+        className={"rounded-full"}
+        style={{
+          background: style.buttonBackground,
+          color: style.buttonColor,
+        }}
+        size="sm"
+        onClick={onClick}
+      >
         Mở khóa chỉ với&nbsp;
         {new Intl.NumberFormat("vi-VN", {
           style: "currency",

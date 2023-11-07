@@ -1,37 +1,33 @@
 import { ROUTE } from "@/constant/route";
 import MainLayoutMobile from "@/layout/MainLayoutMobile";
-import { GearIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { ServerService } from "@/service/server";
+import { GearIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import Boost from "./Boost";
 import CurrentUserInfo from "./CurrentUserInfo";
 import MobileProfileAvatar from "./MobileProfileAvatar";
-import { ServerService } from "@/service/server";
 import PackageFeature from "./PackageFeature";
+import SuperLike from "./SuperLike";
 
 const MobileProfilePage = async () => {
   const data = await ServerService.getOffers();
 
   return (
     <MainLayoutMobile>
-      <div className="container flex w-full flex-col items-center gap-3">
-        <MobileProfileAvatar />
+      <div className="container relative flex w-full flex-col items-center gap-3">
+        <Link className="mt-10" href={ROUTE.EDIT_PROFILE}>
+          <MobileProfileAvatar />
+        </Link>
         <CurrentUserInfo />
 
-        <div className="flex w-full gap-2">
-          <Link
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-3.5 text-sm font-medium"
-            href={ROUTE.SETTING}
-          >
-            <GearIcon className="h-5 w-5" />
-            <span>Cài đặt</span>
-          </Link>
+        <Link className="absolute right-3 top-3" href={ROUTE.SETTING}>
+          <GearIcon className="h-6 w-6" />
+        </Link>
 
-          <Link
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-3.5 text-sm font-medium"
-            href={ROUTE.EDIT_PROFILE}
-          >
-            <Pencil1Icon className="h-5 w-5" />
-            <span>Chỉnh sửa</span>
-          </Link>
+        <div className="flex w-full items-center justify-between rounded-md border">
+          <SuperLike offer={data.results[0]} />
+          <hr className="h-12 border-l" />
+          <Boost offer={data.results[2]} />
         </div>
         <PackageFeature
           featureGroup={data.metadata.featureGroup}

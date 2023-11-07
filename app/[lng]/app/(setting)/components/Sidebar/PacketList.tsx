@@ -25,7 +25,7 @@ const PacketList = () => {
             key={offer._id}
             className={cn(
               "w-full cursor-pointer space-y-1 rounded-md py-2 text-center md:px-8",
-              offer.background,
+              offer.style.background,
             )}
             onClick={() => setActiveOffer(offer)}
           >
