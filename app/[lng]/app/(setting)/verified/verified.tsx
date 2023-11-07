@@ -176,13 +176,13 @@ export default function Verified() {
               autoPlay
             />
 
-            {isRecording && (
+            {/* {isRecording && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 className="absolute inset-0 [transform:rotateY(180deg)]"
                 ref={imageAfterRecognizeRef}
               />
-            )}
+            )} */}
 
             {imageAfterRecognize && imageAfterRecognize.faceTotal !== 1 && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-800/20">
