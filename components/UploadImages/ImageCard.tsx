@@ -53,7 +53,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       const base64 = await fileToBase64(file);
 
       const verifyImage = await axiosInstance.post(
-        "http://34.143.159.142:3008/recognize",
+        "https://finder.sohe.in/face/recognize",
         {
           image: base64,
           userId: user.data?._id,
