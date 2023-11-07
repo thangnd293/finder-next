@@ -11,12 +11,14 @@ interface CardActionProps {
   onBack: () => void;
   onLike: () => void;
   onUnLike: () => void;
+  onSuperLike: () => void;
 }
 export const CardAction = ({
   canBack,
   onBack,
   onLike,
   onUnLike,
+  onSuperLike,
 }: CardActionProps) => {
   return (
     <div className="absolute bottom-0 z-50 flex w-full translate-y-10 items-center justify-center gap-6">
@@ -34,7 +36,10 @@ export const CardAction = ({
         <BsXLg size={28} />
       </ActionIcon>
 
-      <ActionIcon className="h-11 w-11 rounded-full bg-primary text-yellow-100">
+      <ActionIcon
+        className="h-11 w-11 rounded-full bg-primary text-yellow-100"
+        onClick={onSuperLike}
+      >
         <FaStar size={20} />
       </ActionIcon>
 

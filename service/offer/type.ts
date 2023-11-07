@@ -4,12 +4,16 @@ export interface Offer {
   _id: string;
   iconUrl: string;
   text: string;
-  primaryColor: string;
   type: string;
-  background: string;
   packages: Package[];
   merchandising: Feature[];
   isRetail?: boolean;
+  style: {
+    buttonColor: string;
+    buttonBackground: string;
+    background: string;
+    primaryColor: string;
+  };
 }
 
 export interface Package {

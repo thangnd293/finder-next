@@ -26,6 +26,7 @@ interface ServerToClientEvents {
   seenMessage: (payload: SeenMessagePayload) => void;
   newMatched: (payload: NewMatchedNotification) => void;
   newMatchRequest: (user: User) => void;
+  newSuperLike: (user: User) => void;
   receivedMessage: (message: Message) => void;
   notiSchedule: (notification: Notification) => void;
 }

@@ -1,9 +1,10 @@
 "use client";
 
+import CheckLocation from "@/components/CheckLocation";
 import LoadingScreen from "@/components/LoadingScreen";
 import Notification from "@/components/Notification";
-import NotifyNewLiked from "@/components/NotifyNewLiked";
 import NotifyNewMatched from "@/components/NotifyNewMatched";
+import { ROUTE } from "@/constant/route";
 import useDetectUserFocusState from "@/hooks/use-detect-user-focus-state";
 import useSocket from "@/hooks/use-socket";
 import { useCurrentUser } from "@/service/user";
@@ -14,8 +15,6 @@ import { PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DialogConfirm from "./room/[room]/_comps/dialog-confirm";
-import { ROUTE } from "@/constant/route";
-import CheckLocation from "@/components/CheckLocation";
 
 const IS_DONE_GET_STARTED = 4;
 export default function AppLayout({ children }: PropsWithChildren) {
@@ -65,7 +64,8 @@ export default function AppLayout({ children }: PropsWithChildren) {
       {children}
       <DialogConfirm />
       <Notification />
-      <NotifyNewLiked />
+      {/* <NotifyNewLiked /> */}
+      {/* <NotifyNewSuperLike /> */}
       <NotifyNewMatched />
       <ToastContainer />
       <CheckLocation />

@@ -91,4 +91,11 @@ export interface User {
     refreshInterval: number;
   };
   isVerifiedFace: boolean;
+  calcDistance?: number;
+  featureAccess: {
+    name: string;
+    unlimited: boolean;
+    amount: 0;
+    expiredDate: string;
+  }[];
 }

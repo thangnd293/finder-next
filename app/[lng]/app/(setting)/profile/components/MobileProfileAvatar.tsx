@@ -11,7 +11,7 @@ const MobileProfileAvatar = () => {
   });
 
   return (
-    <div className="relative mt-10">
+    <div className="relative">
       <CurrentUserAvatar className="border-8 border-white" size="3xl" />
 
       <CircleProgress

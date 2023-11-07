@@ -11,3 +11,4 @@ export * from "./premium-icon";
 export * from "./plus-icon";
 export * from "./filter-icon";
 export * from "./send-heart-icon";
+export * from "./super-like-icon";

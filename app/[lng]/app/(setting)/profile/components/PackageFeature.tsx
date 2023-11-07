@@ -114,6 +114,12 @@ const PackageFeature = ({ featureGroup, results }: PackageFeatureProps) => {
                     // "text-green-500 opacity-100": currentPack === "plus",
                   })}
                   size={20}
+                  style={{
+                    color:
+                      activePackage._id === item.package._id
+                        ? item.package.style.primaryColor
+                        : undefined,
+                  }}
                 />
               </p>
             ))}

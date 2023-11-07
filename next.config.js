@@ -9,7 +9,7 @@ const nextConfig = {
       "i.scdn.co",
       "maps.googleapis.com",
       "lh5.googleusercontent.com",
-      "console.cloudinary.com"
+      "console.cloudinary.com",
     ],
   },
 

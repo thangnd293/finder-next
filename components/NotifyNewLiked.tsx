@@ -38,13 +38,8 @@ const NotificationDialog = ({ newLiked, onClose }: NotificationDialogProps) => {
   if (!newLiked.length) return null;
 
   return (
-    <Modal
-      className="justify-center p-6"
-      open={true}
-      onOpenChange={onClose}
-      withCloseButton={false}
-    >
-      <h3 className="text-xl font-bold text-primary">
+    <Modal className="justify-center gap-4 p-6" onOpenChange={onClose}>
+      <h3 className="text-center text-xl font-bold text-primary">
         {newLiked.length > 1
           ? `${newLiked.length} người đã thích bạn`
           : `${newLiked[0].name} đã thích bạn`}

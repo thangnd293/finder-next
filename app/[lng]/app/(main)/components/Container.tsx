@@ -4,7 +4,7 @@ import EmptyView from "@/components/EmptyView";
 import Loader from "@/components/Loader";
 import { CardBox } from "@/components/UserCard";
 import useCallbackDebounce from "@/hooks/use-callback-debounce";
-import { useLike, useSkip } from "@/service/action/hooks";
+import { useLike, useSkip, useSupperLike } from "@/service/action/hooks";
 import { User, useRecommendedUsers } from "@/service/user";
 import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
@@ -29,6 +29,7 @@ interface ContainerProps {
     onBack: () => void;
     onLike: () => void;
     onUnLike: () => void;
+    onSuperLike: () => void;
     onReportDone: () => void;
   }) => React.ReactNode;
 }
@@ -48,6 +49,17 @@ export const Container = ({ children }: ContainerProps) => {
     onError: () => {
       setCurrentIndex(lastIndexSuccess);
       toast.error("Bạn đã sử dụng hết lượt thích trong ngày", {
+        icon: <ImSad2 className="text-red-500" />,
+      });
+    },
+  });
+  const supperLike = useSupperLike({
+    onSuccess: () => {
+      setLastIndexSuccess(currentIndex);
+    },
+    onError: () => {
+      setCurrentIndex(lastIndexSuccess);
+      toast.error("Bạn đã sử dụng hết lượt siêu thích", {
         icon: <ImSad2 className="text-red-500" />,
       });
     },
@@ -96,6 +108,16 @@ export const Container = ({ children }: ContainerProps) => {
 
     if (!userId) return;
     like.mutate(userId);
+    handleNextIndex();
+    canBack.current = false;
+    lastLike.current = currentIndex;
+  }, 800);
+
+  const handleSuperLike = useCallbackDebounce(() => {
+    const userId = recommendedUsers[currentIndex]?._id;
+
+    if (!userId) return;
+    supperLike.mutate(userId);
     handleNextIndex();
     canBack.current = false;
     lastLike.current = currentIndex;
@@ -176,6 +198,7 @@ export const Container = ({ children }: ContainerProps) => {
         onBack: handleBack,
         onLike: handleLike,
         onUnLike: handleUnLike,
+        onSuperLike: handleSuperLike,
         onReportDone: handleReportDone,
       })}
     </>

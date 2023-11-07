@@ -58,6 +58,7 @@ export const UserCard = ({
     liveAt,
     homeTown,
     isVerifiedFace,
+    calcDistance,
   } = user;
 
   const { firstImage, lastImage, imageSlides } = getImageData(images);
@@ -71,6 +72,7 @@ export const UserCard = ({
         {...others}
       />
     );
+
 
   return (
     <Slider
@@ -134,7 +136,8 @@ export const UserCard = ({
 
           <p>
             <MdLocationOn className="mb-1 inline-block" size={18} />
-            {address?.province ?? "Thành phố Hồ Chí Minh, Việt Nam"}
+            {address?.province ?? "Thành phố Hồ Chí Minh, Việt Nam"}{" "}
+            {calcDistance && `, ~${Math.round(calcDistance / 1000)} km`}
           </p>
 
           {homeTown?.province && (
@@ -184,7 +187,7 @@ export const getImageData = (images: Image[]) => {
   const firstImage = _images.shift();
   const lastImage = _images.length % 2 === 0 ? firstImage : _images.pop();
 
-  const restImages = _images.splice(1);
+  const restImages = [..._images].splice(1);
 
   const imageSlides: [Image, Image][] = _images.reduce(
     (acc, _, i, arr) => {
