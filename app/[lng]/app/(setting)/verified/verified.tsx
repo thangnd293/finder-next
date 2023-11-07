@@ -51,6 +51,7 @@ export default function Verified() {
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mediaRecorderRef = useRef<MediaStream | null>(null);
   const imageAfterRecognizeRef = useRef<HTMLImageElement | null>(null);
   const user = useCurrentUser();
   const [imageAfterRecognize, setImageAfterRecognize] = useState<Omit<
@@ -109,6 +110,11 @@ export default function Verified() {
           setIsDone(true);
           setIsRecording(false);
           clearInterval(captureIntervalRef.current!);
+          if (mediaRecorderRef.current) {
+            mediaRecorderRef.current
+              .getTracks()
+              .forEach((track) => track.stop());
+          }
           invalidateUser();
           break;
         case NameEvent.IMAGE_AFTER_RECOGNIZE:
@@ -139,6 +145,7 @@ export default function Verified() {
           facingMode: "user",
         },
       });
+      mediaRecorderRef.current = mediaStream;
       videoRef.current.srcObject = mediaStream;
     })();
 
