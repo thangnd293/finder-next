@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { type Image, type User } from "@/service/user";
 import { getTagIcon } from "@/utils/tag";
 import { BsSpotify } from "react-icons/bs";
-import { MdLocationOn } from "react-icons/md";
+import { MdLocationOn, MdVerified } from "react-icons/md";
 import { PiRuler } from "react-icons/pi";
 import Avatar from "../Avatar";
 import SlideCard from "./SlideCard";
@@ -57,6 +57,7 @@ export const UserCard = ({
     address,
     liveAt,
     homeTown,
+    isVerifiedFace,
   } = user;
 
   const { firstImage, lastImage, imageSlides } = getImageData(images);
@@ -86,6 +87,9 @@ export const UserCard = ({
           <p className="text-2xl font-extrabold text-gray-700">
             {name}, {age}
           </p>
+          {isVerifiedFace && (
+            <MdVerified size={24} className="text-green-500" />
+          )}
         </div>
       </SlideContentWithRightImage>
 

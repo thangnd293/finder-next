@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { cn } from "@/lib/utils";
-import { useCurrentUser } from "@/service/user";
+import { useCurrentUser, useInvalidateCurrentUser } from "@/service/user";
 import { useEffect, useRef, useState } from "react";
 import { LuScanFace } from "react-icons/lu";
 import { create } from "zustand";
@@ -44,6 +44,7 @@ const { setOpen } = useVerifyStore.getState();
 export const verifyAction = { setOpen };
 
 export default function Verified() {
+  const invalidateUser = useInvalidateCurrentUser();
   const isOpen = useVerifyStore((s) => s.open);
   const [isDone, setIsDone] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -83,7 +84,9 @@ export default function Verified() {
   const handleRecord = () => {
     setIsRecording(true);
 
-    wsRef.current = new WebSocket("ws://localhost:3008/ws-recognize-record");
+    wsRef.current = new WebSocket(
+      "ws://34.143.159.142:3008/ws-recognize-record",
+    );
     const ws = wsRef.current;
     ws.binaryType = "arraybuffer";
 
@@ -106,6 +109,7 @@ export default function Verified() {
           setIsDone(true);
           setIsRecording(false);
           clearInterval(captureIntervalRef.current!);
+          invalidateUser();
           break;
         case NameEvent.IMAGE_AFTER_RECOGNIZE:
           if (!imageAfterRecognizeRef.current) return;

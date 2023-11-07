@@ -1,10 +1,11 @@
 import Spinner from "@/components/Spinner";
 import { useCldUpload } from "@/lib/cloudinary";
 import { cn } from "@/lib/utils";
-import { Image } from "@/service/user";
+import { Image, useCurrentUser } from "@/service/user";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import CustomImage from "../CustomImage";
+import axiosInstance from "@/lib/axios";
 
 interface ImageCardProps {
   image: Image;
@@ -12,15 +13,56 @@ interface ImageCardProps {
   onImageChange: (image: Image) => void;
   onRemoveImage: () => void;
 }
+
+const fileToBase64 = (file: File): string => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+    reader.onload = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = (error) => reject(error);
+  }) as any;
+};
+
+const base64ToFile = (base64: string, filename: string): File => {
+  const arr = base64.split(",");
+  const mime = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, { type: mime });
+};
+
 const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
   ({ image, error, onImageChange, onRemoveImage }, ref) => {
+    const user = useCurrentUser();
     const cldUpload = useCldUpload();
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (
+      event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
       const file = event.target.files?.[0];
-      if (!file) return;
 
-      cldUpload.mutate(file, {
+      if (!file) return;
+      const base64 = await fileToBase64(file);
+
+      const verifyImage = await axiosInstance.post(
+        "http://34.143.159.142:3008/recognize",
+        {
+          image: base64,
+          userId: user.data?._id,
+        },
+      );
+
+      const newFile = base64ToFile(verifyImage.data.data, file.name);
+
+      cldUpload.mutate(newFile, {
         onSuccess: (result) => {
           onImageChange({
             url: result.url,
