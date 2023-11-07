@@ -90,4 +90,5 @@ export interface User {
     expiredDate: string;
     refreshInterval: number;
   };
+  isVerifiedFace: boolean;
 }

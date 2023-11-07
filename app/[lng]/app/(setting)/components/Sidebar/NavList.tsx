@@ -15,10 +15,21 @@ import {
   BsFillPersonFill,
 } from "react-icons/bs";
 
+import { useCurrentUser } from "@/service/user";
 import Verified, { verifyAction } from "../../verified/verified";
 
+//với chưa xác nhận khuôn mặt
+const useVerifiedFace = () => {
+  const user = useCurrentUser();
+  return (arr: NavItem[]) => {
+    return user.data?.isVerifiedFace
+      ? arr.filter((item) => item.label !== "Xác thực tài khoản")
+      : arr;
+  };
+};
 
 const NavList = () => {
+  const withVerifiedFace = useVerifiedFace();
   const pathname = usePathname();
 
   const isMobileView = useIsMobile();
@@ -26,7 +37,7 @@ const NavList = () => {
   return (
     <>
       <nav className="space-y-3 p-4">
-        {navList.map(({ Icon, label, href, action }) => {
+        {withVerifiedFace(navList).map(({ Icon, label, href, action }) => {
           const Component = href ? Link : "button";
 
           const props = href ? { href } : { onClick: action };
