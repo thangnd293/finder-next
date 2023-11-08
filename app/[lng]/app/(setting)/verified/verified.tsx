@@ -44,6 +44,8 @@ const { setOpen } = useVerifyStore.getState();
 export const verifyAction = { setOpen };
 
 export default function Verified() {
+  const isHaveMediaDevices =
+    "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices;
   const invalidateUser = useInvalidateCurrentUser();
   const isOpen = useVerifyStore((s) => s.open);
   const [isDone, setIsDone] = useState(false);
@@ -52,7 +54,6 @@ export default function Verified() {
   const wsRef = useRef<WebSocket | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mediaRecorderRef = useRef<MediaStream | null>(null);
-  const imageAfterRecognizeRef = useRef<HTMLImageElement | null>(null);
   const user = useCurrentUser();
   const [imageAfterRecognize, setImageAfterRecognize] = useState<Omit<
     IMAGE_AFTER_RECOGNIZE,
@@ -86,7 +87,7 @@ export default function Verified() {
     setIsRecording(true);
 
     wsRef.current = new WebSocket(
-      "wss://finder.sohe.in/face/ws-recognize-record",
+      "ws://localhost:3008/face/ws-recognize-record",
     );
     const ws = wsRef.current;
     ws.binaryType = "arraybuffer";
@@ -106,7 +107,6 @@ export default function Verified() {
       console.log("data:: ", data);
       switch (data.event) {
         case NameEvent.DONE:
-          console.log("Done");
           setIsDone(true);
           setIsRecording(false);
           clearInterval(captureIntervalRef.current!);
@@ -118,10 +118,7 @@ export default function Verified() {
           invalidateUser();
           break;
         case NameEvent.IMAGE_AFTER_RECOGNIZE:
-          if (!imageAfterRecognizeRef.current) return;
           setImageAfterRecognize(data);
-          const imageAfterRecognize = imageAfterRecognizeRef.current;
-          imageAfterRecognize.src = "data:image/jpeg;base64," + data.image;
           break;
         default:
           console.log("Unknown message received:", event.data);
@@ -158,6 +155,9 @@ export default function Verified() {
     return () => {
       if (wsRef.current) wsRef.current.close();
       if (captureIntervalRef.current) clearInterval(captureIntervalRef.current);
+      setIsRecording(false);
+      setIsDone(false);
+      setImageAfterRecognize(null);
     };
   }, [isOpen]);
 
@@ -178,30 +178,40 @@ export default function Verified() {
           <div className="relative h-[420px] w-[560px] overflow-hidden bg-black">
             <video
               ref={videoRef}
-              className="[transform:rotateY(180deg)]"
+              className="absolute inset-0 [transform:rotateY(180deg)]"
               id="webcam"
               autoPlay
             />
-
-            {/* {isRecording && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className="absolute inset-0 [transform:rotateY(180deg)]"
-                ref={imageAfterRecognizeRef}
-              />
-            )} */}
 
             {imageAfterRecognize && imageAfterRecognize.faceTotal !== 1 && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-800/20">
                 <LuScanFace size={100} className="text-red-500" />
                 <p className="text-center text-lg font-semibold text-red-500">
-                  {imageAfterRecognize.faceTotal === 0 &&
+                  {imageAfterRecognize?.faceTotal === 0 &&
                     "Không tìm thấy khuôn mặt"}
-                  {imageAfterRecognize.faceTotal > 1 &&
+                  {imageAfterRecognize?.faceTotal > 1 &&
                     "Tìm thấy nhiều khuôn mặt"}
                 </p>
               </div>
             )}
+
+            {/* if (
+    !"mediaDevices" in navigator ||
+    !"getUserMedia" in navigator.mediaDevices
+  ) {
+    document.write('Not support API camera')
+    return;
+  }
+ */}
+
+            {!isHaveMediaDevices && (
+              <div className="absolute inset-0 flex items-center justify-center bg-yellow-600">
+                <p className="text-center text-lg font-semibold text-white">
+                  Thiết bị không hỗ trợ
+                </p>
+              </div>
+            )}
+
             {isRecording && (
               <>
                 <div className="record-animation h-px w-full bg-red-600"></div>
@@ -218,7 +228,7 @@ export default function Verified() {
               Huỷ
             </Button>
             <Button
-              disabled={isRecording}
+              disabled={isRecording || !isHaveMediaDevices}
               id="stopCapture"
               onClick={handleRecord}
             >
