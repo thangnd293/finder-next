@@ -1,6 +1,7 @@
 import Textarea from "@/components/Textarea";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { FormValues, StepProps } from ".";
+import ImageDropzone from "../ImageDropzone";
 import Container from "./Container";
 
 interface ConfirmProps extends StepProps {}
@@ -35,6 +36,23 @@ const Confirm = ({ isSubmitting }: ConfirmProps) => {
           {...control.register("description")}
           error={errors.description?.message}
         />
+
+        <div>
+          <h4 className="font-semibold">Ảnh kèm theo:</h4>
+
+          <Controller
+            control={control}
+            name="images"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <ImageDropzone
+                images={value}
+                message="Ảnh kèm theo (tối đa 5 ảnh)"
+                error={error?.message}
+                onImagesChange={onChange}
+              />
+            )}
+          />
+        </div>
       </div>
     </Container>
   );
