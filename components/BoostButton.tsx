@@ -7,12 +7,15 @@ import { useBoost, useCurrentUser } from "@/service/user";
 import CircleProgress from "./CircleProgress";
 import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
+import { Offer } from "@/service/offer";
+import PacketDialog from "./PackageDialog";
 
 const BoostButton = ({
   className,
   ...others
 }: HTMLAttributes<HTMLButtonElement>) => {
   const [leftPercent, setLeftPercent] = useState(0);
+  const [offer, setOffer] = useState<Offer | null>();
   const { data } = useCurrentUser({
     select: (user) => ({
       boostsSession: user.boostsSession,
@@ -21,7 +24,7 @@ const BoostButton = ({
 
   const boost = useBoost({
     onError(error) {
-      console.log(error);
+      setOffer(error.response?.data.data.offering ?? null);
     },
   });
 
@@ -56,26 +59,29 @@ const BoostButton = ({
   };
 
   return (
-    <ActionIcon
-      className={cn(
-        "relative h-14 w-14 rounded-full border-violet-400 bg-background text-violet-600 hover:border-violet-600",
-        className,
-      )}
-      onClick={onBoost}
-      {...others}
-    >
-      {isBoosting ? <span>{leftPercent}%</span> : <TiFlash size={20} />}
-      {isBoosting && (
-        <CircleProgress
-          className="absolute -left-0.5 -top-0.5"
-          percentage={leftPercent ?? 0}
-          size={58}
-          strokeWidth={2}
-          place="top"
-          color="#7c3aed"
-        />
-      )}
-    </ActionIcon>
+    <>
+      <ActionIcon
+        className={cn(
+          "relative h-14 w-14 rounded-full border-violet-400 bg-background text-violet-600 hover:border-violet-600",
+          className,
+        )}
+        onClick={onBoost}
+        {...others}
+      >
+        {isBoosting ? <span>{leftPercent}%</span> : <TiFlash size={20} />}
+        {isBoosting && (
+          <CircleProgress
+            className="absolute -left-0.5 -top-0.5"
+            percentage={leftPercent ?? 0}
+            size={58}
+            strokeWidth={2}
+            place="top"
+            color="#7c3aed"
+          />
+        )}
+      </ActionIcon>
+      {offer && <PacketDialog {...offer} onClose={() => setOffer(null)} />}
+    </>
   );
 };
 

@@ -1,9 +1,20 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { ActionService } from "..";
 import { useInvalidateCurrentUser } from "@/service/user";
+import { AxiosError } from "axios";
+import { Offer } from "@/service/offer";
 
 export const useSupperLike = (
-  config: UseMutationOptions<any, unknown, string, unknown> = {},
+  config: UseMutationOptions<
+    any,
+    AxiosError<{
+      data: {
+        offering: Offer;
+      };
+    }>,
+    string,
+    unknown
+  > = {},
 ) => {
   const invalidateCurrentUser = useInvalidateCurrentUser();
 

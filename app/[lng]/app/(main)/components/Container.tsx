@@ -12,6 +12,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { ImSad2 } from "react-icons/im";
+import { Offer } from "@/service/offer";
+import PacketDialog from "@/components/PackageDialog";
 
 const EMPTY_USERS: User[] = [];
 const EMPTY_OBJECT: InfiniteData<User> = {
@@ -42,6 +44,8 @@ export const Container = ({ children }: ContainerProps) => {
   const [lastIndexSuccess, setLastIndexSuccess] = useState(0);
   const currentIndex = useStore((state) => state.currentIndex);
   const setCurrentIndex = useStore((state) => state.setCurrentIndex);
+  const [offer, setOffer] = useState<Offer | null>(null);
+
   const like = useLike({
     onSuccess: () => {
       setLastIndexSuccess(currentIndex);
@@ -57,14 +61,14 @@ export const Container = ({ children }: ContainerProps) => {
     onSuccess: () => {
       setLastIndexSuccess(currentIndex);
     },
-    onError: () => {
+    onError: (error) => {
+      setOffer(error.response?.data.data.offering ?? null);
       setCurrentIndex(lastIndexSuccess);
-      toast.error("Bạn đã sử dụng hết lượt siêu thích", {
-        icon: <ImSad2 className="text-red-500" />,
-      });
     },
   });
-  const skip = useSkip();
+  const skip = useSkip({
+    onSuccess: () => setLastIndexSuccess(currentIndex),
+  });
 
   const {
     data: { pages: pages = EMPTY_USERS } = EMPTY_OBJECT,
@@ -136,7 +140,7 @@ export const Container = ({ children }: ContainerProps) => {
     setCurrentIndex(currentIndex > 1 ? currentIndex - 1 : 0);
     isBack.current = true;
 
-    if (lastLike.current === currentIndex - 2) {
+    if (lastIndexSuccess === currentIndex - 2) {
       canBack.current = false;
     }
   }, 800);
@@ -201,6 +205,7 @@ export const Container = ({ children }: ContainerProps) => {
         onSuperLike: handleSuperLike,
         onReportDone: handleReportDone,
       })}
+      {offer && <PacketDialog onClose={() => setOffer(null)} {...offer} />}
     </>
   );
 };
