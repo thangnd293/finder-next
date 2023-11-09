@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -5,7 +6,15 @@ interface LogoProps extends Partial<React.ComponentProps<typeof Link>> {}
 const Logo = (props: LogoProps) => {
   return (
     <Link href={"/app"} {...props}>
-      <h1 className="text-3xl font-medium text-primary">Finder</h1>
+      <div className="relative aspect-[200/113] w-32">
+        <Image
+          className="select-none"
+          draggable="false"
+          alt="Finder"
+          src="/images/logo.png"
+          fill
+        />
+      </div>
     </Link>
   );
 };
