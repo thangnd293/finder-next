@@ -15,6 +15,7 @@ import ChooseUser from "./ChooseUser";
 import Confirm from "./Confirm";
 import Detail from "./Detail";
 import Reason from "./Reason";
+import { useCldUpload } from "@/lib/cloudinary";
 
 interface ReportDialogProps {
   target?: User;
@@ -31,15 +32,18 @@ const ReportDialog = ({
 }: ReportDialogProps) => {
   const reportFormResolver = useYupValidationResolver(reportForm);
   const submitReport = useCreateReport();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const methods = useForm<FormValues>({
     defaultValues: {
       target: target || null,
       reason: "",
       description: "",
+      images: [],
     },
     resolver: reportFormResolver,
   });
+  const cldUpload = useCldUpload();
 
   const { handleSubmit, reset } = methods;
 
@@ -60,11 +64,21 @@ const ReportDialog = ({
     setCurrentStep((prev) => prev + 1);
   };
 
-  const onSubmit = ({ target, ...rest }: FormValues) => {
+  const onSubmit = async ({ target, images, ...rest }: FormValues) => {
+    setIsProcessing(true);
+    const uploadImages = await Promise.all(
+      images.map((file) => cldUpload.mutateAsync(file)),
+    );
+
+    const _images = uploadImages.map((image) => ({
+      url: image.url,
+    }));
+
     submitReport.mutate(
       {
         reportedUser: target!._id,
         ...rest,
+        images: _images,
       },
       {
         onSuccess: onReportDone,
@@ -79,6 +93,7 @@ const ReportDialog = ({
     onClose();
     reset();
     setCurrentStep(startStep);
+    setIsProcessing(false);
   };
 
   return (
@@ -97,7 +112,7 @@ const ReportDialog = ({
               className={cn("absolute left-5 top-5", {
                 hidden: isFirstStep,
               })}
-              disabled={submitReport.isLoading || isFirstStep}
+              disabled={isProcessing || isFirstStep}
               variant="ghost"
               onClick={handlePrev}
             >
@@ -107,7 +122,7 @@ const ReportDialog = ({
             <Progress className="mx-auto h-1 w-1/2" value={percent} />
 
             <Step
-              isSubmitting={submitReport.isLoading}
+              isSubmitting={isProcessing}
               onNext={isLastStep ? undefined : handleNext}
               onPrev={handlePrev}
             />
@@ -145,9 +160,11 @@ export interface FormValues {
   target: User | null;
   reason: string;
   description: string;
+  images: File[];
 }
 
 const reportForm = yup.object({
-  reason: yup.string().required("Please choose a reason"),
-  description: yup.string().min(5, "Please enter at least 5 characters"),
+  reason: yup.string().required("Vui lòng chọn lý do"),
+  description: yup.string().min(5, "Vui lòng nhập ít nhất 5 ký tự"),
+  images: yup.array().max(5, "Chọn tối đa 5 ảnh"),
 });

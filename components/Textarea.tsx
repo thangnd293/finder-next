@@ -8,17 +8,22 @@ export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;
   label?: string;
+  isRequired?: boolean;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, label, error, id, ...props }, ref) => {
+  ({ className, label, error, id, isRequired, ...props }, ref) => {
     const Wrapper = error || label ? "div" : React.Fragment;
     const _id = "textarea" + useId();
     const elID = id ?? _id;
 
     return (
       <Wrapper>
-        {label && <Label htmlFor={elID}>{label}</Label>}
+        {label && (
+          <Label htmlFor={elID}>
+            {label} {isRequired && <span className="text-red-500">*</span>}
+          </Label>
+        )}
         <textarea
           id={elID}
           className={cn(
