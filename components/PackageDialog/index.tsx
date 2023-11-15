@@ -18,6 +18,7 @@ const PacketDialog = ({
   style,
   packages,
   merchandising,
+  isRetail,
   onClose,
 }: PacketDialogProps) => {
   const [selectedPackage, setSelectedPackage] = useState<Package>(packages[0]);
@@ -47,6 +48,7 @@ const PacketDialog = ({
         {type}
       </header>
       <PriceSection
+        isRetail={isRetail}
         type={type}
         merchandising={merchandising}
         packages={packages}

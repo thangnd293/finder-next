@@ -15,14 +15,17 @@ const PackCard = React.forwardRef<
 
   return (
     <div
-      className="flex w-full flex-shrink-0 snap-center flex-col items-center gap-1 rounded-2xl py-2.5 text-center"
+      className="flex w-full flex-shrink-0 snap-center flex-col items-center justify-between gap-2 rounded-2xl py-2.5"
       style={{
         backgroundImage: style.background,
       }}
       ref={ref}
     >
-      <h3 className="text-sm font-semibold">{type}</h3>
-      <p className="text-xs">{text}</p>
+      <div className="space-y-1 text-center">
+        <h3 className="text-sm font-semibold">{type}</h3>
+        <p className="text-xs">{text}</p>
+      </div>
+
       <Button
         className={"rounded-full"}
         style={{
@@ -33,10 +36,7 @@ const PackCard = React.forwardRef<
         onClick={onClick}
       >
         Mở khóa chỉ với&nbsp;
-        {new Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: packages[0]?.currency,
-        }).format(minPrice)}
+        {minPrice.formatPrice()}
       </Button>
     </div>
   );

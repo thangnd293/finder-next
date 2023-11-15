@@ -47,6 +47,10 @@ const NotifyNewMatched = () => {
     });
   }, [socket.connected]);
 
+  const handleClose = () => {
+    setNewMatched(null);
+  };
+
   const handleClick = () => {
     if (!newMatched) return;
     updateNotificationStatus.mutate({
@@ -56,7 +60,7 @@ const NotifyNewMatched = () => {
       },
     });
 
-    setNewMatched(null);
+    handleClose();
   };
 
   if (!newMatched) return null;
@@ -64,9 +68,7 @@ const NotifyNewMatched = () => {
   return (
     <Modal
       className="justify-center overflow-y-auto overflow-x-hidden p-6 md:justify-start"
-      onOpenChange={() => {
-        setNewMatched(null);
-      }}
+      onOpenChange={handleClose}
     >
       <div className="flex w-full flex-col gap-5 text-center">
         <p className="text-4xl font-medium text-primary">BOOM!</p>
@@ -109,7 +111,11 @@ const NotifyNewMatched = () => {
             </Button>
           </Link>
 
-          <Button className="mx-auto flex w-fit rounded-full" variant="ghost">
+          <Button
+            className="mx-auto flex w-fit rounded-full"
+            variant="ghost"
+            onClick={handleClose}
+          >
             Tiếp tục lướt
           </Button>
         </div>

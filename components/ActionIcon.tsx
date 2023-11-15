@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import React from "react";
@@ -13,15 +15,34 @@ interface ActionIconProps
 
 const ActionIcon = React.forwardRef<HTMLButtonElement, ActionIconProps>(
   (
-    { className, variant, size, title, isLoading, children, ...others },
+    {
+      className,
+      variant,
+      size,
+      title,
+      isLoading,
+      children,
+      disabled,
+      ...others
+    },
     ref,
   ) => {
     return (
       <Tooltip label={title ?? ""} disabled={!title}>
         <button
-          className={cn(actionIconVariants({ variant, size, className }))}
+          className={cn(actionIconVariants({ variant, size, className }), {
+            "pointer-events-none": disabled,
+          })}
           ref={ref}
           {...others}
+          onClick={(e) => {
+            if (disabled) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+
+            others.onClick?.(e);
+          }}
         >
           {isLoading ? <Spinner /> : children}
         </button>

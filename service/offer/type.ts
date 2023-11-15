@@ -20,10 +20,19 @@ export interface Package {
   price: number;
   originalPrice: number;
   refreshInterval: number;
-  refreshIntervalUnit: string;
+  refreshIntervalUnit: RefreshIntervalUnit;
   currency: string;
   discount: number;
   _id: string;
+}
+
+export enum RefreshIntervalUnit {
+  MINUTES = "Minutes",
+  HOURS = "Hours",
+  DAY = "Day",
+  WEEK = "Week",
+  MONTH = "Month",
+  YEAR = "Year",
 }
 
 export interface Feature {

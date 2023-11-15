@@ -10,7 +10,7 @@ export class OfferService {
 
   static async getOffers() {
     const { data } = await axiosInstance.get<OfferResponse>(
-      "/offering?page=1&size=100",
+      "/offering?page=1&size=100&isDeleted=false",
     );
 
     return data;

@@ -100,16 +100,16 @@ const ReportDialog = ({
     <Modal
       open={visible}
       onOpenChange={handleClose}
-      closeOnClickOutside={false}
+      closeOnClickOutside={currentStep === startStep}
     >
-      <Modal.Body className="p-6">
+      <Modal.Body className="relative p-6">
         <FormProvider {...methods}>
           <form
             className="flex w-full flex-col"
             onSubmit={handleSubmit(onSubmit)}
           >
             <ActionIcon
-              className={cn("absolute left-5 top-5", {
+              className={cn("absolute left-5 top-2.5", {
                 hidden: isFirstStep,
               })}
               disabled={isProcessing || isFirstStep}

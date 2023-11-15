@@ -3,7 +3,6 @@
 import ErrorView from "@/components/ErrorView";
 import LoadingView from "@/components/LoadingView";
 import PacketDialog from "@/components/PackageDialog";
-import { cn } from "@/lib/utils";
 import { Offer, useOffers } from "@/service/offer";
 import Image from "next/image";
 import { useState } from "react";
@@ -23,22 +22,19 @@ const PacketList = () => {
         {offers.map((offer) => (
           <button
             key={offer._id}
-            className={cn(
-              "w-full cursor-pointer space-y-1 rounded-md py-2 text-center md:px-8",
-              offer.style.background,
-            )}
+            className="relative flex w-full cursor-pointer items-center space-y-1 rounded-full py-2 text-center hover:bg-background-50 md:px-8"
             onClick={() => setActiveOffer(offer)}
           >
-            <h1 className="flex items-center justify-center gap-2 font-semibold">
-              <Image
-                width={30}
-                height={30}
-                src={offer.iconUrl}
-                alt={offer.type}
-              />
-              <span className="hidden md:block">{offer.type}</span>
-            </h1>
-            <p className="hidden text-sm md:block">{offer.text}</p>
+            <Image
+              width={30}
+              height={30}
+              src={offer.iconUrl}
+              alt={offer.type}
+            />
+
+            <p className="absolute left-1/2 hidden -translate-x-1/2 pb-1 font-semibold md:block">
+              {offer.type}
+            </p>
           </button>
         ))}
       </div>

@@ -1,24 +1,34 @@
 import { PremiumIcon } from "@/assets/icons";
+import { timeMap } from "@/constant/common";
 import { cn } from "@/lib/utils";
 import { Offer, Package } from "@/service/offer";
 import Image from "next/image";
 
 interface PriceSectionProps
-  extends Pick<Offer, "type" | "merchandising" | "packages"> {
+  extends Pick<Offer, "type" | "merchandising" | "packages" | "isRetail"> {
   selectedPackage: Package;
   setSelectedPackage: (pack: Package) => void;
 }
 
 const PriceSection = ({
+  isRetail,
   type,
   merchandising,
   packages,
   selectedPackage,
   setSelectedPackage,
 }: PriceSectionProps) => {
+  const price = selectedPackage.price ?? selectedPackage.originalPrice;
+
+  const unit = isRetail
+    ? "lượt"
+    : timeMap[selectedPackage.refreshIntervalUnit].toLowerCase();
+
   return (
     <div className="w-full max-w-4xl rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-4 md:p-8">
-      <h3 className="text-lg font-semibold">Mở khóa {type}</h3>
+      <h3 className="text-lg font-semibold">
+        {isRetail ? "Mua lượt" : "Mở khóa"} {type}
+      </h3>
 
       <div className="mt-4 flex flex-col gap-4 md:flex-row">
         <div className="flex flex-1 flex-col justify-between space-y-10 text-sm font-semibold md:space-y-20">
@@ -38,12 +48,8 @@ const PriceSection = ({
           </div>
 
           <p>
-            Bạn sẽ thanh toán{" "}
-            {new Intl.NumberFormat("vi-VN", {
-              style: "currency",
-              currency: selectedPackage.currency,
-            }).format(selectedPackage.price)}{" "}
-            cứ sau {selectedPackage.refreshInterval} tháng
+            Bạn sẽ thanh toán {price.formatPrice()} cho{" "}
+            {selectedPackage.refreshInterval} {unit}
           </p>
         </div>
 
@@ -61,15 +67,10 @@ const PriceSection = ({
             >
               <div className="flex items-center gap-2">
                 <PremiumIcon width={46} />
-                {item.refreshInterval} tháng
+                {item.refreshInterval} {unit}
               </div>
 
-              <span>
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: item.currency,
-                }).format(item.price)}
-              </span>
+              <span>{(item.price ?? item.originalPrice).formatPrice()}</span>
             </button>
           ))}
         </div>

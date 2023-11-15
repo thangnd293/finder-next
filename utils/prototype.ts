@@ -12,6 +12,10 @@ declare global {
     prettyFullDate(): string;
     truncate(length: number): string;
   }
+
+  interface Number {
+    formatPrice(): string;
+  }
 }
 
 String.prototype.capitalizeFirstLetter = function () {
@@ -38,4 +42,12 @@ String.prototype.truncate = function (length: number) {
     : this.toString();
 };
 
-export {};
+Number.prototype.formatPrice = function () {
+  return this.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+};
+
+export { };
+

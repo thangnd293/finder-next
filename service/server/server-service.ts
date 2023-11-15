@@ -9,7 +9,7 @@ export class ServerService {
 
     linkInstagram: (instagramToken: string) =>
       `/ins/info?token=${instagramToken}`,
-    getOffers: `/offering?page=1&size=100`,
+    getOffers: `/offering?page=1&size=100&isDeleted=false`,
   };
 
   static linkSpotify = async (spotifyToken: string, accessToken: string) => {
