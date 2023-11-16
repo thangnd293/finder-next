@@ -1,7 +1,7 @@
 import { PremiumIcon } from "@/assets/icons";
 import { timeMap } from "@/constant/common";
 import { cn } from "@/lib/utils";
-import { Offer, Package } from "@/service/offer";
+import { Offer, Package, RefreshIntervalUnit } from "@/service/offer";
 import Image from "next/image";
 
 interface PriceSectionProps
@@ -20,9 +20,9 @@ const PriceSection = ({
 }: PriceSectionProps) => {
   const price = selectedPackage.price ?? selectedPackage.originalPrice;
 
-  const unit = isRetail
-    ? "lượt"
-    : timeMap[selectedPackage.refreshIntervalUnit].toLowerCase();
+  const getUnit = (unit: RefreshIntervalUnit) => {
+    return isRetail ? "lượt" : timeMap[unit].toLowerCase();
+  };
 
   return (
     <div className="w-full max-w-4xl rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-4 md:p-8">
@@ -49,7 +49,8 @@ const PriceSection = ({
 
           <p>
             Bạn sẽ thanh toán {price.formatPrice()} cho{" "}
-            {selectedPackage.refreshInterval} {unit}
+            {selectedPackage.refreshInterval}{" "}
+            {getUnit(selectedPackage.refreshIntervalUnit)}
           </p>
         </div>
 
@@ -60,14 +61,15 @@ const PriceSection = ({
               className={cn(
                 "flex w-full items-center justify-between rounded-md border bg-background px-3 py-2 font-semibold",
                 {
-                  "border-2 border-black": item._id === selectedPackage._id,
+                  "border-2 border-accent-background":
+                    item._id === selectedPackage._id,
                 },
               )}
               onClick={() => setSelectedPackage(item)}
             >
               <div className="flex items-center gap-2">
                 <PremiumIcon width={46} />
-                {item.refreshInterval} {unit}
+                {item.refreshInterval} {getUnit(item.refreshIntervalUnit)}
               </div>
 
               <span>{(item.price ?? item.originalPrice).formatPrice()}</span>
