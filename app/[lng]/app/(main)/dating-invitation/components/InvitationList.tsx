@@ -15,6 +15,7 @@ import FilterDialog, { FilterSchedule } from "./FilterDialog";
 import InvitationCard from "./InvitationCard";
 import InvitationDetailDialog from "./InvitationDetailDialog";
 import SelfInvitationCard from "./SelfInvitationCard";
+import { ROUTE } from "@/constant/route";
 
 const InvitationList = () => {
   const searchParams = useSearchParams();
@@ -63,7 +64,7 @@ const InvitationList = () => {
     setSelectedScheduleID("");
     const params = new URLSearchParams(searchParams?.toString() ?? "");
     params.delete("id");
-    router.replace(`/app/dating-invitation?${params.toString()}`);
+    router.replace(`${ROUTE.DATING_INVITATION}?${params.toString()}`);
   };
 
   if (isLoading) {

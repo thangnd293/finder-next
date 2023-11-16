@@ -9,6 +9,7 @@ const CurrentUserInfo = () => {
     select: (user) => ({
       name: user.name,
       age: user.age,
+      isVerifiedFace: user.isVerifiedFace,
     }),
   });
 
@@ -17,7 +18,7 @@ const CurrentUserInfo = () => {
       <p className="text-lg font-medium">
         {data?.name}, {data?.age}
       </p>
-      <VerifiedIcon size={20} />
+      {data?.isVerifiedFace && <VerifiedIcon size={20} />}
     </div>
   );
 };

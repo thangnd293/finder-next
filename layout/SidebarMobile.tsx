@@ -3,15 +3,21 @@
 import { ROUTE } from "@/constant/route";
 import { cn } from "@/lib/utils";
 import { useMatchRequestCount } from "@/service/matchRequest";
+import { useScheduleNotificationCount } from "@/service/notification";
 import { NavItem } from "@/types/common";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { BiSolidUser } from "react-icons/bi";
-import { BsChatFill, BsFillHeartFill, BsHouseFill } from "react-icons/bs";
+
+import { AiFillFire } from "react-icons/ai";
+import { BiSolidCalendarHeart } from "react-icons/bi";
+import { BsFillPersonFill } from "react-icons/bs";
+import { IoIosChatbubbles } from "react-icons/io";
+import { PiHeartFill } from "react-icons/pi";
 
 interface SidebarMobileProps extends React.HTMLAttributes<HTMLDivElement> {}
 const SidebarMobile = ({ className }: SidebarMobileProps) => {
   const { data } = useMatchRequestCount();
+  const { data: scheduleNotification } = useScheduleNotificationCount();
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,28 +26,35 @@ const SidebarMobile = ({ className }: SidebarMobileProps) => {
   }`;
 
   const matchRequestCount = data?.totalCount ?? 0;
+  const scheduleNotificationCount = scheduleNotification?.data?.totalCount ?? 0;
 
   const navList: NavItem[] = [
     {
       href: ROUTE.PROFILE,
-      label: "Profile",
-      Icon: BiSolidUser,
+      label: "Trang cá nhân",
+      Icon: BsFillPersonFill,
+    },
+    {
+      href: ROUTE.DATING_INVITATION,
+      label: "Lời mời hẹn hò",
+      Icon: BiSolidCalendarHeart,
+      notificationCount: scheduleNotificationCount,
     },
     {
       href: ROUTE.HOME,
-      label: "Home",
-      Icon: BsHouseFill,
+      label: "Trang chủ",
+      Icon: AiFillFire,
     },
     {
       href: ROUTE.LIKED_YOU,
-      label: "Like you",
-      Icon: BsFillHeartFill,
+      label: "Người thích bạn",
+      Icon: PiHeartFill,
       notificationCount: matchRequestCount,
     },
     {
       href: `${ROUTE.HOME}?tab=message`,
-      label: "Chat",
-      Icon: BsChatFill,
+      label: "Nhắn tin",
+      Icon: IoIosChatbubbles,
     },
   ];
 

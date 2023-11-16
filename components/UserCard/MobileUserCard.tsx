@@ -78,7 +78,7 @@ export const MobileUserCard = ({
               <div className="absolute bottom-1.5 left-2 text-white drop-shadow">
                 <p className="text-shadow flex items-center gap-2 text-xl font-extrabold">
                   {name}, {age}
-                  {true && <VerifiedIcon width={20} />}
+                  {isVerifiedFace && <VerifiedIcon width={20} />}
                 </p>
                 {jobs && jobs.length > 0 && company && (
                   <p className="flex items-center gap-2">

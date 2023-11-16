@@ -27,11 +27,12 @@ const FilterSetting = ({ onReload }: FilterSettingProps) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger
-        className="absolute left-3 flex items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100 md:left-16"
+        className="absolute right-3 flex items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100 md:left-16"
         asChild
       >
         <button onClick={() => setIsOpen(true)}>
-          <PiSlidersHorizontal size={20} /> <span>Cài đặt</span>
+          <PiSlidersHorizontal className="h-6 w-6 md:h-5 md:w-5" />
+          <span className="hidden md:inline-block">Cài đặt</span>
         </button>
       </PopoverTrigger>
       <PopoverContent className="relative w-96" align="start">
