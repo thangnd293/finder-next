@@ -36,6 +36,7 @@ export interface HiddenProfile {
 export interface Image {
   url: string;
   blur?: string;
+  isVerifiedSuccess?: boolean;
 }
 
 interface SpotifyArtist {
