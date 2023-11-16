@@ -46,7 +46,7 @@ const RadioGroup = ({
             className={cn(
               "w-fit flex-1 flex-shrink whitespace-nowrap px-4 py-2 text-sm text-secondary-foreground",
               selectedValue === item.value &&
-                "rounded-lg bg-background font-semibold text-primary-500",
+                "rounded-lg bg-background font-semibold text-primary-500 dark:bg-gray-800",
             )}
             onClick={() => handleChange(item.value)}
           >

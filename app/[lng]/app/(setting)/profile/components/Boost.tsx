@@ -25,7 +25,7 @@ const Boost = ({ offer }: BoostProps) => {
         onClick={open}
       >
         <TiFlash className="text-violet-500" size={22} />
-        <span className="text-sm">{boost?.amount} lượt boost</span>
+        <span className="text-sm">{boost?.amount ?? 0} lượt boost</span>
       </button>
       {isOpen && <PacketDialog {...offer} onClose={close} />}
     </>

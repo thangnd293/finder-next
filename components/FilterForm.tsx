@@ -12,10 +12,14 @@ import {
 } from "@/service/user";
 import useStore from "@/store";
 import { Controller, useForm } from "react-hook-form";
+import Checkbox from "./Checkbox";
 
 interface FormValues {
   lookingFor: LookingFor;
   age: number[];
+  distance: number;
+  onlyShowAgeThisRange: boolean;
+  onlyShowDistanceThisRange: boolean;
 }
 
 interface FilterFormProps {
@@ -37,18 +41,21 @@ const FilterForm = ({ onSubmitDone }: FilterFormProps) => {
     formState: { isDirty },
   } = useForm<FormValues>({
     defaultValues: {
+      ...discovery,
       lookingFor: discovery?.lookingFor ?? LookingFor.All,
       age: [discovery?.minAge, discovery?.maxAge],
     },
   });
 
   const rangeAge = watch("age");
+  const distance = watch("distance");
 
-  const onSubmit = ({ lookingFor, age }: FormValues) => {
+  const onSubmit = ({ lookingFor, age, ...others }: FormValues) => {
     updateSetting.mutate(
       {
         discovery: {
           ...discovery,
+          ...others,
           minAge: age[0],
           maxAge: age[1],
           lookingFor,
@@ -59,6 +66,7 @@ const FilterForm = ({ onSubmitDone }: FilterFormProps) => {
           reset({
             lookingFor,
             age,
+            ...others,
           });
           invalidateRecommendedUsers();
           setCurrentIndex(0);
@@ -105,8 +113,52 @@ const FilterForm = ({ onSubmitDone }: FilterFormProps) => {
               />
             )}
           />
+
+          <Controller
+            name="onlyShowAgeThisRange"
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <Checkbox
+                label="Chỉ hiển thị trong độ tuổi này"
+                checked={value}
+                onCheckedChange={onChange}
+              />
+            )}
+          />
         </div>
       </div>
+
+      <div className="space-y-1.5">
+        <Label>Khoảng cách</Label>
+        <div className="space-y-6 rounded-2xl border border-primary-300 p-6 text-sm">
+          <p>{distance} km</p>
+
+          <Controller
+            name="distance"
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <Slider
+                value={[value]}
+                onValueChange={(value) => onChange(value[0])}
+                step={1}
+              />
+            )}
+          />
+
+          <Controller
+            name="onlyShowDistanceThisRange"
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <Checkbox
+                label="Chỉ hiển thị trong khoảng cách này"
+                checked={value}
+                onCheckedChange={onChange}
+              />
+            )}
+          />
+        </div>
+      </div>
+
       <div className="!mt-3 ml-auto w-fit">
         <Button
           type="submit"
