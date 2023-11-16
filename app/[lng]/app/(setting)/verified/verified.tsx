@@ -170,7 +170,6 @@ export default function Verified() {
         size="auto"
         open={true}
         closeOnEscape={false}
-        withCloseButton={false}
         onOpenChange={verifyAction.setOpen}
       >
         <div className={`${isDone ? "hidden" : "block"}`}>

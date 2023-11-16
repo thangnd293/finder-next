@@ -9,6 +9,8 @@ export default function Page() {
   const provider = searchParams?.get("provider");
 
   useEffect(() => {
+    console.log("Provider: ", provider);
+
     if (!provider) return;
 
     if (provider === "spotify") {

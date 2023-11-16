@@ -19,7 +19,6 @@ interface ModalProps
   closeOnClickOutside?: boolean;
   closeOnEscape?: boolean;
   onOpenChange?: (open: boolean) => void;
-  withCloseButton?: boolean;
   hasAnimate?: boolean;
   children: React.ReactNode;
   unMoutOnClose?: boolean;
@@ -35,7 +34,6 @@ const Modal = ({
   withOverlay = true,
   closeOnClickOutside = true,
   closeOnEscape = true,
-  withCloseButton = true,
   hasAnimate = true,
   unMoutOnClose = true,
   ...others

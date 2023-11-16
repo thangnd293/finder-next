@@ -33,10 +33,10 @@ const FilterDialog = ({ filter, onFilter, close }: FilterDialogProps) => {
 
   return (
     <Modal className="!px-0" onOpenChange={close}>
+      <Modal.Header withCloseButton>Lọc lời mời</Modal.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="text-center text-lg font-semibold">Lọc lời mời</h2>
         <div className="w-full divide-y">
-          <div className="px-8 pb-4">
+          <div className="px-8 py-4">
             <Label>Người mời</Label>
             <Controller
               control={control}

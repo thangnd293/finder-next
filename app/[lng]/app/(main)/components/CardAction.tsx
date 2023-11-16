@@ -30,7 +30,7 @@ export const CardAction = ({
         <IoPlayBack size={20} />
       </ActionIcon>
       <ActionIcon
-        className="h-20 w-20 rounded-full bg-white"
+        className="h-20 w-20 rounded-full bg-background"
         onClick={onUnLike}
       >
         <BsXLg size={28} />
@@ -44,7 +44,7 @@ export const CardAction = ({
       </ActionIcon>
 
       <ActionIcon
-        className="h-20 w-20 rounded-full bg-white text-primary"
+        className="h-20 w-20 rounded-full bg-background text-primary"
         onClick={onLike}
       >
         <BsCheckLg size={32} />

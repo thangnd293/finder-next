@@ -1,14 +1,14 @@
 "use client";
 
-import { usePopper } from "@/hooks/use-popper";
 import { cn } from "@/lib/utils";
 import { Combobox as HeadlessCombobox, Transition } from "@headlessui/react";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import * as RadixPortal from "@radix-ui/react-portal";
 import React, { useEffect, useState } from "react";
+import { usePopper } from "react-popper";
 import Input from "./Input";
 import { labelVariants } from "./Label";
 import ScrollArea from "./ScrollArea";
-import * as RadixPortal from "@radix-ui/react-dialog";
 
 export interface Option {
   value: string;
@@ -49,11 +49,12 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
       return selectedItem ? selectedItem : null;
     });
 
-    const [trigger, container] = usePopper({
-      placement: "bottom-end",
-      strategy: "absolute",
-      modifiers: [{ name: "offset", options: { offset: [0, 6] } }],
-    });
+    const [referenceElement, setReferenceElement] =
+      useState<HTMLButtonElement | null>(null);
+    const [popperElement, setPopperElement] = useState<HTMLElement | null>(
+      null,
+    );
+    const { styles, attributes } = usePopper(referenceElement, popperElement);
 
     const [query, setQuery] = useState(search || "");
 
@@ -93,7 +94,7 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
               {label}
             </HeadlessCombobox.Label>
             <HeadlessCombobox.Button
-              ref={trigger}
+              ref={setReferenceElement}
               className="relative w-full"
               onClick={(e) => open && e.preventDefault()}
             >
@@ -111,9 +112,9 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
             {open && (
               <RadixPortal.Root>
                 <Transition
-                  ref={container}
+                  ref={setPopperElement}
                   className={cn(
-                    "mt-1 w-full rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-none",
+                    "mt-1 rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-none",
                   )}
                   enter="transition duration-100 ease-out"
                   enterFrom="transform scale-95 opacity-0"
@@ -121,6 +122,11 @@ const Combobox = React.forwardRef<HTMLInputElement, ComboboxProps>(
                   leave="transition duration-75 ease-out"
                   leaveFrom="transform scale-100 opacity-100"
                   leaveTo="transform scale-95 opacity-0"
+                  style={{
+                    ...styles.popper,
+                    width: referenceElement?.offsetWidth,
+                  }}
+                  {...attributes.popper}
                 >
                   <HeadlessCombobox.Options static>
                     <ScrollArea className="h-fit max-h-40">

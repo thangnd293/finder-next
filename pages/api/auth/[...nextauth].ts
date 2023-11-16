@@ -139,11 +139,15 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           return false;
         }
 
+        console.log("=================LINK INSTAGRAM=====================");
+
         if (accessToken && account?.access_token && type === "instagram") {
           const data = await ServerService.linkInstagram(
             account.access_token,
             accessToken,
           );
+
+          console.log("TOKEN:", account.access_token, accessToken);
 
           if (data.success) return true;
 
@@ -155,20 +159,3 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 }
-
-const updateArtist = async (accessToken: string) => {
-  return new Promise((resolve, reject) => {
-    const isSuccessful = Math.random() > 0.5;
-
-    setTimeout(() => {
-      if (isSuccessful) {
-        resolve({
-          name: "Artist name",
-          image: "https://picsum.photos/200",
-        });
-      } else {
-        reject(new Error("Something went wrong"));
-      }
-    }, 1000);
-  });
-};

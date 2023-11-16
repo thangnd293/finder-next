@@ -37,7 +37,8 @@ const ModeRadioGroup = ({
             className={cn(
               "flex cursor-pointer items-center justify-between gap-4 rounded-lg border p-3",
               {
-                "border-primary bg-primary-100": value === item.value,
+                "border-primary bg-primary-100 text-gray-600":
+                  value === item.value,
               },
             )}
           >

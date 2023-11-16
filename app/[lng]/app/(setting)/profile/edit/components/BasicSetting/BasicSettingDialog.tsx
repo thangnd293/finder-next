@@ -80,7 +80,10 @@ export const BasicSettingDialog = ({
     tags?.find((tag) => tag.type === emptyStep[currentStepIndex])?._id || "";
 
   return (
-    <Modal className="p-6" onOpenChange={() => setShowConfirmDialog(true)}>
+    <Modal
+      className="overflow-y-auto p-6"
+      onOpenChange={() => setShowConfirmDialog(true)}
+    >
       <ConfirmAlert
         isShow={showConfirmDialog}
         onClose={handleClose}

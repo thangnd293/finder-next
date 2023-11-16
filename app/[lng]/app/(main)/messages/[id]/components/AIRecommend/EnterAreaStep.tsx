@@ -90,7 +90,6 @@ const LocationPickerDialog = ({
     <Modal
       className="h-full md:h-[calc(100vh-64px)]"
       size="xl"
-      withCloseButton={isMobile}
       withOverlay={false}
       onOpenChange={onClose}
     >

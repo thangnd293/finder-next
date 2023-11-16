@@ -47,7 +47,10 @@ const ImageDropzone = ({
   return (
     <div className="w-full space-y-2">
       <div
-        className={cn(error && "!border-red-400")}
+        className={cn(
+          "bg-background text-secondary-foreground",
+          error && "!border-red-400",
+        )}
         {...getRootProps({ style })}
       >
         <input {...getInputProps()} />
@@ -84,10 +87,7 @@ const baseStyle: CSSProperties = {
   padding: "20px",
   borderWidth: 2,
   borderRadius: 6,
-  borderColor: "#eeeeee",
   borderStyle: "dashed",
-  backgroundColor: "#fafafa",
-  color: "#bdbdbd",
   outline: "none",
   transition: "border .24s ease-in-out",
 };

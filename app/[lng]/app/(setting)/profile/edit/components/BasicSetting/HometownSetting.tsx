@@ -28,6 +28,7 @@ const HometownSetting = () => {
       className="w-full space-y-1.5"
       label="Quê quán"
       value={hometown}
+      placeholder="Quê quán của bạn"
       onChange={setHometown}
     />
   );

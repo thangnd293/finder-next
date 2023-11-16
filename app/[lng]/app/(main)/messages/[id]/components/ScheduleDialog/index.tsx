@@ -30,7 +30,6 @@ const ScheduleDialog = ({ isOpen, onClose }: ScheduleDialogProps) => {
       onOpenChange={onClose}
       size={isShowScheduleEditor ? "full" : "lg"}
       hasAnimate={!isShowScheduleEditor}
-      withCloseButton={isMobile}
       closeOnEscape={!isShowScheduleEditor}
     >
       {!isShowScheduleEditor && (

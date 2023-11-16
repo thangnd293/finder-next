@@ -73,7 +73,6 @@ export const UserCard = ({
       />
     );
 
-
   return (
     <Slider
       className={cn("absolute flex h-full w-full p-1.5 md:p-0", {
@@ -96,13 +95,13 @@ export const UserCard = ({
       </SlideContentWithRightImage>
 
       <SlideCard>
-        <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-8">
-          <p className="font-bold">About {name}</p>
+        <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-8 text-gray-700">
+          <p className="font-bold">Về {name}</p>
 
           {bio && <p>{bio}</p>}
           <div className="flex flex-wrap justify-center gap-2">
             {height && setting?.hiddenProfile?.height && (
-              <span className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+              <span className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm">
                 <PiRuler />
                 {height} cm
               </span>
@@ -114,7 +113,7 @@ export const UserCard = ({
               return (
                 <span
                   key={tag._id}
-                  className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700"
+                  className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm"
                 >
                   <Icon />
                   {tag.name}
@@ -129,10 +128,8 @@ export const UserCard = ({
         imageSlides.map((images, i) => <SlideImages key={i} images={images} />)}
 
       <SlideContentWithRightImage image={lastImage}>
-        <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-8 text-center">
-          <p className="text-2xl font-extrabold text-gray-700">
-            Vị trí của {name}
-          </p>
+        <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-8 text-center text-gray-700">
+          <p className="text-2xl font-extrabold">Vị trí của {name}</p>
 
           <p>
             <MdLocationOn className="mb-1 inline-block" size={18} />
@@ -141,14 +138,14 @@ export const UserCard = ({
           </p>
 
           {homeTown?.province && (
-            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm">
               {<GoHome />}
               <span>Đến từ {homeTown.province}</span>
             </span>
           )}
 
           {liveAt?.province && (
-            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
+            <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm">
               {<GoLocation />}
               <span>Sống tại {liveAt.province}</span>
             </span>

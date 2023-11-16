@@ -2,6 +2,7 @@ import { ROUTE } from "@/constant/route";
 import Link from "next/link";
 import ScheduleNotification from "./ScheduleNotification";
 import UserInfo from "./UserInfo";
+import ModeToggle from "@/components/ModeToggle";
 
 export default function SidebarHeader() {
   return (
@@ -11,6 +12,7 @@ export default function SidebarHeader() {
       </Link>
 
       <div className="hidden gap-3 md:flex">
+        <ModeToggle variant="light" className="h-9 w-9 rounded-full" />
         <ScheduleNotification />
       </div>
     </header>

@@ -40,8 +40,8 @@ const BasicSetting = () => {
               );
             })}
             <GenderSetting />
-            <HometownSetting />
             <LiveAtSetting />
+            <HometownSetting />
           </div>
         </AccordionContent>
       </AccordionItem>

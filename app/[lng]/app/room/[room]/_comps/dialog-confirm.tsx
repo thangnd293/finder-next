@@ -30,12 +30,7 @@ export default function DialogConfirm() {
   return (
     <>
       <audio loop id="audio" src="/audio/ring.mp3" />
-      <Modal
-        size={"sm"}
-        open={open}
-        onOpenChange={() => {}}
-        withCloseButton={false}
-      >
+      <Modal size={"sm"} open={open} onOpenChange={() => {}}>
         {offerData?.onwner ? (
           <div className="space-y-4">
             <div className="space-y-2">
