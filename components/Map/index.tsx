@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  DARK_STYLES,
   DEFAULT_LOCATION,
   DEFAULT_ZOOM,
   MAX_ZOOM,
@@ -20,6 +21,7 @@ import Loader from "../Loader";
 import MapControl from "./MapControl";
 import SearchPlace from "./SearchPlace";
 import SearchResult from "./SearchResult";
+import { useTheme } from "next-themes";
 
 const libraries: Libraries = ["places"];
 
@@ -45,6 +47,7 @@ const Map = ({ selectedPlaces, onSelectedPlacesChange }: MapProps) => {
     language: "vi",
     libraries,
   });
+  const { theme } = useTheme();
 
   const { setMap, reset, currentPosition } = useStore(
     useShallow((state) => ({
@@ -55,6 +58,7 @@ const Map = ({ selectedPlaces, onSelectedPlacesChange }: MapProps) => {
   );
 
   const onLoad = useCallback((map: google.maps.Map) => setMap(map), [setMap]);
+  const mapStyles = theme === "dark" ? DARK_STYLES : undefined;
 
   if (!isLoaded)
     return (
@@ -68,7 +72,7 @@ const Map = ({ selectedPlaces, onSelectedPlacesChange }: MapProps) => {
       mapContainerClassName="w-full h-full min-h-screen relative"
       center={DEFAULT_LOCATION}
       zoom={DEFAULT_ZOOM}
-      options={options}
+      options={{ ...options, styles: mapStyles }}
       onLoad={onLoad}
       onUnmount={reset}
     >

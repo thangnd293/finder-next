@@ -40,7 +40,7 @@ const MapControl = () => {
   return (
     <div className="absolute bottom-2 right-2 flex flex-col gap-1">
       <ActionIcon
-        className="bg-white shadow"
+        className="bg-background shadow"
         title="Vị trí hiện tại"
         onClick={onCurrentLocation}
       >
@@ -48,7 +48,7 @@ const MapControl = () => {
       </ActionIcon>
 
       <Tooltip label="Thu phóng">
-        <div className="flex flex-col rounded-md border bg-white shadow">
+        <div className="flex flex-col rounded-md border bg-background shadow">
           <ActionIcon className="border-none" onClick={onZoomIn}>
             <PlusIcon />
           </ActionIcon>

@@ -21,7 +21,7 @@ const PackCard = React.forwardRef<
       }}
       ref={ref}
     >
-      <div className="space-y-1 text-center">
+      <div className="space-y-1 text-center text-gray-700">
         <h3 className="text-sm font-semibold">{type}</h3>
         <p className="text-xs">{text}</p>
       </div>

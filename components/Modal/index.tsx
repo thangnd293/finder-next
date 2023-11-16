@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import { ModalBody } from "./ModalBody";
 import { ModalFooter } from "./ModalFooter";
-import { ModalHeader } from "./ModalHeader";
+import { CloseButton, ModalHeader } from "./ModalHeader";
 
 interface ModalProps
   extends React.ComponentProps<typeof RadixDialog.Root>,
@@ -71,6 +71,11 @@ const Modal = ({
               }
             }}
           >
+            <CloseButton
+              className="absolute right-3 top-3 z-10 flex md:hidden"
+              onClick={() => onOpenChange?.(false)}
+            />
+
             {children}
           </RadixDialog.Content>
         </RadixDialog.Overlay>

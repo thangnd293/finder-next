@@ -44,11 +44,11 @@ const Conversation = ({ _id, user, lastMessage }: ConversationProps) => {
   };
 
   return (
-    <Link href={`/app/messages/${_id}?tab=message`}>
+    <Link className="block" href={`/app/messages/${_id}?tab=message`}>
       <div
         className={cn(
-          "relative flex items-center space-x-2.5 rounded-md py-3 pl-6 pr-12 hover:bg-gray-100",
-          isActive && "bg-gray-100",
+          "relative flex items-center space-x-2.5 rounded-md py-3 pl-6 pr-12 hover:bg-gray-100 dark:hover:bg-gray-800",
+          isActive && "bg-gray-100 dark:bg-gray-800",
         )}
       >
         <Avatar

@@ -7,12 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
-import {
-    BsCalendar,
-    BsCreditCard,
-    BsLock,
-    BsPerson
-} from "react-icons/bs";
+import { BsCalendar, BsCreditCard, BsLock, BsPerson } from "react-icons/bs";
 import { Package } from "@/service/offer";
 
 interface FormValues {
@@ -32,12 +27,11 @@ const validatePaymentForm = yup.object({
   cvc: yup.string().length(3, "CVC không hợp lệ").required("Please enter CVC"),
 });
 
-
 interface PaymentSectionProps {
-    selectedPackage: Package;
-    offerId: string;
+  selectedPackage: Package;
+  offerId: string;
 }
-const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
+const PaymentSection = ({ offerId, selectedPackage }: PaymentSectionProps) => {
   const [focused, setFocused] = useState<Focused>("");
   const paymentFormResolver = useYupValidationResolver(validatePaymentForm);
 
@@ -85,7 +79,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
       className="w-full max-w-4xl space-y-6 rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-4 md:p-8"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className="text-center text-lg font-semibold">
+      <h3 className="text-center text-lg font-semibold text-gray-700">
         Nhập thẻ thanh toán của bạn
       </h3>
 
@@ -106,6 +100,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
             name="name"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
+                labelClassName="text-gray-700"
                 name="name"
                 label="Tên chủ thẻ"
                 placeholder="Nhập tên thẻ của bạn"
@@ -122,6 +117,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
             name="number"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
+                labelClassName="text-gray-700"
                 type="number"
                 name="number"
                 label="Số thẻ"
@@ -144,6 +140,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
                 fieldState: { error },
               }) => (
                 <Input
+                  labelClassName="text-gray-700"
                   className="flex-1"
                   name="expiry"
                   label="Ngày hết hạn"
@@ -165,6 +162,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
                 fieldState: { error },
               }) => (
                 <Input
+                  labelClassName="text-gray-700"
                   className="flex-1"
                   type="number"
                   name="cvc"
@@ -179,7 +177,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
               )}
             />
           </div>
-          <div className="space-y-2 rounded-xl bg-yellow-100 p-4 text-sm">
+          <div className="space-y-2 rounded-xl bg-yellow-100 p-4 text-sm text-gray-700">
             <h4 className="font-semibold">Không tìm được CVC ?</h4>
             <p>
               CVC là số có 3 chữ số ở mặt sau thẻ của bạn. Nó xuất hiện ở mặt
@@ -189,7 +187,7 @@ const PaymentSection = ({offerId, selectedPackage}: PaymentSectionProps) => {
         </div>
       </div>
 
-      <p className="rounded-xl border bg-yellow-100 p-4 font-semibold ">
+      <p className="rounded-xl border bg-yellow-100 p-4 font-semibold text-gray-700">
         Thanh toán định kỳ. Đăng ký của bạn sẽ tự động gia hạn và phương thức
         thanh toán sẽ được tính phí trong cùng thời gian và mức giá trừ khi bạn
         hủy ít nhất 24 giờ trước khi thời gian kết thúc. Để được hướng dẫn về

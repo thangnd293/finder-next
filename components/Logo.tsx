@@ -6,7 +6,7 @@ interface LogoProps extends Partial<React.ComponentProps<typeof Link>> {}
 const Logo = (props: LogoProps) => {
   return (
     <Link href={"/app"} {...props}>
-      <div className="relative aspect-[200/58] w-32">
+      <div className="relative aspect-[200/58] w-24 md:w-32">
         <Image
           className="select-none"
           draggable="false"

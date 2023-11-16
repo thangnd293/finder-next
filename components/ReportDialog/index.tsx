@@ -16,6 +16,7 @@ import Confirm from "./Confirm";
 import Detail from "./Detail";
 import Reason from "./Reason";
 import { useCldUpload } from "@/lib/cloudinary";
+import { CloseButton } from "../Modal/ModalHeader";
 
 interface ReportDialogProps {
   target?: User;

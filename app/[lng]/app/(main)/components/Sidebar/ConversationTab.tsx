@@ -23,7 +23,7 @@ export const MessageTab = () => {
             alt={""}
             priority
           />
-          <p className="text-secondary-foreground text-center">
+          <p className="text-center text-secondary-foreground">
             Tích cực lướt để gặp đúng người
           </p>
         </div>
@@ -31,7 +31,7 @@ export const MessageTab = () => {
 
       {!isEmpty && (
         <ScrollArea className="h-full">
-          <div className="flex-1 overflow-auto py-4">
+          <div className="flex-1 space-y-px overflow-auto py-4">
             {isLoading &&
               Array.from({ length: randomNumber(4, 7) }).map((_, i) => (
                 <div

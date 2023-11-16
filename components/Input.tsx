@@ -16,6 +16,7 @@ interface InputProps extends React.ComponentPropsWithoutRef<typeof InputBase> {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   wrapperClassName?: string;
+  labelClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -28,6 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       leftIcon,
       rightIcon,
       wrapperClassName,
+      labelClassName,
       onBlur,
       onFocus,
       ...others
@@ -41,7 +43,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const PasswordVisibleIcon = showPassword ? EyeOpenIcon : EyeClosedIcon;
     return (
       <fieldset className={wrapperClassName}>
-        <Label className="self-start justify-self-start" htmlFor={id}>
+        <Label
+          className={cn("self-start justify-self-start", labelClassName)}
+          htmlFor={id}
+        >
           {label}
         </Label>
 

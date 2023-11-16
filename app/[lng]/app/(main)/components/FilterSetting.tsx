@@ -3,6 +3,8 @@
 import ActionIcon from "@/components/ActionIcon";
 import FilterForm from "@/components/FilterForm";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/Popover";
+import { ROUTE } from "@/constant/route";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BsXLg } from "react-icons/bs";
 import { PiSlidersHorizontal } from "react-icons/pi";
@@ -11,6 +13,8 @@ interface FilterSettingProps {
   onReload?: () => void;
 }
 const FilterSetting = ({ onReload }: FilterSettingProps) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
 
   const onSubmitDone = () => {
@@ -18,10 +22,12 @@ const FilterSetting = ({ onReload }: FilterSettingProps) => {
     onReload?.();
   };
 
+  if (!pathname?.endsWith(ROUTE.HOME) || searchParams?.toString()) return null;
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger
-        className="absolute left-16 flex items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100"
+        className="absolute left-3 flex items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100 md:left-16"
         asChild
       >
         <button onClick={() => setIsOpen(true)}>

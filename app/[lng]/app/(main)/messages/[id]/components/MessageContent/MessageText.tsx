@@ -16,7 +16,7 @@ const MessageText = ({
         "message p-2.5",
         {
           "bg-primary text-white": isSelf,
-          "bg-background-100 text-black": !isSelf,
+          "bg-background-100 text-accent-foreground": !isSelf,
         },
         className,
       )}

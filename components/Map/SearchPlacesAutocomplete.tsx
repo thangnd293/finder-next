@@ -57,7 +57,7 @@ const SearchPlacesAutocomplete = ({
             <>
               <div
                 className={cn(
-                  "relative flex items-center rounded-full border bg-white py-3 pl-6 pr-28",
+                  "relative flex items-center rounded-full border bg-background py-3 pl-6 pr-28",
                   {
                     "rounded-b-none rounded-t-2xl": isShowAutocomplete,
                   },
@@ -70,7 +70,7 @@ const SearchPlacesAutocomplete = ({
                   }}
                 >
                   <Combobox.Input
-                    className="w-full border-none text-sm outline-none"
+                    className="w-full border-none bg-transparent text-sm outline-none"
                     type="text"
                     placeholder="Tìm kiếm địa điểm"
                     autoComplete="off"

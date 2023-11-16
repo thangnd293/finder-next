@@ -35,7 +35,7 @@ export const Sidebar = () => {
         defaultValue="matched"
       >
         <TabsList className="w-full space-x-6 px-4">
-          <TabsTrigger value="matched">Tương hợp</TabsTrigger>
+          <TabsTrigger value="matched">Ghép đôi</TabsTrigger>
           <TabsTrigger value="message">Nhắn tin</TabsTrigger>
         </TabsList>
 

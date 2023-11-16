@@ -74,7 +74,7 @@ export const MobileUserCard = ({
                   {name}, {age}
                 </p>
                 {school && (
-                  <p className="flex items-center gap-1 text-sm">
+                  <p className="flex items-center gap-1 text-sm text-gray-600">
                     <PiGraduationCapBold
                       className="mb-1 inline-block"
                       size={18}
@@ -88,7 +88,7 @@ export const MobileUserCard = ({
               {bio && (
                 <div>
                   <p className="text-secondary-foreground">Bio</p>
-                  <p>{bio}</p>
+                  <p className="text-gray-600">{bio}</p>
                 </div>
               )}
 
@@ -159,7 +159,7 @@ export const MobileUserCard = ({
                 Vị trí của {name}
               </p>
 
-              <p>
+              <p className="text-gray-600">
                 <MdLocationOn className="mb-1 inline-block text-sm" size={18} />
                 {address?.province ?? "Thành phố Hồ Chí Minh, Việt Nam"}
               </p>
@@ -184,7 +184,7 @@ export const MobileUserCard = ({
                 <div className="flex w-full items-center justify-center gap-6 pt-10">
                   {onUnLike && (
                     <ActionIcon
-                      className="h-16 w-16 rounded-full bg-white"
+                      className="h-16 w-16 rounded-full bg-background"
                       onClick={onUnLike}
                     >
                       <BsXLg size={28} />
@@ -202,7 +202,7 @@ export const MobileUserCard = ({
 
                   {onLike && (
                     <ActionIcon
-                      className="h-16 w-16 rounded-full bg-white text-primary"
+                      className="h-16 w-16 rounded-full bg-background text-primary"
                       onClick={onLike}
                     >
                       <BsCheckLg size={32} />

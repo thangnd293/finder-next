@@ -1,6 +1,6 @@
 "use client";
 
-import { DEFAULT_LOCATION, DEFAULT_ZOOM } from "@/constant/map";
+import { DARK_STYLES, DEFAULT_LOCATION, DEFAULT_ZOOM } from "@/constant/map";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import {
   GoogleMap,
@@ -13,6 +13,7 @@ import { MdOutlineMyLocation } from "react-icons/md";
 import ActionIcon from "./ActionIcon";
 import useMapControl from "@/hooks/use-map-control";
 import LoadingView from "./LoadingView";
+import { useTheme } from "next-themes";
 
 const libraries: Libraries = ["places"];
 
@@ -34,6 +35,7 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedLocation, setSelectedLocation] =
     useState<google.maps.LatLng>();
+  const { theme } = useTheme();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -94,12 +96,17 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
 
   if (!isLoaded) return <LoadingView />;
 
+  const mapStyles = theme === "dark" ? DARK_STYLES : undefined;
+
   return (
     <GoogleMap
       mapContainerClassName="w-full h-full relative"
       center={DEFAULT_LOCATION}
       zoom={DEFAULT_ZOOM}
-      options={options}
+      options={{
+        ...options,
+        styles: mapStyles,
+      }}
       onClick={onMapClick}
       onLoad={onMapLoad}
       onUnmount={onMapUnmount}
@@ -119,7 +126,7 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
       </div>
       {selectedLocation && (
         <InfoWindow position={selectedLocation}>
-          <div className="text-md rounded-sm bg-background p-2 font-normal">
+          <div className="text-md rounded-sm bg-transparent p-2 font-normal text-black">
             Hẹn hò tại {value}
           </div>
         </InfoWindow>

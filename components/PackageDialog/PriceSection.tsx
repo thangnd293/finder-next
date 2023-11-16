@@ -26,15 +26,15 @@ const PriceSection = ({
 
   return (
     <div className="w-full max-w-4xl rounded-3xl bg-gradient-to-b from-yellow-300 to-yellow-400 p-4 md:p-8">
-      <h3 className="text-lg font-semibold">
+      <h3 className="text-lg font-semibold text-gray-700">
         {isRetail ? "Mua lượt" : "Mở khóa"} {type}
       </h3>
 
       <div className="mt-4 flex flex-col gap-4 md:flex-row">
-        <div className="flex flex-1 flex-col justify-between space-y-10 text-sm font-semibold md:space-y-20">
+        <div className="flex flex-1 flex-col justify-between space-y-10 text-sm font-semibold text-gray-700 md:space-y-20">
           <div className="space-y-2.5">
             {merchandising.map((item, index) => (
-              <p key={index} className="flex items-center gap-2">
+              <p key={index} className="flex items-center gap-2 ">
                 <Image
                   width={30}
                   height={30}
