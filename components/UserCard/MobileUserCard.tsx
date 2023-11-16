@@ -17,6 +17,9 @@ import Avatar from "../Avatar";
 import CustomImage from "../CustomImage";
 import ScrollArea from "../ScrollArea";
 import BoostButton from "../BoostButton";
+import { RxBackpack } from "react-icons/rx";
+import { ReactNode } from "react";
+import VerifiedIcon from "@/assets/icons/verified-icon";
 
 export const MobileUserCard = ({
   isShow,
@@ -42,6 +45,9 @@ export const MobileUserCard = ({
     address,
     liveAt,
     homeTown,
+    jobs,
+    company,
+    isVerifiedFace,
   } = user;
 
   const { firstImage, restImages } = getImageData(images);
@@ -69,12 +75,21 @@ export const MobileUserCard = ({
                 fill
                 alt={""}
               />
-              <div className="absolute bottom-1.5 left-2 text-white">
-                <p className="text-shadow text-xl font-extrabold drop-shadow">
+              <div className="absolute bottom-1.5 left-2 text-white drop-shadow">
+                <p className="text-shadow flex items-center gap-2 text-xl font-extrabold">
                   {name}, {age}
+                  {true && <VerifiedIcon width={20} />}
                 </p>
+                {jobs && jobs.length > 0 && company && (
+                  <p className="flex items-center gap-2">
+                    <RxBackpack size={14} />
+                    <span>
+                      {jobs?.[0]} tại {company}
+                    </span>
+                  </p>
+                )}
                 {school && (
-                  <p className="flex items-center gap-1 text-sm text-gray-600">
+                  <p className="flex items-center gap-1 text-sm">
                     <PiGraduationCapBold
                       className="mb-1 inline-block"
                       size={18}
@@ -84,16 +99,14 @@ export const MobileUserCard = ({
                 )}
               </div>
             </div>
-            <div className="space-y-3 px-4 py-5">
+            <div className="space-y-4 px-4 py-5">
               {bio && (
-                <div>
-                  <p className="text-secondary-foreground">Bio</p>
+                <Section title="Mô tả">
                   <p className="text-gray-600">{bio}</p>
-                </div>
+                </Section>
               )}
 
-              <div>
-                <p className="text-secondary-foreground">Một chút về {name}</p>
+              <Section title={`Một chút về ${name}`}>
                 <div className="flex flex-wrap gap-2">
                   {height && setting?.hiddenProfile?.height && (
                     <span className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
@@ -116,14 +129,17 @@ export const MobileUserCard = ({
                     );
                   })}
                 </div>
-              </div>
+              </Section>
 
               {!!spotifyInfo?.length && (
-                <div className="space-y-2">
-                  <p className="flex items-center gap-1 text-sm font-medium">
-                    <BsSpotify className="flex-shrink-0" />
-                    Top nghệ sĩ của {name}
-                  </p>
+                <Section
+                  title={
+                    <>
+                      <BsSpotify className="flex-shrink-0" />
+                      Top nghệ sĩ của {name}
+                    </>
+                  }
+                >
                   <div className="flex flex-wrap gap-2">
                     {spotifyInfo.map((artist, i) => (
                       <div
@@ -131,11 +147,13 @@ export const MobileUserCard = ({
                         className="flex items-center rounded-full bg-primary-100"
                       >
                         <Avatar key={i} size="xs" src={artist.image.url} />
-                        <span className="px-2 text-xs">{artist.artist}</span>
+                        <span className="px-2 text-xs text-gray-600">
+                          {artist.artist}
+                        </span>
                       </div>
                     ))}
                   </div>
-                </div>
+                </Section>
               )}
             </div>
 
@@ -233,6 +251,23 @@ export const MobileUserCard = ({
           </ActionIcon>
         )}
       </div>
+    </div>
+  );
+};
+
+const Section = ({
+  title,
+  children,
+}: {
+  title: ReactNode;
+  children: ReactNode;
+}) => {
+  return (
+    <div className="space-y-1">
+      <p className="flex items-center gap-1 text-sm font-medium text-gray-500">
+        {title}
+      </p>
+      {children}
     </div>
   );
 };

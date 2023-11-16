@@ -28,16 +28,9 @@ const PacketDialog = ({
       className="items-center gap-8 overflow-y-auto p-6"
       size="full"
       closeOnClickOutside={false}
+      withCloseButton
       onOpenChange={onClose}
     >
-      <ActionIcon
-        className="absolute right-3 top-2 rounded-full"
-        variant="ghost"
-        onClick={onClose}
-      >
-        <BsXLg />
-      </ActionIcon>
-
       <header
         className="flex items-center justify-center gap-2 text-3xl font-semibold"
         style={{

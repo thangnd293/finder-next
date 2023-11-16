@@ -1,18 +1,20 @@
 import Slider from "./Slider";
 
+import VerifiedIcon from "@/assets/icons/verified-icon";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { cn } from "@/lib/utils";
 import { type Image, type User } from "@/service/user";
 import { getTagIcon } from "@/utils/tag";
 import { BsSpotify } from "react-icons/bs";
-import { MdLocationOn, MdVerified } from "react-icons/md";
-import { PiRuler } from "react-icons/pi";
+import { GoHome, GoLocation } from "react-icons/go";
+import { MdLocationOn } from "react-icons/md";
+import { PiGraduationCapBold, PiRuler } from "react-icons/pi";
+import { RxBackpack } from "react-icons/rx";
 import Avatar from "../Avatar";
+import { MobileUserCard } from "./MobileUserCard";
 import SlideCard from "./SlideCard";
 import SlideContentWithRightImage from "./SlideContentWithRightImage";
 import SlideImages from "./SlideImages";
-import { MobileUserCard } from "./MobileUserCard";
-import { GoHome, GoLocation } from "react-icons/go";
 
 type UserCardWithActionProps = {
   canBack: boolean;
@@ -59,6 +61,9 @@ export const UserCard = ({
     homeTown,
     isVerifiedFace,
     calcDistance,
+    school,
+    jobs,
+    company,
   } = user;
 
   const { firstImage, lastImage, imageSlides } = getImageData(images);
@@ -84,12 +89,31 @@ export const UserCard = ({
       isShow={isShow}
     >
       <SlideContentWithRightImage image={firstImage}>
-        <div className="flex h-full w-full flex-col justify-center p-8">
-          <p className="text-2xl font-extrabold text-gray-700">
+        <div className="flex h-full w-full flex-col justify-center gap-1 p-8 text-gray-700">
+          <p className="flex items-center gap-2 text-2xl font-extrabold">
             {name}, {age}
+            {isVerifiedFace && <VerifiedIcon />}
           </p>
-          {isVerifiedFace && (
-            <MdVerified size={24} className="text-green-500" />
+          {jobs && jobs.length > 0 && company && (
+            <p className="flex items-center gap-2">
+              <RxBackpack
+                className="mt-1.5 flex-shrink-0 self-start"
+                size={14}
+              />
+              <span>
+                {jobs?.[0]} tại {company}
+              </span>
+            </p>
+          )}
+
+          {school && (
+            <p className="flex items-center gap-2">
+              <PiGraduationCapBold
+                className="mt-1.5 flex-shrink-0 self-start"
+                size={15}
+              />
+              <span>{school}</span>
+            </p>
           )}
         </div>
       </SlideContentWithRightImage>
@@ -164,7 +188,9 @@ export const UserCard = ({
                     className="flex items-center rounded-full bg-primary-100"
                   >
                     <Avatar key={i} size="xs" src={artist.image.url} />
-                    <span className="px-2 text-xs">{artist.artist}</span>
+                    <span className="px-2 text-xs text-gray-600">
+                      {artist.artist}
+                    </span>
                   </div>
                 ))}
               </div>

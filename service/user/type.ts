@@ -98,4 +98,6 @@ export interface User {
     amount: 0;
     expiredDate: string;
   }[];
+  company?: string;
+  jobs?: string[];
 }

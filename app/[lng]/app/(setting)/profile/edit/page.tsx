@@ -7,6 +7,7 @@ import BioSection from "./components/BioSection";
 import LinkedAccount from "./components/LinkedAccount";
 import PreviewProfile from "./components/PreviewProfile";
 import MainLayout from "@/layout/MainLayout";
+import WorkAndEducationSection from "./components/WorkAndEducationSection";
 
 const EditProfilePage = () => {
   return (
@@ -20,6 +21,7 @@ const EditProfilePage = () => {
 
           <Accordion className="w-full space-y-6" type="single" collapsible>
             <BioSection />
+            <WorkAndEducationSection />
             <BasicSetting />
             <LinkedAccount />
           </Accordion>

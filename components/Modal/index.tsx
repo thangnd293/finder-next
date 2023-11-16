@@ -8,6 +8,7 @@ import { VariantProps, cva } from "class-variance-authority";
 import { ModalBody } from "./ModalBody";
 import { ModalFooter } from "./ModalFooter";
 import { CloseButton, ModalHeader } from "./ModalHeader";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 interface ModalProps
   extends React.ComponentProps<typeof RadixDialog.Root>,
@@ -22,6 +23,7 @@ interface ModalProps
   hasAnimate?: boolean;
   children: React.ReactNode;
   unMoutOnClose?: boolean;
+  withCloseButton?: boolean;
 }
 
 const Modal = ({
@@ -36,8 +38,10 @@ const Modal = ({
   closeOnEscape = true,
   hasAnimate = true,
   unMoutOnClose = true,
+  withCloseButton,
   ...others
 }: ModalProps) => {
+  const isMobile = useIsMobile();
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange} modal {...others}>
       <RadixDialog.Portal>
@@ -71,10 +75,12 @@ const Modal = ({
               }
             }}
           >
-            <CloseButton
-              className="absolute right-3 top-3 z-10 flex md:hidden"
-              onClick={() => onOpenChange?.(false)}
-            />
+            {(isMobile || withCloseButton) && (
+              <CloseButton
+                className="absolute right-3 top-3 z-10"
+                onClick={() => onOpenChange?.(false)}
+              />
+            )}
 
             {children}
           </RadixDialog.Content>
