@@ -13,6 +13,7 @@ import { BasicSettingDialog } from "./BasicSettingDialog";
 import GenderSetting from "./GenderSetting";
 import HometownSetting from "./HometownSetting";
 import LiveAtSetting from "./LiveAtSetting";
+import LookingForSetting from "./LookingForSetting";
 
 const BasicSetting = () => {
   const [step, setStep] = useState<BasicSettingStep | null>(null);
@@ -40,6 +41,7 @@ const BasicSetting = () => {
               );
             })}
             <GenderSetting />
+            <LookingForSetting />
             <LiveAtSetting />
             <HometownSetting />
           </div>
