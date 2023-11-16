@@ -87,7 +87,7 @@ export default function Verified() {
     setIsRecording(true);
 
     wsRef.current = new WebSocket(
-      "ws://localhost:3008/face/ws-recognize-record",
+      "wss://finder.sohe.in/face/ws-recognize-record",
     );
     const ws = wsRef.current;
     ws.binaryType = "arraybuffer";

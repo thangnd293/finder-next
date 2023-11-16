@@ -14,31 +14,6 @@ interface ImageCardProps {
   onRemoveImage: () => void;
 }
 
-const fileToBase64 = (file: File): string => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file as Blob);
-    reader.onload = () => {
-      resolve(reader.result as string);
-    };
-    reader.onerror = (error) => reject(error);
-  }) as any;
-};
-
-const base64ToFile = (base64: string, filename: string): File => {
-  const arr = base64.split(",");
-  const mime = arr[0].match(/:(.*?);/)![1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-
-  return new File([u8arr], filename, { type: mime });
-};
-
 const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
   ({ image, error, onImageChange, onRemoveImage }, ref) => {
     const user = useCurrentUser();
@@ -50,19 +25,8 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       const file = event.target.files?.[0];
 
       if (!file) return;
-      const base64 = await fileToBase64(file);
 
-      const verifyImage = await axiosInstance.post(
-        "https://finder.sohe.in/face/recognize",
-        {
-          image: base64,
-          userId: user.data?._id,
-        },
-      );
-
-      const newFile = base64ToFile(verifyImage.data.data, file.name);
-
-      cldUpload.mutate(newFile, {
+      cldUpload.mutate(file, {
         onSuccess: (result) => {
           onImageChange({
             url: result.url,
@@ -90,6 +54,12 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
                 alt={""}
                 fill
               />
+              {image?.isVerifiedSuccess && (
+                <img
+                  className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
+                  src="/images/verified.jpg"
+                />
+              )}
               <button
                 className="absolute right-0 top-0 cursor-pointer rounded-md bg-background p-2"
                 type="button"

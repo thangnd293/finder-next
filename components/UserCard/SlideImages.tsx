@@ -15,10 +15,16 @@ const SlideImages = ({ images }: SlideImagesProps) => {
           <CustomImage
             className="object-cover object-center"
             image={image}
-            alt=""
+            alt="SlideImages"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {image?.isVerifiedSuccess && (
+            <img
+              className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
+              src="/images/verified.jpg"
+            />
+          )}
         </div>
       ))}
     </SlideCard>
