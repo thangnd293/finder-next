@@ -27,7 +27,7 @@ const MatchRequestCard = ({
             fill
           />
         )}
-        {images[0] && (
+        {images?.[0] && (
           <CustomImage
             className="object-cover object-center"
             image={images[0]}
@@ -40,7 +40,7 @@ const MatchRequestCard = ({
           <div className="h-2.5 w-1/3 rounded-full bg-background-200" />
         </div>
       </AspectRatio>
-      {images.length > 0 && (
+      {images?.length > 0 && (
         <div
           className="absolute bottom-0 flex w-full items-center justify-evenly py-1.5"
           style={{

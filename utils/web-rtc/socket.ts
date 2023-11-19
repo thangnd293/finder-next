@@ -36,11 +36,16 @@ export type AnswerMessageResponse = {
   offer: SimplePeer.SignalData;
 };
 
+export type RejectMessage = {
+  status: boolean;
+  roomId: string;
+};
+
 interface ClientToServerEvents {
   checkRoom: (payload: CheckRoomMessage) => void;
   offer: (payload: OfferMessage) => void;
   answer: (payload: AnswerMessage) => void;
-  reject: (remoteId: string) => void;
+  reject: (payload: RejectMessage) => void;
   hangup: () => void;
   verifyFirstConnection: () => void;
 }
@@ -54,4 +59,9 @@ interface ServerToClientEvents {
   verifyFirstConnection: () => void;
 }
 export type ISocket = Socket<ServerToClientEvents, ClientToServerEvents>;
-export const socketInstance = (): ISocket => socket;
+export const socketInstance = (): ISocket => {
+  if (socket.connected) return socket;
+
+  socket.connect();
+  return socket;
+};

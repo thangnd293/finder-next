@@ -75,7 +75,7 @@ export const useRoomEvent = (roomId: string) => {
       const localVideoStream = await createMediaStream();
       setMediaStream(localVideoStream);
       setSrcVideo(refLocalVideo.current!, localVideoStream);
-      setIsAccept(true);
+
       callVideo.accept(roomId, answer, localVideoStream);
     },
     [callVideo],
@@ -83,11 +83,14 @@ export const useRoomEvent = (roomId: string) => {
 
   useEffect(() => {
     if (!callVideo) return;
+
     callVideo.on("hangup", () => {
       if (!callVideo) return;
       callVideo.offStream();
+      window.close();
     });
     callVideo.on("stream", (stream) => {
+      setIsAccept(true);
       setSrcVideo(refRemoteVideo.current!, stream);
     });
     callVideo.on("checkRoom", async (payload) => {
@@ -127,6 +130,7 @@ export const useRoomEvent = (roomId: string) => {
     hangup: () => {
       if (!callVideo) return;
       callVideo.end(roomId);
+      window.close();
     },
     toggleVideo: () => setVideoStatus((s) => !s),
     toggleAudio: () => setAudioStatus((s) => !s),
@@ -146,6 +150,7 @@ export const useRoomListener = () => {
     );
     confirmAction.setOpen(false);
     setOfferData(null);
+    disableRinging();
   }, [callVideo, offerData?.roomId]);
 
   const handleReject = useCallback(() => {
@@ -160,6 +165,13 @@ export const useRoomListener = () => {
     callVideo.on("offer", (payload) => {
       setOfferData(payload);
       confirmAction.setOpen(true);
+      enableRinging();
+    });
+
+    callVideo.on("reject", () => {
+      confirmAction.setOpen(false);
+      setOfferData(null);
+      disableRinging();
     });
   }, [callVideo]);
 
@@ -168,4 +180,15 @@ export const useRoomListener = () => {
     handleReject,
     offerData,
   };
+};
+
+const enableRinging = () => {
+  const audio = document.getElementById("audio") as HTMLAudioElement;
+  audio.play();
+};
+
+const disableRinging = () => {
+  const audio = document.getElementById("audio") as HTMLAudioElement;
+  audio.pause();
+  audio.currentTime = 0;
 };
