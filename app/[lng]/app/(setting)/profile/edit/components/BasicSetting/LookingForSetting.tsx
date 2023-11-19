@@ -5,11 +5,15 @@ import Modal from "@/components/Modal";
 import { useDisclosure } from "@/hooks/use-disclosure";
 import { RelationshipType } from "@/service/relationship";
 import { useRelationship } from "@/service/relationship/hooks";
+import { useCurrentUser, useUpdateProfile } from "@/service/user";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const LookingForSetting = () => {
   const { isOpen, open, close } = useDisclosure();
+  const { data: relationships } = useCurrentUser({
+    select: (user) => user.relationships,
+  });
 
   return (
     <>
@@ -19,7 +23,9 @@ const LookingForSetting = () => {
           className="relative flex w-full items-center rounded-md border p-2.5 pr-10 text-left"
           onClick={open}
         >
-          Người nói chuyện
+          {relationships && relationships.length > 0
+            ? relationships.map((relationship) => relationship.name).join(", ")
+            : "Chọn"}
           <ChevronDownIcon className="absolute right-2" />
         </button>
       </div>
@@ -40,14 +46,40 @@ export const LookingForSettingDialog = ({
   isOpen,
   onClose,
 }: LookingForSettingDialogProps) => {
+  const { data: relationships } = useCurrentUser({
+    select: (user) => user.relationships,
+  });
+
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
+  useEffect(() => {
+    setSelectedItems(
+      relationships?.map((relationship) => relationship._id) ?? [],
+    );
+  }, [relationships]);
+
+  const handleClose = () => {
+    setSelectedItems(
+      relationships?.map((relationship) => relationship._id) ?? [],
+    );
+    onClose();
+  };
+
+  const updateProfile = useUpdateProfile({
+    onSettled: handleClose,
+  });
+
   const { data } = useRelationship(RelationshipType.LOOKING_FOR);
-  console.log("selectedItems", selectedItems);
+
+  const onSave = () => {
+    updateProfile.mutate({
+      relationships: selectedItems,
+    });
+  };
 
   return (
-    <Modal open={isOpen} onOpenChange={onClose}>
-      <Modal.Header withCloseButton onOpenChange={onClose}>
+    <Modal open={isOpen || updateProfile.isLoading} onOpenChange={handleClose}>
+      <Modal.Header withCloseButton onOpenChange={handleClose}>
         Bạn đang tìm kiếm gì?
       </Modal.Header>
 
@@ -75,8 +107,12 @@ export const LookingForSettingDialog = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="ghost">Hủy</Button>
-        <Button>Lưu</Button>
+        <Button variant="ghost" onClick={handleClose}>
+          Hủy
+        </Button>
+        <Button loading={updateProfile.isLoading} onClick={onSave}>
+          Lưu
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -18,7 +18,9 @@ export interface UpdateUserTagPayload {
   tagType: TagType;
 }
 export type UpdateProfilePayload =
-  | Partial<User>
+  | (Partial<Omit<User, "relationships">> & {
+      relationships?: string[];
+    })
   | {
       heightSetting: {
         value: number;

@@ -74,7 +74,9 @@ const SchoolSettingDialog = ({
         <Button variant="ghost" onClick={handleClose}>
           Hủy
         </Button>
-        <Button onClick={() => formRef.current?.requestSubmit}>{action}</Button>
+        <Button onClick={() => formRef.current?.requestSubmit()}>
+          {action}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others \"next dev --port 9000\" \"npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 9001 --target 9000\"",
+    "dev": "next dev --port 9000",
+    "dev:https": "concurrently --kill-others \"next dev --port 9000\" \"npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 9001 --target 9000\"",
     "build": "next build",
     "start": "concurrently --kill-others \"next start --port 9000\" \"npx local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 9001 --target 9000\"",
     "lint": "next lint"

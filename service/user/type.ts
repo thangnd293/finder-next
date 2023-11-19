@@ -1,3 +1,4 @@
+import { Relationship } from "../relationship";
 import { Tag } from "../tag";
 
 export enum Gender {
@@ -37,6 +38,13 @@ export interface Image {
   url: string;
   blur?: string;
   isVerifiedSuccess?: boolean;
+  classification?: {
+    hentai: number;
+    neutral: number;
+    porn: number;
+    sexy: number;
+    drawing: number;
+  };
 }
 
 interface SpotifyArtist {
@@ -101,4 +109,5 @@ export interface User {
   }[];
   company?: string;
   jobs?: string[];
+  relationships?: Relationship[];
 }

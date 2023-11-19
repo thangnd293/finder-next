@@ -190,10 +190,10 @@ export const MobileUserCard = ({
                   </span>
                 )}
 
-                {liveAt.province && (
+                {liveAt?.province && (
                   <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm text-gray-700">
                     {<GoLocation />}
-                    <span>Sống tại {liveAt.province}</span>
+                    <span>Sống tại {liveAt?.province}</span>
                   </span>
                 )}
               </div>
