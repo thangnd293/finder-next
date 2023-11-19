@@ -32,7 +32,7 @@ export default function DialogConfirm() {
       <audio loop id="audio" src="/audio/ring.mp3" />
       <Modal size={"sm"} open={open} onOpenChange={() => {}}>
         {offerData?.onwner ? (
-          <div className="space-y-4">
+          <div className="space-y-4 p-6">
             <div className="space-y-2">
               <div className="relative mx-auto h-[72px] w-[72px]">
                 <NextImage

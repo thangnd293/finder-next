@@ -21,6 +21,7 @@ declare interface CallVideoManager {
     ) => void,
   ): this;
   on(event: "verifyFirstConnection", listener: () => void): this;
+  on(event: "reject", listener: () => void): this;
 
   emit(event: "offer", payload: OfferMessageResponse): boolean;
   emit(event: "answer", roomId: string): boolean;
@@ -36,6 +37,7 @@ declare interface CallVideoManager {
   emit(event: "rejectConnection"): boolean;
   emit(event: "hangup"): boolean;
   emit(event: "stream", stream: MediaStream): boolean;
+  emit(event: "reject"): boolean;
 }
 
 class CallVideoManager extends EventEmitter {
@@ -71,7 +73,7 @@ class CallVideoManager extends EventEmitter {
     });
 
     this.socket.on("reject", () => {
-      this.emit("rejectConnection");
+      this.emit("reject");
     });
 
     this.socket.on("hangup", () => {
@@ -116,7 +118,10 @@ class CallVideoManager extends EventEmitter {
   }
 
   reject(remoteId: string) {
-    this.socket.emit("reject", remoteId);
+    this.socket.emit("reject", {
+      roomId: remoteId,
+      status: true,
+    });
   }
 
   end(remoteId: string) {
@@ -136,14 +141,14 @@ class CallVideoManager extends EventEmitter {
     stream: MediaStream,
   ): Promise<SimplePeer.Instance> {
     const response = await axios.post(
-      'https://api.twilio.com/2010-04-01/Accounts/ACba847817f5755207571ee3173fc85b49/Tokens.json',
-      '',
+      "https://api.twilio.com/2010-04-01/Accounts/ACba847817f5755207571ee3173fc85b49/Tokens.json",
+      "",
       {
         auth: {
-          username: 'ACba847817f5755207571ee3173fc85b49',
-          password: '060fe7f817a84ef2e7230873d0f36bf0'
-        }
-      }
+          username: "ACba847817f5755207571ee3173fc85b49",
+          password: "5372770a3018a44cdc506fbc161a4ec2",
+        },
+      },
     );
 
     console.log(
@@ -159,8 +164,6 @@ class CallVideoManager extends EventEmitter {
         iceServers: response.data.ice_servers,
       },
     });
-
-
 
     peer._debug = (message) => {
       console.log(

@@ -97,20 +97,3 @@ export default function Room() {
     </div>
   );
 }
-
-const useCurrentTime = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  //format HH:mm:ss
-  return currentTime.toLocaleTimeString("en-US");
-};
