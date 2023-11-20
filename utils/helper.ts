@@ -1,3 +1,5 @@
+import { Image } from "@/service/user";
+
 export function dataURLtoFile(dataurl: string, filename: string) {
   let arr = dataurl.split(","),
     mime = arr[0]?.match(/:(.*?);/)?.[1],
@@ -67,4 +69,13 @@ export function requestLocationPermission(): Promise<GeolocationPosition> {
       },
     );
   });
+}
+
+export function checkUnseemlyImage(image: Image) {
+  const { classification } = image;
+  if (!classification) return false;
+
+  if (classification.hentai > 0.2 || classification.porn > 0.2) return true;
+
+  return false;
 }

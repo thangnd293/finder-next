@@ -38,13 +38,15 @@ export interface Image {
   url: string;
   blur?: string;
   isVerifiedSuccess?: boolean;
-  classification?: {
-    hentai: number;
-    neutral: number;
-    porn: number;
-    sexy: number;
-    drawing: number;
-  };
+  classification?: Classification;
+}
+
+export interface Classification {
+  hentai: number;
+  neutral: number;
+  porn: number;
+  sexy: number;
+  drawing: number;
 }
 
 interface SpotifyArtist {
