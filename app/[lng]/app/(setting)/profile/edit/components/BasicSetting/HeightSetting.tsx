@@ -28,7 +28,7 @@ const HeightSetting = ({ onNextStep }: StepSettingProps) => {
     formState: { isDirty },
   } = useForm<FormValues>({
     defaultValues: {
-      height: [data?.height],
+      height: [data?.height ?? 160],
       isShowHeight: data?.isShowHeight,
     },
   });

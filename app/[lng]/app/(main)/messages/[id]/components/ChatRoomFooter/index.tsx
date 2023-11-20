@@ -2,9 +2,9 @@
 
 import ActionIcon from "@/components/ActionIcon";
 import useMessageStore from "@/hooks/use-message-store";
-import { useCldUpload } from "@/lib/cloudinary";
 import { socket } from "@/lib/socket";
 import { useReceiver } from "@/service/conversation";
+import { useUploadImage } from "@/service/helper";
 import { Message, MessageType } from "@/service/message";
 import { useCurrentUser } from "@/service/user";
 import { createTempleMessage } from "@/utils/message";
@@ -37,7 +37,7 @@ const ChatRoomFooter = () => {
   const { data: currentUser } = useCurrentUser();
   const { receiver } = useReceiver(id);
 
-  const cldUpload = useCldUpload();
+  const uploadImage = useUploadImage();
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -101,16 +101,20 @@ const ChatRoomFooter = () => {
     setValue("imageFiles", []);
 
     const uploadImages = await Promise.all(
-      imageFileArray.map((file) => cldUpload.mutateAsync(file)),
+      imageFileArray.map((file) =>
+        uploadImage.mutateAsync({
+          file: file,
+          blur: true,
+          nsfw: true,
+        }),
+      ),
     );
 
     images.forEach((image) => URL.revokeObjectURL(image.url));
 
     const message = {
       ...optimisticMessage,
-      images: uploadImages.map((image) => ({
-        url: image.url,
-      })),
+      images: uploadImages,
     } as Message;
 
     socket.emit("sendMessage", message);
