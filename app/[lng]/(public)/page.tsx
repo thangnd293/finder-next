@@ -15,7 +15,7 @@ export default async function HomePage({
 
   return (
     <>
-      <Header t={t} />
+      <Header />
       <Navbar />
       <main className="flex flex-col items-center justify-between">
         <Hero t={t} />

@@ -24,3 +24,5 @@ export async function getTranslation(lng: string, ns?: string) {
     i18n: i18nextInstance,
   };
 }
+
+export * from "./use-translation";

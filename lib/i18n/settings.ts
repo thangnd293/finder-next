@@ -14,6 +14,8 @@ export const languages: TLanguage[] = [
   },
 ];
 
+export const cookieName = "i18next";
+
 export const supportedLngs = languages.map((l) => l.code);
 
 export const defaultNS = "home";
