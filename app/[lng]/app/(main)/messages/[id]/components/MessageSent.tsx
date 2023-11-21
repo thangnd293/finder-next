@@ -9,8 +9,14 @@ interface MessageSentProps {
   isLast: boolean;
   message: Message;
   receiver?: User;
+  isEnableSafeMode?: boolean;
 }
-const MessageSent = ({ message, isLast, receiver }: MessageSentProps) => {
+const MessageSent = ({
+  message,
+  isLast,
+  receiver,
+  isEnableSafeMode,
+}: MessageSentProps) => {
   const [showStatus, setShowStatus] = useState(false);
 
   useEffect(() => {
@@ -23,7 +29,11 @@ const MessageSent = ({ message, isLast, receiver }: MessageSentProps) => {
 
   return (
     <div className="message-wrapper sent flex-col">
-      <MessageContent isSelf message={message} />
+      <MessageContent
+        isSelf
+        message={message}
+        isEnableSafeMode={isEnableSafeMode}
+      />
 
       {message.status === MessageStatus.SENDING && showStatus && (
         <p className="text-sm text-secondary-foreground">Đang gửi</p>

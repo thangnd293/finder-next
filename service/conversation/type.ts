@@ -8,4 +8,10 @@ export interface Conversation {
   members: User[];
   createdAt: string;
   type: string;
+  enableSafeMode: string[];
+}
+
+export interface ChangeSafeModePayload {
+  enable: boolean;
+  conversation: string;
 }

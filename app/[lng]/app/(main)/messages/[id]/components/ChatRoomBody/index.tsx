@@ -8,6 +8,7 @@ import { MessageStatus, useAllMessages } from "@/service/message";
 import { useCurrentUserID } from "@/service/user";
 import useStore from "@/store";
 import MessageScrollDownButton from "./MessageScrollDownButton";
+import SafeModeAlert from "./SafeModeAlert";
 import SimpleScrollDownButton from "./SimpleScrollDownButton";
 
 interface ChatRoomBodyProps {
@@ -66,8 +67,6 @@ const ChatRoomBody = ({ children }: ChatRoomBodyProps) => {
   useEffect(() => {
     if (!messageContainerRef.current) return;
     const containerObserver = new MutationObserver(() => {
-      console.log("containerObserver");
-
       if (showScrollToBottom) return;
 
       messagesEndRef.current?.scrollIntoView();
@@ -98,14 +97,12 @@ const ChatRoomBody = ({ children }: ChatRoomBodyProps) => {
   };
 
   return (
-    <div
-      className="relative flex-1 overflow-y-auto px-2"
-      onScroll={handleScroll}
-    >
-      <div className="flex h-full flex-col py-4" ref={messageContainerRef}>
+    <div className="relative flex-1 overflow-y-auto" onScroll={handleScroll}>
+      <SafeModeAlert />
+      <div className="flex h-full flex-col px-2 py-4" ref={messageContainerRef}>
         {children}
 
-        <div ref={messagesEndRef} />
+        <div className="h-1 shrink-0" ref={messagesEndRef} />
 
         {showScrollToBottom &&
           (hasNewMessage ? (

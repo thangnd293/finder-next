@@ -8,11 +8,13 @@ interface MessageReceivedProps {
   sender?: User;
   message: Message;
   showAvatar?: boolean;
+  isEnableSafeMode?: boolean;
 }
 const MessageReceived = ({
   sender,
   message,
   showAvatar = true,
+  isEnableSafeMode,
 }: MessageReceivedProps) => {
   return (
     <div className="message-wrapper received gap-1">
@@ -22,6 +24,7 @@ const MessageReceived = ({
           "ml-9": !showAvatar,
         })}
         message={message}
+        isEnableSafeMode={isEnableSafeMode}
       />
     </div>
   );

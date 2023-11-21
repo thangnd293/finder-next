@@ -18,7 +18,6 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
     id: string;
   };
   const { data: conversation } = useConversationByID(id);
-
   const user = conversation?.user;
 
   return (
@@ -50,7 +49,7 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
           <HiMiniVideoCamera size={18} />
         </ActionIcon>
 
-        <UserActions user={user} />
+        <UserActions user={user} conversation={id} />
 
         <ActionIcon variant="ghost" onClick={() => router.push("/app")}>
           <BsXLg />

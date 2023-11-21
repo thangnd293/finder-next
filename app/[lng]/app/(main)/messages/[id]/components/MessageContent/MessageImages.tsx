@@ -3,15 +3,20 @@ import CustomImage from "@/components/CustomImage";
 import { cn } from "@/lib/utils";
 import { type Image } from "@/service/user";
 import { checkUnseemlyImage } from "@/utils/helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface MessageImagesProps {
   className?: string;
   images: Image[];
+  isEnableSafeMode?: boolean;
 }
 
-const MessageImages = ({ className, images }: MessageImagesProps) => {
+const MessageImages = ({
+  className,
+  images,
+  isEnableSafeMode,
+}: MessageImagesProps) => {
   return (
     <div
       className={cn(
@@ -23,7 +28,11 @@ const MessageImages = ({ className, images }: MessageImagesProps) => {
       }}
     >
       {images.map((image, index) => (
-        <ImageItem key={index} image={image} />
+        <ImageItem
+          key={index}
+          image={image}
+          isEnableSafeMode={isEnableSafeMode}
+        />
       ))}
     </div>
   );
@@ -33,10 +42,17 @@ export default MessageImages;
 interface ImageItemProps {
   image: Image;
   grow?: number;
+  isEnableSafeMode?: boolean;
 }
 
-const ImageItem = ({ image, grow = 1 }: ImageItemProps) => {
-  const [isBlur, setIsBlur] = useState(() => checkUnseemlyImage(image));
+const ImageItem = ({ image, grow = 1, isEnableSafeMode }: ImageItemProps) => {
+  const [isBlur, setIsBlur] = useState(false);
+
+  useEffect(() => {
+    if (isEnableSafeMode) {
+      setIsBlur(checkUnseemlyImage(image));
+    } else setIsBlur(false);
+  }, [isEnableSafeMode]);
 
   return (
     <div

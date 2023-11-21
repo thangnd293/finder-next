@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axios";
 import { List } from "@/types/http";
-import { Conversation } from "./type";
+import { ChangeSafeModePayload, Conversation } from "./type";
 
 export class ConversationService {
   static prefix = "/conversation";
@@ -10,6 +10,7 @@ export class ConversationService {
       `${this.prefix}/${conversationID}`,
     allConversations: (hasMessage: boolean) =>
       `${this.prefix}?page=1&size=100&message=${Number(hasMessage)}`,
+    changeSafeMode: `${this.prefix}/safe-mode`,
   };
 
   static getAllConversations = async (hasMessage: boolean) => {
@@ -23,6 +24,15 @@ export class ConversationService {
   static getConversation = async (conversationID: string) => {
     const { data } = await axiosInstance.get<Conversation>(
       `${this.urls.conversation(conversationID)}`,
+    );
+
+    return data;
+  };
+
+  static changeSafeMode = async (payload: ChangeSafeModePayload) => {
+    const { data } = await axiosInstance.post<Conversation>(
+      `${this.urls.changeSafeMode}`,
+      payload,
     );
 
     return data;

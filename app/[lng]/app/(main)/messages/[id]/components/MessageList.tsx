@@ -1,4 +1,4 @@
-import { useReceiver } from "@/service/conversation";
+import { useReceiver, useSafeModeStatus } from "@/service/conversation";
 import { MessageStatus, useAllMessages } from "@/service/message";
 import { useCurrentUserID } from "@/service/user";
 import React, { Fragment } from "react";
@@ -15,6 +15,7 @@ const MessageList = () => {
   const { messages, isLoading } = useAllMessages(id);
   const { currentUserID } = useCurrentUserID();
   const { receiver } = useReceiver(id);
+  const { isEnableSafeMode } = useSafeModeStatus(id);
 
   const lastMessageSeenIndex = messages.findLastIndex(
     (message) =>
@@ -62,12 +63,14 @@ const MessageList = () => {
                 }
                 receiver={receiver}
                 message={message}
+                isEnableSafeMode={isEnableSafeMode}
               />
             ) : (
               <MessageReceived
                 showAvatar={showAvatar}
                 sender={receiver}
                 message={message}
+                isEnableSafeMode={isEnableSafeMode}
               />
             )}
           </Fragment>

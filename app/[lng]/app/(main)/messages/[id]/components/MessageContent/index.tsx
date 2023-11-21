@@ -8,6 +8,7 @@ interface MessageContentProps {
   isSelf?: boolean;
   message: Message;
   className?: string;
+  isEnableSafeMode?: boolean;
 }
 
 interface ICallMessage {
@@ -21,6 +22,7 @@ const MessageContent = ({
   isSelf = false,
   message,
   className,
+  isEnableSafeMode,
 }: MessageContentProps) => {
   const { type, text, images } = message;
   if (type === MessageType.Call) {
@@ -37,7 +39,13 @@ const MessageContent = ({
   }
 
   if (type === MessageType.Image) {
-    return <MessageImages className={className} images={images} />;
+    return (
+      <MessageImages
+        className={className}
+        images={images}
+        isEnableSafeMode={isEnableSafeMode}
+      />
+    );
   }
 
   return <MessageText className={className} isSelf={isSelf} text={text} />;
