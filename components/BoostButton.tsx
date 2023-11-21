@@ -3,12 +3,13 @@
 import React, { HTMLAttributes, useEffect, useState } from "react";
 import ActionIcon from "./ActionIcon";
 import { TiFlash } from "react-icons/ti";
-import { useBoost, useCurrentUser } from "@/service/user";
+import { useCurrentUser } from "@/service/user";
 import CircleProgress from "./CircleProgress";
 import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
 import { Offer } from "@/service/offer";
 import PacketDialog from "./PackageDialog";
+import { useBoost } from "@/service/action/hooks";
 
 const BoostButton = ({
   className,

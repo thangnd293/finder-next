@@ -39,7 +39,6 @@ export class UserService {
     updateTag: `${this.prefix}/update_tag`,
     recommendation: (page: number, size: number) =>
       `${this.prefix}/recommendation?page=${page}&size=${size}`,
-    boost: `${this.prefix}/boosts`,
   };
 
   static getCurrentUser = async () => {
@@ -85,12 +84,6 @@ export class UserService {
     const { data } = await axiosInstance.get<List<User>>(
       this.urls.recommendation(page, size),
     );
-
-    return data;
-  };
-
-  static boost = async () => {
-    const { data } = await axiosInstance.post(this.urls.boost);
 
     return data;
   };

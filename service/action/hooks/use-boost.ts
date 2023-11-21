@@ -1,8 +1,8 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
-import { UserService } from "../user-service";
-import { useInvalidateCurrentUser } from "./use-current-user";
 import { AxiosError } from "axios";
 import { Offer } from "@/service/offer";
+import { ActionService } from "../action-service";
+import { useInvalidateCurrentUser } from "@/service/user";
 
 export const useBoost = (
   config: UseMutationOptions<
@@ -19,7 +19,7 @@ export const useBoost = (
   const invalidateCurrentUser = useInvalidateCurrentUser();
 
   return useMutation({
-    mutationFn: UserService.boost,
+    mutationFn: ActionService.boost,
     ...config,
     onSuccess: (...args) => {
       invalidateCurrentUser();

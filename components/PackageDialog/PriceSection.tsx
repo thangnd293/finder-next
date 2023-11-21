@@ -19,7 +19,6 @@ const PriceSection = ({
   setSelectedPackage,
 }: PriceSectionProps) => {
   const price = selectedPackage.price ?? selectedPackage.originalPrice;
-
   const getUnit = (unit: RefreshIntervalUnit) => {
     return isRetail ? "lượt" : timeMap[unit].toLowerCase();
   };
@@ -49,7 +48,9 @@ const PriceSection = ({
 
           <p>
             Bạn sẽ thanh toán {price.formatPrice()} cho{" "}
-            {selectedPackage.refreshInterval}{" "}
+            {isRetail
+              ? selectedPackage.amount
+              : selectedPackage.refreshInterval}{" "}
             {getUnit(selectedPackage.refreshIntervalUnit)}
           </p>
         </div>
@@ -69,7 +70,8 @@ const PriceSection = ({
             >
               <div className="flex items-center gap-2">
                 <PremiumIcon width={46} />
-                {item.refreshInterval} {getUnit(item.refreshIntervalUnit)}
+                {isRetail ? item.amount : item.refreshInterval}{" "}
+                {getUnit(item.refreshIntervalUnit)}
               </div>
 
               <span>{(item.price ?? item.originalPrice).formatPrice()}</span>

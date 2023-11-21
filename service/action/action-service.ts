@@ -7,6 +7,7 @@ export class ActionService {
     like: (id: string) => `${this.prefix}/like/${id}`,
     skip: (id: string) => `${this.prefix}/skip/${id}`,
     superLike: (id: string) => `${this.prefix}/super-like/${id}`,
+    boost: `${this.prefix}/boosts`,
   };
 
   static like = async (id: string) => {
@@ -23,6 +24,12 @@ export class ActionService {
 
   static superLike = async (id: string) => {
     const { data } = await axiosInstance.post(this.urls.superLike(id));
+
+    return data;
+  };
+
+  static boost = async () => {
+    const { data } = await axiosInstance.post(this.urls.boost);
 
     return data;
   };

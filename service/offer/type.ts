@@ -17,6 +17,7 @@ export interface Offer {
 }
 
 export interface Package {
+  amount: number;
   price: number;
   originalPrice: number;
   refreshInterval: number;
