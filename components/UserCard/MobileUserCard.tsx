@@ -65,7 +65,9 @@ export const MobileUserCard = ({
         }}
       >
         <ScrollArea
-          className={cn("w-full rounded-lg bg-primary-50 md:rounded-3xl")}
+          className={cn("w-full rounded-lg bg-primary-50 md:rounded-3xl", {
+            "!rounded-none": !onLike,
+          })}
         >
           <div>
             <div className="relative flex aspect-[3/4] w-full flex-col justify-center">
