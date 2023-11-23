@@ -5,7 +5,9 @@ import {
   AccordionTrigger,
 } from "@/components/Accordion";
 import Button from "@/components/Button";
+import { BASICS } from "@/constant/user-basics";
 import { TagType } from "@/service/tag";
+import { useCurrentUser } from "@/service/user";
 import { BasicSettingStep, getTagIcon } from "@/utils/tag";
 import { useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
@@ -14,7 +16,6 @@ import GenderSetting from "./GenderSetting";
 import HometownSetting from "./HometownSetting";
 import LiveAtSetting from "./LiveAtSetting";
 import LookingForSetting from "./LookingForSetting";
-import { useCurrentUser } from "@/service/user";
 
 const BasicSetting = () => {
   const [step, setStep] = useState<BasicSettingStep | null>(null);
@@ -40,7 +41,7 @@ const BasicSetting = () => {
         <AccordionTrigger>Thông tin cơ bản</AccordionTrigger>
         <AccordionContent>
           <div className="flex flex-col gap-3">
-            {basics.map((basic) => {
+            {BASICS.map((basic) => {
               const Icon = getTagIcon(basic.key);
               return (
                 <Button
@@ -77,57 +78,3 @@ const BasicSetting = () => {
 };
 
 export default BasicSetting;
-
-const basics: {
-  label: string;
-  key: BasicSettingStep;
-}[] = [
-  {
-    label: "Chiều cao",
-    key: "height",
-  },
-  {
-    label: "Luyện tập",
-    key: TagType.DO_EXERCISE,
-  },
-  {
-    label: "Giáo dục",
-    key: TagType.EDUCATION,
-  },
-  {
-    label: "Uống rượu",
-    key: TagType.DRINK,
-  },
-  {
-    label: "Hút thuốc",
-    key: TagType.SMOKE_QUESTION,
-  },
-  {
-    label: "Chế độ ăn",
-    key: TagType.DIETARY_PREFERENCE,
-  },
-  {
-    label: "Trẻ em",
-    key: TagType.KIDS,
-  },
-  {
-    label: "Cung hoàng đạo",
-    key: TagType.ZODIAC,
-  },
-  {
-    label: "Ngôn ngữ tình yêu",
-    key: TagType.LOVE_QUESTION,
-  },
-  {
-    label: "Kiểu tính cách",
-    key: TagType.PERSONALITY_TYPE,
-  },
-  {
-    label: "Thú cưng",
-    key: TagType.PETS,
-  },
-  {
-    label: "Tôn giáo",
-    key: TagType.RELIGION,
-  },
-];

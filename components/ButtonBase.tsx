@@ -8,11 +8,21 @@ export interface ButtonBaseProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonBaseVariants> {
   asChild?: boolean;
+  withAnimation?: boolean;
 }
 
 const ButtonBase = React.forwardRef<HTMLButtonElement, ButtonBaseProps>(
   (
-    { className, variant, size, disabled, asChild = false, onClick, ...props },
+    {
+      className,
+      variant,
+      size,
+      disabled,
+      withAnimation = true,
+      asChild = false,
+      onClick,
+      ...props
+    },
     ref,
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -28,6 +38,7 @@ const ButtonBase = React.forwardRef<HTMLButtonElement, ButtonBaseProps>(
       <Comp
         className={cn(buttonBaseVariants({ variant, size, className }), {
           "bg-gray-300": disabled,
+          "!translate-y-0": !withAnimation,
         })}
         ref={ref}
         disabled={disabled}

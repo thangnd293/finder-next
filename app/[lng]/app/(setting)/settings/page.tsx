@@ -7,6 +7,7 @@ import LocationSetting from "./components/LocationSetting";
 import LogoutButton from "./components/LogoutButton";
 import ModeSetting from "./components/ModeSetting";
 import NotificationSetting from "./components/NotificationSetting";
+import AdvanceFilterSetting from "./components/AdvanceFilterSetting";
 
 export default function SettingPage() {
   return (
@@ -21,6 +22,7 @@ export default function SettingPage() {
             collapsible
           >
             <FilterSetting />
+            <AdvanceFilterSetting />
             <NotificationSetting />
           </Accordion>
           <LocationSetting />

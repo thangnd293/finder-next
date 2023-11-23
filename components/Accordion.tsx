@@ -15,7 +15,7 @@ const AccordionItem = React.forwardRef<
   <RadixAccordion.Item
     ref={ref}
     className={cn(
-      "relative py-6 before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:rounded-3xl before:transition-all before:duration-200 before:hover:bg-background-50 [&[data-state=open]:before]:scale-x-110 [&[data-state=open]:before]:bg-background-50",
+      "relative py-6 before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:rounded-3xl before:transition-all before:duration-200 before:hover:bg-background-50 [&[data-state=open]:before]:scale-x-110 [&[data-state=open]:before]:bg-background-50 dark:[&[data-state=open]:before]:bg-background-100",
       className,
     )}
     {...props}
@@ -31,13 +31,13 @@ const AccordionTrigger = React.forwardRef<
     <RadixAccordion.Trigger
       ref={ref}
       className={cn(
-        "group flex flex-1 items-center justify-between px-6 font-medium transition-all [&[data-state=open]>svg]:rotate-180",
+        "group relative flex flex-1 items-center justify-between px-6 font-medium transition-all [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       {...props}
     >
       {children}
-      <ChevronDownIcon className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:text-foreground" />
+      <ChevronDownIcon className="absolute right-6 h-4 w-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:text-foreground" />
     </RadixAccordion.Trigger>
   </RadixAccordion.Header>
 ));
