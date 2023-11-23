@@ -16,6 +16,8 @@ const HometownSetting = () => {
   const updateProfile = useUpdateProfile();
 
   useEffect(() => {
+    if (!debouncedHometown || data === debouncedHometown) return;
+
     updateProfile.mutate({
       homeTown: {
         province: debouncedHometown,

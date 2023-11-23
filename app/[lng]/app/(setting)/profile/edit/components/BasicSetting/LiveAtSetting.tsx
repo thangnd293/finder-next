@@ -16,12 +16,13 @@ const LiveAtSetting = () => {
   const updateProfile = useUpdateProfile();
 
   useEffect(() => {
+    if (!debouncedHometown || data === debouncedHometown) return;
     updateProfile.mutate({
       liveAt: {
         province: debouncedHometown,
       },
     });
-  }, [debouncedHometown]);
+  }, [debouncedHometown, data]);
 
   return (
     <ProvinceSelect

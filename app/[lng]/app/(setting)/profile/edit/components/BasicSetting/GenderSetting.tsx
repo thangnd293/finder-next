@@ -15,10 +15,12 @@ const GenderSetting = () => {
   const updateProfile = useUpdateProfile();
 
   useEffect(() => {
+    if (data === debouncedGender) return;
+
     updateProfile.mutate({
       gender: debouncedGender,
     });
-  }, [debouncedGender]);
+  }, [debouncedGender, data]);
 
   return (
     <RadioGroup

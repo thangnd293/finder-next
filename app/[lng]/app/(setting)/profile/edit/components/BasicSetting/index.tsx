@@ -14,9 +14,25 @@ import GenderSetting from "./GenderSetting";
 import HometownSetting from "./HometownSetting";
 import LiveAtSetting from "./LiveAtSetting";
 import LookingForSetting from "./LookingForSetting";
+import { useCurrentUser } from "@/service/user";
 
 const BasicSetting = () => {
   const [step, setStep] = useState<BasicSettingStep | null>(null);
+  const { data: userBasics } = useCurrentUser({
+    select: (user) => {
+      const tags = user.tags.reduce(
+        (acc, tag) => {
+          acc[tag.type] = tag.name;
+          return acc;
+        },
+        {} as Record<TagType, any>,
+      );
+      return {
+        height: user.height + "cm",
+        ...tags,
+      };
+    },
+  });
 
   return (
     <>
@@ -36,7 +52,14 @@ const BasicSetting = () => {
                   <span className="flex items-center gap-4">
                     <Icon className="text-muted-foreground" /> {basic.label}
                   </span>
-                  <BsPlusLg className="text-muted-foreground" size={20} />
+                  {userBasics?.[basic.key] && (
+                    <span className="text-muted-foreground">
+                      {userBasics?.[basic.key]}
+                    </span>
+                  )}
+                  {!userBasics?.[basic.key] && (
+                    <BsPlusLg className="text-muted-foreground" size={20} />
+                  )}
                 </Button>
               );
             })}
