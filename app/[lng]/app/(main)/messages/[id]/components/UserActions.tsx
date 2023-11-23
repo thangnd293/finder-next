@@ -21,6 +21,7 @@ import {
 } from "react-icons/bs";
 import SafeModeDialog from "./SafeModeDialog";
 import ScheduleDialog from "./ScheduleDialog";
+import ConfirmUnmatchDialog from "./ConfirmUnmatchDialog";
 
 interface UserActionsProps {
   user?: User;
@@ -34,6 +35,7 @@ const UserActions = ({ user, conversation }: UserActionsProps) => {
   const [isOpenReportDialog, setIsOpenReportDialog] = useState(false);
   const [isOpenScheduleDialog, setIsOpenScheduleDialog] = useState(false);
   const [isOpenSafeModeDialog, setIsOpenSafeModeDialog] = useState(false);
+  const [isOpenUnmatchDialog, setIsOpenUnmatchDialog] = useState(false);
 
   const handleReportDone = () => {
     router.replace("/app");
@@ -71,7 +73,10 @@ const UserActions = ({ user, conversation }: UserActionsProps) => {
             <AiOutlineSafety /> {isEnableSafeMode ? "Tắt" : "Mở"} chế độ an toàn
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="gap-1.5">
+          <DropdownMenuItem
+            className="gap-1.5"
+            onClick={() => setIsOpenUnmatchDialog(true)}
+          >
             <BsXLg /> Hủy ghép đôi
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -99,6 +104,14 @@ const UserActions = ({ user, conversation }: UserActionsProps) => {
         isOpen={isOpenSafeModeDialog}
         onClose={() => setIsOpenSafeModeDialog(false)}
       />
+      {user && (
+        <ConfirmUnmatchDialog
+          conversation={conversation}
+          user={user}
+          isOpen={isOpenUnmatchDialog}
+          onClose={() => setIsOpenUnmatchDialog(false)}
+        />
+      )}
     </>
   );
 };

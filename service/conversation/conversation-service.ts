@@ -9,7 +9,9 @@ export class ConversationService {
     conversation: (conversationID: string) =>
       `${this.prefix}/${conversationID}`,
     allConversations: (hasMessage: boolean) =>
-      `${this.prefix}?page=1&size=100&message=${Number(hasMessage)}`,
+      `${this.prefix}?page=1&size=100&&isDeleted=false&message=${Number(
+        hasMessage,
+      )}`,
     changeSafeMode: `${this.prefix}/safe-mode`,
   };
 

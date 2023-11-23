@@ -164,14 +164,14 @@ export const UserCard = ({
           {homeTown?.province && (
             <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm">
               {<GoHome />}
-              <span>Đến từ {homeTown.province}</span>
+              <span>Đến từ {homeTown?.province}</span>
             </span>
           )}
 
           {liveAt?.province && (
             <span className="flex items-center gap-2 rounded-full bg-primary-100 px-2 py-1 text-sm">
               {<GoLocation />}
-              <span>Sống tại {liveAt.province}</span>
+              <span>Sống tại {liveAt?.province}</span>
             </span>
           )}
 

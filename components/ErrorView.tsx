@@ -4,10 +4,12 @@ import React from "react";
 
 interface ErrorViewProps extends React.HTMLAttributes<HTMLDivElement> {
   imageSize?: number;
+  message?: string;
 }
 const ErrorView = ({
   className,
   imageSize = 256,
+  message,
   ...others
 }: ErrorViewProps) => {
   return (
@@ -27,7 +29,7 @@ const ErrorView = ({
         <Image fill src="/images/error.png" alt="" />
       </div>
       <p className="text-lg font-medium">
-        Hệ thống đang gặp trục trặc, vui lòng thử lại sau :((
+        {message ?? "Hệ thống đang gặp trục trặc, vui lòng thử lại sau :(("}
       </p>
     </div>
   );

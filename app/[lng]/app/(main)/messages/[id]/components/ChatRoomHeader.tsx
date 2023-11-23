@@ -2,11 +2,11 @@
 
 import ActionIcon from "@/components/ActionIcon";
 import Avatar from "@/components/Avatar";
+import { Skeleton } from "@/components/Skeleton";
 import { useConversationByID } from "@/service/conversation";
 import { useParams, useRouter } from "next/navigation";
 import { BsXLg } from "react-icons/bs";
 import { HiMiniVideoCamera } from "react-icons/hi2";
-import { IoCall } from "react-icons/io5";
 import UserActions from "./UserActions";
 
 interface ChatRoomHeaderProps {
@@ -17,7 +17,7 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
   const { id } = useParams() as {
     id: string;
   };
-  const { data: conversation } = useConversationByID(id);
+  const { data: conversation, isLoading } = useConversationByID(id);
   const user = conversation?.user;
 
   return (
@@ -36,20 +36,30 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
       </div>
 
       <div className="flex items-center space-x-1">
-        <ActionIcon variant="ghost">
-          <IoCall size={18} />
-        </ActionIcon>
+        {isLoading ? (
+          Array.from({
+            length: 2,
+          }).map((_, i) => (
+            <Skeleton key={i} className="h-8 w-8 rounded-full" />
+          ))
+        ) : (
+          <>
+            <ActionIcon
+              onClick={() => {
+                window.open(
+                  `/app/room/${id}`,
+                  "_blank",
+                  "width=800,height=600",
+                );
+              }}
+              variant="ghost"
+            >
+              <HiMiniVideoCamera size={18} />
+            </ActionIcon>
 
-        <ActionIcon
-          onClick={() => {
-            window.open(`/app/room/${id}`, "_blank", "width=800,height=600");
-          }}
-          variant="ghost"
-        >
-          <HiMiniVideoCamera size={18} />
-        </ActionIcon>
-
-        <UserActions user={user} conversation={id} />
+            <UserActions user={user} conversation={id} />
+          </>
+        )}
 
         <ActionIcon variant="ghost" onClick={() => router.push("/app")}>
           <BsXLg />

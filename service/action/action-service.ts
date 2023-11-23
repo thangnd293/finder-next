@@ -8,6 +8,7 @@ export class ActionService {
     skip: (id: string) => `${this.prefix}/skip/${id}`,
     superLike: (id: string) => `${this.prefix}/super-like/${id}`,
     boost: `${this.prefix}/boosts`,
+    unmatch: (id: string) => `${this.prefix}/un-matched/${id}`,
   };
 
   static like = async (id: string) => {
@@ -30,6 +31,12 @@ export class ActionService {
 
   static boost = async () => {
     const { data } = await axiosInstance.post(this.urls.boost);
+
+    return data;
+  };
+
+  static unmatch = async (id: string) => {
+    const { data } = await axiosInstance.post(this.urls.unmatch(id));
 
     return data;
   };

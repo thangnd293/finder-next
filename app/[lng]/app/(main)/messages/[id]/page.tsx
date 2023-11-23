@@ -6,6 +6,8 @@ import ChatRoomFooter from "./components/ChatRoomFooter";
 import ChatRoomHeader from "./components/ChatRoomHeader";
 import MessageList from "./components/MessageList";
 import ProfileSidebar from "./components/ProfileSidebar";
+import { useConversationByID } from "@/service/conversation";
+import ErrorView from "@/components/ErrorView";
 
 export default function ChatPage({
   params: { id },
@@ -13,6 +15,9 @@ export default function ChatPage({
   params: { id: string };
 }) {
   const [isOpenSidebar, setOpenSidebar] = useState(false);
+  const { isError } = useConversationByID(id);
+
+  if (isError) return <ErrorView message="Đoạn chat không hợp lệ" />;
 
   return (
     <>
