@@ -7,25 +7,31 @@ import { Skeleton } from "@/components/Skeleton";
 import { cn } from "@/lib/utils";
 import { Tag, TagType, useTagsByType } from "@/service/tag";
 import { getTagIcon } from "@/utils/tag";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 
 interface FilterItemProps {
   label: string;
   type: TagType;
+  value?: string;
+  onChange?: (tag: Tag) => void;
 }
 
-const FilterItem = ({ label, type }: FilterItemProps) => {
+const FilterItem = ({ label, type, value, onChange }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const { tags, isLoading } = useTagsByType(type);
   const Icon = getTagIcon(type);
+
+  const selectedTag = useMemo(
+    () => tags.find((tag) => tag._id === value),
+    [value],
+  );
 
   const onChoose = (tag: Tag) => {
     if (tag._id === selectedTag?._id) return;
 
-    setSelectedTag(tag);
     setIsOpen(false);
+    onChange?.(tag);
   };
 
   return (

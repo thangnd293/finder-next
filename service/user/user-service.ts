@@ -1,11 +1,12 @@
 import axiosInstance from "@/lib/axios";
-import { type Discovery, type User } from ".";
+import { AdvancedFilter, type Discovery, type User } from ".";
 import { List } from "@/types/http";
 import { TagType } from "../tag";
 
 export interface UpdateSettingPayload {
-  discovery: Partial<Discovery>;
+  discovery?: Partial<Discovery>;
   stepStarted?: number;
+  advancedFilter?: AdvancedFilter;
 }
 
 export interface UpdateLocationPayload {

@@ -1,5 +1,5 @@
 import { Relationship } from "../relationship";
-import { Tag } from "../tag";
+import { Tag, TagType } from "../tag";
 
 export enum Gender {
   Male = "Male",
@@ -62,6 +62,14 @@ interface Address {
   route: string;
 }
 
+export interface AdvancedFilter {
+  enable: boolean;
+  tags: {
+    tagId: string;
+    tagType: TagType;
+  }[];
+}
+
 export interface User {
   _id: string;
   name: string;
@@ -82,6 +90,7 @@ export interface User {
   setting: {
     discovery: Discovery;
     hiddenProfile: HiddenProfile;
+    advancedFilter: AdvancedFilter;
   };
   tags: Tag[];
   phoneNumber?: string;
