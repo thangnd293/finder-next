@@ -88,4 +88,10 @@ export class UserService {
 
     return data;
   };
+
+  static deleteAccount = async () => {
+    const { data } = await axiosInstance.delete(this.prefix);
+
+    return data;
+  };
 }

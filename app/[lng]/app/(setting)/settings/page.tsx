@@ -8,6 +8,7 @@ import LogoutButton from "./components/LogoutButton";
 import ModeSetting from "./components/ModeSetting";
 import NotificationSetting from "./components/NotificationSetting";
 import AdvanceFilterSetting from "./components/AdvanceFilterSetting";
+import DeleteAccountButton from "./components/DeleteAccountButton";
 
 export default function SettingPage() {
   return (
@@ -27,6 +28,7 @@ export default function SettingPage() {
           </Accordion>
           <LocationSetting />
           <LogoutButton />
+          <DeleteAccountButton />
         </div>
       </ScrollArea>
     </MainLayout>

@@ -35,7 +35,7 @@ const ScheduleDialog = ({ isOpen, onClose }: ScheduleDialogProps) => {
       {!isShowScheduleEditor && (
         <>
           <Modal.Header withCloseButton>Finder bot</Modal.Header>
-          <Modal.Body className="overflow-hidden p-4">
+          <Modal.Body className="p-4 md:overflow-hidden">
             <AIRecommend
               onSelectedPlacesChange={setSelectedPlaces}
               onOpenScheduleEditor={onOpenScheduleEditor}
