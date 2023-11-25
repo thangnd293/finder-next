@@ -8,6 +8,7 @@ import LinkedAccount from "./components/LinkedAccount";
 import PreviewProfile from "./components/PreviewProfile";
 import MainLayout from "@/layout/MainLayout";
 import WorkAndEducationSection from "./components/WorkAndEducationSection";
+import VerifySection from "./components/Verify";
 
 const EditProfilePage = () => {
   return (
@@ -20,6 +21,7 @@ const EditProfilePage = () => {
           <div className="mt-4" />
 
           <Accordion className="w-full space-y-6" type="single" collapsible>
+            <VerifySection />
             <BioSection />
             <WorkAndEducationSection />
             <BasicSetting />
