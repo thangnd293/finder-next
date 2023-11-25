@@ -12,8 +12,7 @@ import { useRoomEvent } from "../_machine/useRoom";
 import NextImage from "next/image";
 import { IoMic, IoVideocam } from "react-icons/io5";
 
-export default function Room() {
-  const { room } = useParams() as { room: string };
+const CallVideo = ({ room }: { room: string }) => {
   const {
     refLocalVideo,
     refRemoteVideo,
@@ -25,54 +24,9 @@ export default function Room() {
     isAccept,
     receiver,
   } = useRoomEvent(room);
-
-  const [isVideoPermission, setIsVideoPermission] = useState(false);
-  const [isAudioPermission, setIsAudioPermission] = useState(false);
-
   const image = receiver?.images[0];
 
-  useEffect(() => {
-    if (navigator.mediaDevices) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          setIsVideoPermission(true);
-        })
-        .catch((error) => {
-          console.error("Không thể truy cập vào video:", error);
-        });
-
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          setIsAudioPermission(true);
-        })
-        .catch((error) => {
-          console.error("Không thể truy cập vào audio:", error);
-        });
-    }
-  }, []);
-
-  let devices = [];
-  !isVideoPermission && devices.push("video");
-  !isAudioPermission && devices.push("audio");
-  return !isVideoPermission || !isAudioPermission ? (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 bg-gray-950 px-10 text-center">
-      <p className="flex gap-4">
-        {!isVideoPermission && <IoVideocam size={40} />}
-        {!isAudioPermission && <IoMic size={40} />}
-      </p>
-      <p className="text-3xl font-semibold">
-        Bạn chưa cho phép Finder truy cập vào {devices.join(" và ")}.
-      </p>
-      <p className="text-sm font-medium">
-        Cho phép Finder sử dụng {devices.join(" và ")} để những người tham gia
-        cuộc gọi
-        <br className="hidden lg:block" /> có thể trò chuyện với bạn. Bạn có thể
-        tắt quyền này sau{" "}
-      </p>
-    </div>
-  ) : (
+  return (
     <div className="relative">
       <div className="relative mx-auto aspect-video h-screen max-w-[100vw] bg-gray-950">
         <video
@@ -140,5 +94,63 @@ export default function Room() {
         </div>
       </div>
     </div>
+  );
+};
+
+export default function Room() {
+  const { room } = useParams() as { room: string };
+
+  const [isVideoPermission, setIsVideoPermission] = useState(false);
+  const [isAudioPermission, setIsAudioPermission] = useState(false);
+
+  useEffect(() => {
+    const stopMediaStream = (stream: MediaStream) => {
+      stream.getTracks().forEach((track) => track.stop());
+    };
+
+    if (navigator.mediaDevices) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          setIsVideoPermission(true);
+          stopMediaStream(stream);
+        })
+        .catch((error) => {
+          console.error("Không thể truy cập vào video:", error);
+        });
+
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          setIsAudioPermission(true);
+          stopMediaStream(stream);
+        })
+        .catch((error) => {
+          console.error("Không thể truy cập vào audio:", error);
+        });
+    }
+  }, []);
+
+  let devices = [];
+  !isVideoPermission && devices.push("video");
+  !isAudioPermission && devices.push("audio");
+  return !isVideoPermission || !isAudioPermission ? (
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 bg-gray-950 px-10 text-center">
+      <p className="flex gap-4">
+        {!isVideoPermission && <IoVideocam size={40} />}
+        {!isAudioPermission && <IoMic size={40} />}
+      </p>
+      <p className="text-3xl font-semibold">
+        Bạn chưa cho phép Finder truy cập vào {devices.join(" và ")}.
+      </p>
+      <p className="text-sm font-medium">
+        Cho phép Finder sử dụng {devices.join(" và ")} để những người tham gia
+        cuộc gọi
+        <br className="hidden lg:block" /> có thể trò chuyện với bạn. Bạn có thể
+        tắt quyền này sau{" "}
+      </p>
+    </div>
+  ) : (
+    <CallVideo room={room} />
   );
 }
