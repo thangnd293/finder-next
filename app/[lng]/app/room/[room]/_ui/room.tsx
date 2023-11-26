@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdCallEnd,
   MdOutlineMic,
@@ -13,6 +13,7 @@ import { useRoomEvent } from "../_machine/useRoom";
 import NextImage from "next/image";
 import { IoMic, IoVideocam } from "react-icons/io5";
 import { Rnd } from "react-rnd";
+import { usePermission } from "react-use";
 import { useWindowSize } from "usehooks-ts";
 
 const CallVideo = ({ room }: { room: string }) => {
@@ -46,9 +47,11 @@ const CallVideo = ({ room }: { room: string }) => {
         window.innerWidth * (state.width / 100) -
         state.margin,
       y:
-        window.innerHeight -
-        ((window.innerWidth * (state.width / 100)) / 16) * 9 -
-        state.margin,
+        width < 600
+          ? state.margin
+          : window.innerHeight -
+            ((window.innerWidth * (state.width / 100)) / 16) * 9 -
+            state.margin,
       width: width < 600 ? 50 : 24,
       margin: width < 600 ? 12 : 24,
     }));
@@ -109,7 +112,7 @@ const CallVideo = ({ room }: { room: string }) => {
         <div className="h-full w-full overflow-hidden rounded-md">
           <video
             className="h-full w-full scale-x-[-1] object-contain"
-            // ref={refLocalVideo}
+            ref={refLocalVideo}
             id="localVideo"
             autoPlay
             playsInline
@@ -154,45 +157,27 @@ const CallVideo = ({ room }: { room: string }) => {
 export default function Room() {
   const { room } = useParams() as { room: string };
 
-  const [isVideoPermission, setIsVideoPermission] = useState(false);
-  const [isAudioPermission, setIsAudioPermission] = useState(false);
-
-  useEffect(() => {
-    const stopMediaStream = (stream: MediaStream) => {
-      stream.getTracks().forEach((track) => track.stop());
-    };
-
-    if (navigator.mediaDevices) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          setIsVideoPermission(true);
-          stopMediaStream(stream);
-        })
-        .catch((error) => {
-          console.error("Không thể truy cập vào video:", error);
-        });
-
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          setIsAudioPermission(true);
-          stopMediaStream(stream);
-        })
-        .catch((error) => {
-          console.error("Không thể truy cập vào audio:", error);
-        });
-    }
-  }, []);
+  const isVideoPermission = usePermission({ name: "camera" });
+  console.log(
+    "🚀 ~ file: room.tsx:156 ~ Room ~ isVideoPermission:",
+    isVideoPermission,
+  );
+  const isAudioPermission = usePermission({ name: "microphone" });
+  console.log(
+    "🚀 ~ file: room.tsx:158 ~ Room ~ isAudioPermission:",
+    isAudioPermission,
+  );
 
   let devices = [];
-  !isVideoPermission && devices.push("video");
-  !isAudioPermission && devices.push("audio");
-  return !isVideoPermission || !isAudioPermission ? (
+  isVideoPermission === "denied" && devices.push("video");
+  isAudioPermission === "denied" && devices.push("audio");
+  return isVideoPermission === "granted" && isAudioPermission === "granted" ? (
+    <CallVideo room={room} />
+  ) : (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 bg-gray-950 px-10 text-center">
       <p className="flex gap-4">
-        {!isVideoPermission && <IoVideocam size={40} />}
-        {!isAudioPermission && <IoMic size={40} />}
+        {isVideoPermission === "denied" && <IoVideocam size={40} />}
+        {isAudioPermission === "denied" && <IoMic size={40} />}
       </p>
       <p className="text-3xl font-semibold">
         Bạn chưa cho phép Finder truy cập vào {devices.join(" và ")}.
@@ -204,7 +189,5 @@ export default function Room() {
         tắt quyền này sau{" "}
       </p>
     </div>
-  ) : (
-    <CallVideo room={room} />
   );
 }
