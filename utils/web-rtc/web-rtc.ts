@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
 
+import axios from "axios";
 import SimplePeer from "simple-peer";
 import { ISocket, OfferMessageResponse } from "./socket";
-import axios from "axios";
 
 declare interface CallVideoManager {
   on(event: "offer", listener: (payload: OfferMessageResponse) => void): this;

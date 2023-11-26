@@ -73,7 +73,7 @@ export const useRoomEvent = (roomId: string) => {
     [callVideo],
   );
 
-  const handleInitAccpect = useCallback(
+  const handleInitAccept = useCallback(
     async (roomId: string, answer: SimplePeer.SignalData) => {
       if (!callVideo) return;
       const localVideoStream = await createMediaStream();
@@ -101,14 +101,14 @@ export const useRoomEvent = (roomId: string) => {
       if (!payload.status) {
         handleInitRoom(roomId);
       } else {
-        handleInitAccpect(roomId, payload.offer);
+        handleInitAccept(roomId, payload.offer);
       }
     });
 
     callVideo.on("verifyFirstConnection", () => {
       callVideo.checkRoom(roomId);
     });
-  }, [callVideo, handleInitAccpect, handleInitRoom, roomId]);
+  }, [callVideo, handleInitAccept, handleInitRoom, roomId]);
 
   useEffect(() => {
     if (!mediaStream) return;
