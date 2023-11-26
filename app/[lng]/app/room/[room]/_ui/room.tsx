@@ -1,5 +1,6 @@
+"use client";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   MdCallEnd,
   MdOutlineMic,
@@ -11,8 +12,18 @@ import { useRoomEvent } from "../_machine/useRoom";
 
 import NextImage from "next/image";
 import { IoMic, IoVideocam } from "react-icons/io5";
+import { Rnd } from "react-rnd";
+import { useWindowSize } from "usehooks-ts";
 
 const CallVideo = ({ room }: { room: string }) => {
+  const { width, height } = useWindowSize();
+  const [state, setState] = useState({
+    // vị trí mặc định bên phải dưới
+    x: window.innerWidth - window.innerWidth * 0.24 - 24,
+    y: window.innerHeight - ((window.innerWidth * 0.24) / 16) * 9 - 24,
+    width: 24,
+    margin: 50,
+  });
   const {
     refLocalVideo,
     refRemoteVideo,
@@ -26,12 +37,29 @@ const CallVideo = ({ room }: { room: string }) => {
   } = useRoomEvent(room);
   const image = receiver?.images[0];
 
+  useEffect(() => {
+    setState((s) => ({
+      // vị trí mặc định bên phải dưới
+      ...s,
+      x:
+        window.innerWidth -
+        window.innerWidth * (state.width / 100) -
+        state.margin,
+      y:
+        window.innerHeight -
+        ((window.innerWidth * (state.width / 100)) / 16) * 9 -
+        state.margin,
+      width: width < 600 ? 50 : 24,
+      margin: width < 600 ? 12 : 24,
+    }));
+  }, [width, height, state.width, state.margin]);
+
   return (
-    <div className="relative">
-      <div className="relative mx-auto aspect-video h-screen max-w-[100vw] bg-gray-950">
+    <div className="relative overflow-hidden bg-gray-950">
+      <div className="relative mx-auto aspect-video h-screen max-w-[100vw] ">
         <video
           className="h-full w-full object-contain"
-          ref={refRemoteVideo}
+          ref={refLocalVideo}
           id="remoteVideo"
           autoPlay
           playsInline
@@ -53,16 +81,42 @@ const CallVideo = ({ room }: { room: string }) => {
           </div>
         ) : null}
       </div>
-      <div className="fixed bottom-0 right-0 aspect-video w-[24vw] overflow-hidden rounded-md">
-        <video
-          className="h-full w-full scale-x-[-1] object-contain"
-          ref={refLocalVideo}
-          id="localVideo"
-          autoPlay
-          playsInline
-          muted
-        ></video>
-      </div>
+      <Rnd
+        size={{
+          width: `${state.width}vw`,
+          height: `${(state.width * 9) / 16}vw`,
+        }}
+        position={{ x: state.x, y: state.y }}
+        className="duration-300 ease-in-out [&.react-draggable-dragging]:duration-0"
+        onDragStop={(e, d) => {
+          const { x, y } = d;
+          const centerScreenX = window.innerWidth / 2;
+
+          if (x > centerScreenX) {
+            setState((s) => ({
+              ...s,
+              x:
+                window.innerWidth -
+                window.innerWidth * (state.width / 100) -
+                state.margin,
+              y: y,
+            }));
+          } else {
+            setState((s) => ({ ...s, x: state.margin, y: y }));
+          }
+        }}
+      >
+        <div className="h-full w-full overflow-hidden rounded-md">
+          <video
+            className="h-full w-full scale-x-[-1] object-contain"
+            // ref={refLocalVideo}
+            id="localVideo"
+            autoPlay
+            playsInline
+            muted
+          ></video>
+        </div>
+      </Rnd>
 
       <div className="absolute bottom-[60px] left-1/2 z-10 -translate-x-1/2">
         <div className="flex">

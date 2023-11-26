@@ -183,6 +183,7 @@ class CallVideoManager extends EventEmitter {
 export default CallVideoManager;
 
 export const setSrcVideo = (video: HTMLVideoElement, stream: MediaStream) => {
+  if (!video) return;
   if ("srcObject" in video) {
     video.srcObject = stream;
   } else if ("src" in video) {
