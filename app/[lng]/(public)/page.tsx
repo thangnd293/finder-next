@@ -1,9 +1,10 @@
 import { getTranslation } from "@/lib/i18n";
 import { TPageParams } from "@/types/common";
-import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import Pricing from "./components/Pricing";
+import HowItWork from "./components/HowItWork";
+import Navbar from "./components/Navbar";
 import Testimonials from "./components/Testimonials";
 
 export default async function HomePage({
@@ -19,9 +20,10 @@ export default async function HomePage({
       <Navbar />
       <main className="flex flex-col items-center justify-between">
         <Hero t={t} />
-        <Pricing t={t} />
+        <HowItWork />
         <Testimonials />
       </main>
+      <Footer />
     </>
   );
 }

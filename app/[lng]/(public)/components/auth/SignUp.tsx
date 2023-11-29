@@ -3,8 +3,10 @@
 import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import AuthModal, { EAuthMode } from "./AuthModal";
+
+const AuthModal = dynamic(() => import("./AuthModal"));
 
 interface SignUpProps {
   variant?: "accent" | "outline" | "default";
@@ -40,7 +42,7 @@ const SignUp = ({
       )}
       <AuthModal
         isOpen={isOpen}
-        defaultMode={EAuthMode.SIGN_UP}
+        defaultMode={"signUp"}
         onOpenChange={setIsOpen}
       />
     </>

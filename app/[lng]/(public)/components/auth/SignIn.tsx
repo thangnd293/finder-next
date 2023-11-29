@@ -1,9 +1,10 @@
 "use client";
 
 import Button from "@/components/Button";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import AuthModal, { EAuthMode } from "./AuthModal";
 
+const AuthModal = dynamic(() => import("./AuthModal"));
 interface SignInProps {
   renderButton?: (props: { onClick: () => void }) => React.ReactNode;
 }
@@ -21,7 +22,7 @@ const SignIn = ({ renderButton }: SignInProps) => {
       )}
 
       <AuthModal
-        defaultMode={EAuthMode.SIGN_IN}
+        defaultMode={"signIn"}
         isOpen={isOpen}
         onOpenChange={setIsOpen}
       />

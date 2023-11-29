@@ -2,28 +2,24 @@
 
 import Modal from "@/components/Modal";
 import { useState } from "react";
-import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
+import SignUpForm from "./SignUpForm";
 
-export enum EAuthMode {
-  SIGN_IN = "sign-in",
-  SIGN_UP = "sign-up",
-}
-
+type Mode = "signIn" | "signUp";
 interface AuthModalProps {
   isOpen: boolean;
-  defaultMode?: EAuthMode;
+  defaultMode?: Mode;
   onOpenChange: (open: boolean) => void;
 }
 
 const AuthModal = ({
   isOpen,
-  defaultMode = EAuthMode.SIGN_UP,
+  defaultMode = "signUp",
   onOpenChange,
 }: AuthModalProps) => {
-  const [mode, setMode] = useState<EAuthMode>(defaultMode);
+  const [mode, setMode] = useState<Mode>(defaultMode);
 
-  const onSwitchMode = (mode: EAuthMode) => {
+  const onSwitchMode = (mode: Mode) => {
     setMode(mode);
   };
 
@@ -35,15 +31,11 @@ const AuthModal = ({
     >
       {
         {
-          [EAuthMode.SIGN_UP]: (
-            <SignUpForm
-              onSwitchToSignIn={() => onSwitchMode(EAuthMode.SIGN_IN)}
-            />
+          signUp: (
+            <SignUpForm onSwitchToSignIn={() => onSwitchMode("signIn")} />
           ),
-          [EAuthMode.SIGN_IN]: (
-            <SignInForm
-              onSwitchToSignUp={() => onSwitchMode(EAuthMode.SIGN_UP)}
-            />
+          signIn: (
+            <SignInForm onSwitchToSignUp={() => onSwitchMode("signUp")} />
           ),
         }[mode]
       }

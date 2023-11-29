@@ -36,7 +36,12 @@ export default function RootLayout({
   }>
 >) {
   return (
-    <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
+    <html
+      className="scroll-smooth"
+      lang={lng}
+      dir={dir(lng)}
+      suppressHydrationWarning
+    >
       <head>
         <meta charSet="utf-8" />
       </head>

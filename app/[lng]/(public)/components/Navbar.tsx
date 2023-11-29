@@ -3,23 +3,35 @@
 import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import SignUp from "./auth/SignUp";
+import Link from "next/link";
 import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
 
+const sections = [
+  {
+    label: "Trang chủ",
+    id: "hero",
+  },
+  {
+    label: "Thông tin",
+    id: "info",
+  },
+  {
+    label: "Câu chuyện",
+    id: "story",
+  },
+];
 const Navbar = () => {
-  const buttons = ["Home", "About", "Feedback", "Services", "Contact"];
-
   return (
     <div className="group fixed bottom-14 left-1/2 z-50 flex w-max -translate-x-1/2 items-center gap-2 rounded-2xl border border-gray-50 bg-background px-6 py-3 shadow-xl sm:px-8">
-      {buttons.map((label, index) => (
-        <Button
-          key={index}
-          className="hidden font-light text-gray-500 !no-underline hover:text-primary sm:block"
-          variant="link"
-          size="sm"
+      {sections.map((section) => (
+        <Link
+          key={section.id}
+          className="hidden text-sm font-light text-secondary-foreground transition-colors duration-200 hover:text-primary md:block"
+          href={`#${section.id}`}
         >
-          {label}
-        </Button>
+          {section.label}
+        </Link>
       ))}
 
       <SignIn

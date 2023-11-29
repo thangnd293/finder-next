@@ -22,11 +22,9 @@ const TestimonialCarousel = () => {
     <div className="my-own-custom-container">
       <div>
         <Slider className="[&_.slick-slide]:px-2" ref={sliderRef} {...settings}>
-          {Array(10)
-            .fill(0)
-            .map((_, i) => (
-              <Testimonial key={i} />
-            ))}
+          {testimonials.map((testimonial, i) => (
+            <Testimonial key={i} {...testimonial} />
+          ))}
         </Slider>
       </div>
 
@@ -75,3 +73,27 @@ const settings = {
     },
   ],
 };
+
+const testimonials = [
+  {
+    user: "Hạnh",
+    description:
+      "Sau vài tháng hẹn hò, mối quan hệ của chúng tôi đứng trước một ngã rẽ và chúng tôi quyết định dừng lại. Tôi đã yêu người ấy nhưng đã nghĩ là chuyện sẽ chẳng đi đến đâu. Vậy mà 9 tháng sau chúng tôi chẳng thể xa nhau thêm nữa.",
+  },
+  {
+    user: "Giang",
+    description:
+      'Tôi gặp vợ chưa cưới của mình trên Finder trong thời gian cách ly vì COVID. Cô ấy đến từ Lafayette, Indiana còn tôi từ Cleveland, Ohio. Chúng tôi đều theo Cơ đốc giáo và vướng "lưới tình" mà không tài nào gỡ được.',
+  },
+  {
+    user: "Nhi",
+    description:
+      "Cả tôi và bạn cùng phòng thời đại học thường Finder cả đêm, không chờ gì nghiêm túc cả, cũng chẳng bắt kèo gì, chỉ dùng để giải trí. Và ông xã hiện giờ của tôi và tôi đã tương hợp trên Finder.",
+  },
+
+  {
+    user: "Liên",
+    description:
+      "Gửi tất cả những ai đang độc thân, đặc biệt là những người hướng nội như chúng tôi: đừng ngại vượt ra ngoài vùng an toàn của các bạn. Đó là nơi bạn sẽ tạo được một mối liên kết chân thành. Finder đã đưa chúng tôi đến với nhau và tôi mãi mãi biết ơn vì điều đó. ❤",
+  },
+];
