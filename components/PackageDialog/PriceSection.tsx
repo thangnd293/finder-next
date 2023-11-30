@@ -41,7 +41,18 @@ const PriceSection = ({
                   alt={item.text}
                 />
 
-                <span>{item.text}</span>
+                <span>
+                  {item.name}{" "}
+                  {!isRetail &&
+                    item.amount &&
+                    item.refreshInterval &&
+                    item.refreshIntervalUnit && (
+                      <>
+                        với {item.amount} lượt mỗi{" "}
+                        {timeMap[item.refreshIntervalUnit].toLowerCase()}
+                      </>
+                    )}
+                </span>
               </p>
             ))}
           </div>
