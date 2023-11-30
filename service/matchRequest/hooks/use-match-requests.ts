@@ -3,7 +3,7 @@ import { MatchRequest, MatchRequestService } from "..";
 
 const EMPTY_ARRAY: MatchRequest[] = [];
 
-export const getMatchRequestKey = () => ["matchRequests", status];
+export const getMatchRequestKey = () => ["matchRequests"];
 
 export const useMatchRequests = () => {
   const { data, ...others } = useQuery({

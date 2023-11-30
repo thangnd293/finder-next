@@ -3,7 +3,7 @@
 import { ROUTE } from "@/constant/route";
 import { cn } from "@/lib/utils";
 import { useMatchRequestCount } from "@/service/matchRequest";
-import { useScheduleNotificationCount } from "@/service/notification";
+import { NotificationType, useNotificationCount } from "@/service/notification";
 import { NavItem } from "@/types/common";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -17,7 +17,7 @@ import { PiHeartFill } from "react-icons/pi";
 interface SidebarMobileProps extends React.HTMLAttributes<HTMLDivElement> {}
 const SidebarMobile = ({ className }: SidebarMobileProps) => {
   const { data } = useMatchRequestCount();
-  const { data: scheduleNotification } = useScheduleNotificationCount();
+  const { count } = useNotificationCount([NotificationType.ScheduleDating]);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,7 +26,6 @@ const SidebarMobile = ({ className }: SidebarMobileProps) => {
   }`;
 
   const matchRequestCount = data?.totalCount ?? 0;
-  const scheduleNotificationCount = scheduleNotification?.data?.totalCount ?? 0;
 
   const navList: NavItem[] = [
     {
@@ -38,7 +37,7 @@ const SidebarMobile = ({ className }: SidebarMobileProps) => {
       href: ROUTE.DATING_INVITATION,
       label: "Lời mời hẹn hò",
       Icon: BiSolidCalendarHeart,
-      notificationCount: scheduleNotificationCount,
+      notificationCount: count,
     },
     {
       href: ROUTE.HOME,

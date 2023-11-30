@@ -121,4 +121,9 @@ export interface User {
   company?: string;
   jobs?: string[];
   relationships?: Relationship[];
+  offering?: {
+    level: number;
+    type: string;
+    _id: string;
+  };
 }

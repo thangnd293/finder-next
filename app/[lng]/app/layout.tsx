@@ -2,7 +2,6 @@
 
 import CheckLocation from "@/components/CheckLocation";
 import LoadingScreen from "@/components/LoadingScreen";
-import Notification from "@/components/Notification";
 import NotifyNewMatched from "@/components/NotifyNewMatched";
 import { ROUTE } from "@/constant/route";
 import useDetectUserFocusState from "@/hooks/use-detect-user-focus-state";
@@ -63,9 +62,6 @@ export default function AppLayout({ children }: PropsWithChildren) {
     <>
       {children}
       <DialogConfirm />
-      <Notification />
-      {/* <NotifyNewLiked /> */}
-      {/* <NotifyNewSuperLike /> */}
       <NotifyNewMatched />
       <ToastContainer />
       <CheckLocation />

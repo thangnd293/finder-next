@@ -1,30 +1,37 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { NotificationService } from "../notification-service";
-import { NotificationType } from "../type";
+import {
+  AllNotificationQueryParams,
+  NotificationService,
+} from "../notification-service";
+import { Notification } from "../type";
 
-const EMPTY_ARRAY: any[] = [];
+const EMPTY_ARRAY: Notification[] = [];
 
-export const getAllNotificationKey = (type: NotificationType) => [
+export const getAllNotificationKey = ({
+  types,
+  status,
+}: AllNotificationQueryParams = {}) => [
   "notifications",
   "all",
-  type,
+  ...(types ?? []),
+  status,
 ];
 
-export const useAllNotifications = (type: NotificationType) => {
+export const useAllNotifications = (query: AllNotificationQueryParams = {}) => {
   const { data, ...others } = useQuery({
-    queryKey: getAllNotificationKey(type),
-    queryFn: () => NotificationService.getAllNotifications(type),
+    queryKey: getAllNotificationKey(query),
+    queryFn: () => NotificationService.getAllNotifications(query),
   });
 
   return {
-    notifications: data ?? EMPTY_ARRAY,
+    notifications: data?.results ?? EMPTY_ARRAY,
     ...others,
   };
 };
 
 export const useInvalidateAllNotifications = () => {
   const queryClient = useQueryClient();
-  return (type: NotificationType) => {
-    queryClient.invalidateQueries(getAllNotificationKey(type));
+  return (query: AllNotificationQueryParams = {}) => {
+    queryClient.invalidateQueries(getAllNotificationKey(query));
   };
 };

@@ -3,15 +3,22 @@ import { useCurrentUserID } from "@/service/user";
 import { getCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
 import useMessageStore from "./use-message-store";
-import { useInvalidateScheduleNotifications } from "@/service/notification/hooks/use-schedule-notification";
-import { useInvalidateScheduleNotificationCount } from "@/service/notification/hooks/use-schedule-notification-count";
+import {
+  NotificationType,
+  useInvalidateNotificationCount,
+  useInvalidateNotifications,
+} from "@/service/notification";
+import { notificationEvents } from "@/layout/Header/Notifications";
+import { useInvalidateAllConversations } from "@/service/conversation";
+import { useInvalidateMatchRequest } from "@/service/matchRequest";
 
 const useSocket = (active: boolean) => {
   const { currentUserID } = useCurrentUserID();
   const { addMessage, upsertMessage, markMessagesSeen } = useMessageStore();
-  const invalidateScheduleNotifications = useInvalidateScheduleNotifications();
-  const invalidateScheduleNotificationCount =
-    useInvalidateScheduleNotificationCount();
+  const invalidateNotifications = useInvalidateNotifications();
+  const invalidateNotificationCount = useInvalidateNotificationCount();
+  const invalidateConversations = useInvalidateAllConversations();
+  const invalidateMatchRequest = useInvalidateMatchRequest();
 
   const [isConnected, setIsConnected] = useState(false);
 
@@ -63,11 +70,20 @@ const useSocket = (active: boolean) => {
       markMessagesSeen(data);
     });
 
-    socket.on("notiSchedule", (data) => {
-      console.log("notiSchedule", data);
+    socket.on("newNotification", (data) => {
+      if (
+        data.type === NotificationType.SuperLike ||
+        data.type === NotificationType.Matched
+      ) {
+        invalidateConversations(false);
+      }
 
-      invalidateScheduleNotifications();
-      invalidateScheduleNotificationCount();
+      if (data.type === NotificationType.Like) {
+        invalidateMatchRequest();
+      }
+
+      invalidateNotifications();
+      invalidateNotificationCount();
     });
 
     return () => {
@@ -79,8 +95,8 @@ const useSocket = (active: boolean) => {
     isConnected,
     addMessage,
     markMessagesSeen,
-    invalidateScheduleNotifications,
-    invalidateScheduleNotificationCount,
+    invalidateNotifications,
+    invalidateNotificationCount,
   ]);
 };
 

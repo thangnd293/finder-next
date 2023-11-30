@@ -5,8 +5,11 @@ import NavList from "./NavList";
 import { ROUTE } from "@/constant/route";
 import CurrentUserAvatar from "@/components/CurrentUserAvatar";
 import PacketList from "./PacketList";
+import { ServerService } from "@/service/server";
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const data = await ServerService.getOffers();
+
   return (
     <>
       <header className="relative flex h-18 items-center px-3 py-4 md:h-20">
@@ -20,7 +23,7 @@ const Sidebar = () => {
           <CurrentUserAvatar />
         </Link>
       </header>
-      <PacketList />
+      <PacketList offers={data.results} />
       <NavList />
     </>
   );

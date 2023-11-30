@@ -15,20 +15,12 @@ export interface SeenMessagePayload {
   receiver: string;
 }
 
-export interface NewMatchedNotification {
-  conversation: Conversation;
-  notificationId: string;
-}
-
 interface ServerToClientEvents {
   newMessage: (message: Message) => void;
   sentMessage: (message: Message) => void;
   seenMessage: (payload: SeenMessagePayload) => void;
-  newMatched: (payload: NewMatchedNotification) => void;
-  newMatchRequest: (user: User) => void;
-  newSuperLike: (user: User) => void;
   receivedMessage: (message: Message) => void;
-  notiSchedule: (notification: Notification) => void;
+  newNotification: (notification: Notification) => void;
 }
 
 interface ClientToServerEvents {
@@ -40,7 +32,6 @@ interface ClientToServerEvents {
   sendMessage: (message: Message) => void;
   receivedMessage: (message: Message) => void;
 }
-
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "https://finder.sohe.in",
   {
