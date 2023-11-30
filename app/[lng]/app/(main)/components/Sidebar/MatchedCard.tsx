@@ -2,12 +2,7 @@ import SuperLikeIcon from "@/assets/icons/super-like-icon";
 import CustomImage from "@/components/CustomImage";
 import { cn } from "@/lib/utils";
 import { Conversation } from "@/service/conversation";
-import {
-  NotificationStatus,
-  NotificationType,
-  useInvalidateAllNotifications,
-  useUpdateStatus,
-} from "@/service/notification";
+import { useSeenNotification } from "@/service/notification";
 import Link from "next/link";
 import Card from "./Card";
 
@@ -25,26 +20,13 @@ const MatchedCard = ({
   className,
   type,
 }: MatchedCardProps) => {
-  const updateStatus = useUpdateStatus();
-  const invalidateAllNotifications = useInvalidateAllNotifications();
+  const seenNotification = useSeenNotification();
   const isSuperLike = type === "Super like";
 
   const handleClick = () => {
     if (!isNew || !notificationId) return;
 
-    updateStatus.mutate(
-      {
-        id: notificationId,
-        notification: {
-          status: NotificationStatus.Seen,
-        },
-      },
-      {
-        onSuccess: () => {
-          invalidateAllNotifications(NotificationType.Matched);
-        },
-      },
-    );
+    seenNotification.mutate(notificationId);
   };
 
   return (

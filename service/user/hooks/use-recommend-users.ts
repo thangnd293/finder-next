@@ -1,23 +1,11 @@
+import { flatData } from "@/utils/helper";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
 import { User, UserService } from "..";
-import { List } from "@/types/http";
 
 export const getRecommendedUserKey = () => ["users", "recommended"];
 
 export const useRecommendedUsers = () => {
-  const flatData = useCallback(
-    (data: InfiniteData<List<User>>) => ({
-      pages: data.pages.flatMap((group) => group.results),
-      pageParams: data.pageParams,
-    }),
-    [],
-  );
-
   return useInfiniteQuery({
     queryKey: getRecommendedUserKey(),
     queryFn: ({ pageParam = 1 }) =>
@@ -29,7 +17,7 @@ export const useRecommendedUsers = () => {
 
       return null;
     },
-    select: flatData,
+    select: flatData<User>,
     cacheTime: 0,
     staleTime: 0,
   });

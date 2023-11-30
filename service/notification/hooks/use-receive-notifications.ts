@@ -1,14 +1,19 @@
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import {
+  FilterReceiveNotificationParams,
   NotificationService,
-  useInvalidateScheduleNotificationCount,
+  useInvalidateNotifications,
 } from "..";
 
 export const useReceiveNotifications = (
-  config: UseMutationOptions<any, unknown, void, unknown> = {},
+  config: UseMutationOptions<
+    any,
+    unknown,
+    FilterReceiveNotificationParams,
+    unknown
+  > = {},
 ) => {
-  const invalidateScheduleNotificationCount =
-    useInvalidateScheduleNotificationCount();
+  const invalidateScheduleNotificationCount = useInvalidateNotifications();
 
   return useMutation({
     mutationFn: NotificationService.receiveNotifications,

@@ -29,7 +29,23 @@ const PhoneAuth = () => {
   const [showOtpVerify, setShowOtpVerify] = useState(false);
   const [countDown, setCountDown] = useState(0);
 
-  const sendSms = useSendSms();
+  const sendSms = useSendSms({
+    onSuccess: () => {
+      setShowOtpVerify(true);
+      setCountDown(60);
+    },
+    onError: (error) => {
+      if (typeof error.response?.data?.data?.diffTime === "number") {
+        setShowOtpVerify(true);
+        setCountDown(error.response?.data.data.diffTime || 0);
+      }
+
+      phoneForm.setError("phoneNumber", {
+        type: "manual",
+        message: "Vui lòng kiểm tra lại số điện thoại",
+      });
+    },
+  });
 
   const phoneForm = useForm<PhoneForm>({
     defaultValues: {
@@ -39,18 +55,7 @@ const PhoneAuth = () => {
   });
 
   const handleSendSms = (phoneNumber: string) => {
-    sendSms.mutate(phoneNumber, {
-      onSuccess: () => {
-        setShowOtpVerify(true);
-        setCountDown(60);
-      },
-      onError: (error) => {
-        if (typeof error.response?.data.data.diffTime === "number") {
-          setShowOtpVerify(true);
-          setCountDown(error.response?.data.data.diffTime || 0);
-        }
-      },
-    });
+    sendSms.mutate(phoneNumber);
   };
 
   const handleBack = () => {

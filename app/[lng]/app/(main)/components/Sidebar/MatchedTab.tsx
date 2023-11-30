@@ -1,26 +1,31 @@
 "use client";
 
 import AspectRatio from "@/components/AspectRatio";
+import ScrollArea from "@/components/ScrollArea";
 import { Skeleton } from "@/components/Skeleton";
 import { TabsContent } from "@/components/Tabs";
 import { useAllConversations } from "@/service/conversation";
-import MatchedCard from "./MatchedCard";
-import { randomNumber } from "@/utils/helper";
-import Image from "next/image";
-import ScrollArea from "@/components/ScrollArea";
-import { useAllNotifications } from "@/service/notification/hooks";
+import { useMatchRequestCount } from "@/service/matchRequest";
+import { useAllNotifications } from "@/service/notification";
 import {
+  MatchedNotification,
   NotificationStatus,
   NotificationType,
 } from "@/service/notification/type";
+import { randomNumber } from "@/utils/helper";
+import Image from "next/image";
 import MatchRequestCard from "./MatchRequestCard";
-import { useMatchRequestCount } from "@/service/matchRequest";
+import MatchedCard from "./MatchedCard";
 
 export default function MatchedTab() {
   const { conversations, isLoading: conversationsLoading } =
     useAllConversations(false);
   const { notifications, isLoading: notificationsLoading } =
-    useAllNotifications(NotificationType.Matched);
+    useAllNotifications({
+      status: NotificationStatus.NotReceived,
+      types: [NotificationType.Matched, NotificationType.SuperLike],
+    });
+
   const { data, isLoading: matchRequestLoading } = useMatchRequestCount();
 
   const isLoading = conversationsLoading || notificationsLoading;
@@ -61,11 +66,12 @@ export default function MatchedTab() {
 
             {!isLoading &&
               conversations.map((conversation) => {
-                const notification = notifications?.matched?.find(
-                  (matched: any) =>
-                    matched.conversation === conversation._id &&
-                    matched.status !== NotificationStatus.Seen,
+                const notification = notifications.find(
+                  (nt) =>
+                    (nt as MatchedNotification).conversation ===
+                    conversation._id,
                 );
+
                 return (
                   <MatchedCard
                     key={conversation._id}

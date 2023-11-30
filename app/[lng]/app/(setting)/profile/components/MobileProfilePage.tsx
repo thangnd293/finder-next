@@ -11,6 +11,8 @@ import SuperLike from "./SuperLike";
 
 const MobileProfilePage = async () => {
   const data = await ServerService.getOffers();
+  const supperLike = data.results.find((o) => o.type === "Super like");
+  const boost = data.results.find((o) => o.type === "Boosts");
 
   return (
     <MainLayoutMobile>
@@ -25,9 +27,9 @@ const MobileProfilePage = async () => {
         </Link>
 
         <div className="flex w-full items-center justify-between rounded-md border">
-          <SuperLike offer={data.results[0]} />
+          <SuperLike offer={supperLike!} />
           <hr className="h-12 border-l" />
-          <Boost offer={data.results[2]} />
+          <Boost offer={boost!} />
         </div>
         <PackageFeature
           featureGroup={data.metadata.featureGroup}

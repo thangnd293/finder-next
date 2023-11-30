@@ -1,15 +1,15 @@
 "use client";
 
-import { NewMatchedNotification, socket } from "@/lib/socket";
+import { socket } from "@/lib/socket";
 
+import { useInvalidateAllConversations } from "@/service/conversation";
 import { useInvalidateMatchRequest } from "@/service/matchRequest";
 import {
-  NotificationStatus,
+  NewMatchedNotification,
+  Notification,
   NotificationType,
-  useInvalidateAllNotifications,
-  useUpdateStatus,
+  useSeenNotification,
 } from "@/service/notification";
-import { useCurrentUserID } from "@/service/user";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,7 +17,6 @@ import Button from "../Button";
 import CustomImage from "../CustomImage";
 import Modal from "../Modal";
 import congratulations from "./congratulations.json";
-import { useInvalidateAllConversations } from "@/service/conversation";
 
 const Lottie = dynamic(() => import("lottie-react"));
 
@@ -25,26 +24,25 @@ const NotifyNewMatched = () => {
   const [newMatched, setNewMatched] = useState<NewMatchedNotification | null>(
     null,
   );
-  const { currentUserID } = useCurrentUserID();
-  const updateNotificationStatus = useUpdateStatus();
+  const seenNotification = useSeenNotification();
   const invalidateMatchRequest = useInvalidateMatchRequest();
   const invalidateConversations = useInvalidateAllConversations();
-  const invalidateAllNotifications = useInvalidateAllNotifications();
-
-  const receiver = newMatched?.conversation?.members.find(
-    (member) => member._id !== currentUserID,
-  );
 
   useEffect(() => {
     if (!socket.connected) return;
 
-    socket.on("newMatched", (newMatched) => {
-      setNewMatched(newMatched);
+    const handleNewNotification = (notification: Notification) => {
+      if (notification.type !== NotificationType.Matched) return;
       invalidateMatchRequest();
       invalidateConversations(false);
+      setNewMatched(notification as NewMatchedNotification);
+    };
 
-      invalidateAllNotifications(NotificationType.Matched);
-    });
+    socket.on("newNotification", handleNewNotification);
+
+    return () => {
+      socket.off("newNotification", handleNewNotification);
+    };
   }, [socket.connected]);
 
   const handleClose = () => {
@@ -53,12 +51,7 @@ const NotifyNewMatched = () => {
 
   const handleClick = () => {
     if (!newMatched) return;
-    updateNotificationStatus.mutate({
-      id: newMatched.notificationId,
-      notification: {
-        status: NotificationStatus.Seen,
-      },
-    });
+    seenNotification.mutate(newMatched._id);
 
     handleClose();
   };
@@ -77,7 +70,7 @@ const NotifyNewMatched = () => {
           <div className="relative aspect-square flex-1 translate-x-3.5 overflow-hidden rounded-full border-4 border-white shadow-lg">
             <CustomImage
               className="object-cover object-center"
-              image={newMatched?.conversation?.members[0]?.images[0]}
+              image={newMatched.sender?.images[0]}
               alt=""
               fill
             />
@@ -86,7 +79,7 @@ const NotifyNewMatched = () => {
           <div className="relative aspect-square flex-1 -translate-x-3.5 overflow-hidden rounded-full border-4 border-white shadow-lg">
             <CustomImage
               className="object-cover object-center"
-              image={newMatched?.conversation?.members[1].images[0]}
+              image={newMatched.receiver?.images[0]}
               alt=""
               fill
             />
@@ -95,8 +88,10 @@ const NotifyNewMatched = () => {
 
         <p className="text-secondary-foreground">
           Bạn đã ghép đôi thành công với{" "}
-          <span className="font-bold text-foreground">{receiver?.name}</span>!
-          Hãy bắt đầu cuộc trò chuyện nào!
+          <span className="font-bold text-foreground">
+            {newMatched?.sender?.name}
+          </span>
+          ! Hãy bắt đầu cuộc trò chuyện nào!
         </p>
 
         <div className="space-y-2">

@@ -9,6 +9,8 @@ import * as yup from "yup";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { BsCalendar, BsCreditCard, BsLock, BsPerson } from "react-icons/bs";
 import { Package } from "@/service/offer";
+import { toast } from "react-toastify";
+import { useInvalidateCurrentUser } from "@/service/user";
 
 interface FormValues {
   number: string;
@@ -30,8 +32,13 @@ const validatePaymentForm = yup.object({
 interface PaymentSectionProps {
   selectedPackage: Package;
   offerId: string;
+  onClose: () => void;
 }
-const PaymentSection = ({ offerId, selectedPackage }: PaymentSectionProps) => {
+const PaymentSection = ({
+  offerId,
+  selectedPackage,
+  onClose,
+}: PaymentSectionProps) => {
   const [focused, setFocused] = useState<Focused>("");
   const paymentFormResolver = useYupValidationResolver(validatePaymentForm);
 
@@ -46,6 +53,7 @@ const PaymentSection = ({ offerId, selectedPackage }: PaymentSectionProps) => {
   });
 
   const payPackage = usePayPackage();
+  const invalidateCurrentUser = useInvalidateCurrentUser();
 
   const handleInputFocus = (
     evt: React.FocusEvent<HTMLInputElement, Element>,
@@ -66,7 +74,17 @@ const PaymentSection = ({ offerId, selectedPackage }: PaymentSectionProps) => {
       offeringId: offerId,
       postalCode: "10000",
     };
-    payPackage.mutate(payload);
+    payPackage.mutate(payload, {
+      onError: () =>
+        toast.error(
+          "Thanh toán không thành công. Vui lòng kiểm tra lại thông tin thẻ hoặc số dư trong tài khoản của bạn",
+        ),
+      onSuccess: () => {
+        toast.success("Thanh toán thành công");
+        invalidateCurrentUser();
+        onClose();
+      },
+    });
   };
 
   const number = watch("number");

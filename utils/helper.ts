@@ -1,4 +1,6 @@
 import { Image } from "@/service/user";
+import { List } from "@/types/http";
+import { InfiniteData } from "@tanstack/react-query";
 
 export function dataURLtoFile(dataurl: string, filename: string) {
   let arr = dataurl.split(","),
@@ -78,4 +80,11 @@ export function checkUnseemlyImage(image: Image) {
   if (classification.hentai > 0.2 || classification.porn > 0.2) return true;
 
   return false;
+}
+
+export function flatData<T>(data: InfiniteData<List<T>>) {
+  return {
+    pages: data.pages.flatMap((group) => group.results),
+    pageParams: data.pageParams,
+  };
 }

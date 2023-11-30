@@ -14,6 +14,7 @@ export interface Offer {
     background: string;
     primaryColor: string;
   };
+  level?: number;
 }
 
 export interface Package {
@@ -41,7 +42,7 @@ export interface Feature {
   type: string;
   amount: number;
   refreshInterval: number;
-  refreshIntervalUnit: string;
+  refreshIntervalUnit: RefreshIntervalUnit;
   iconUrl: string;
   text: string;
 }

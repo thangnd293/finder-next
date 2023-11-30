@@ -1,18 +1,16 @@
 "use client";
 
+import { Skeleton } from "@/components/Skeleton";
 import { useAllConversations } from "@/service/conversation";
 import { useMatchRequestCount } from "@/service/matchRequest";
-import {
-  NotificationStatus,
-  NotificationType,
-  useAllNotifications,
-} from "@/service/notification";
+import { NotificationStatus, NotificationType } from "@/service/notification";
+import { useAllNotifications } from "@/service/notification/hooks/use-all-notifications";
 import Image from "next/image";
 import { Header } from "./components";
 import Conversation from "./components/Sidebar/Conversation";
 import MatchRequestCard from "./components/Sidebar/MatchRequestCard";
 import MatchedCard from "./components/Sidebar/MatchedCard";
-import { Skeleton } from "@/components/Skeleton";
+import ScrollArea from "@/components/ScrollArea";
 
 const MobileMessagePage = () => {
   const { conversations: allNewMatch, isLoading: allNewMatchLoading } =
@@ -20,7 +18,10 @@ const MobileMessagePage = () => {
   const { conversations: allChat, isLoading: allChatLoading } =
     useAllConversations(true);
   const { data, isLoading: matchRequestLoading } = useMatchRequestCount();
-  const { notifications } = useAllNotifications(NotificationType.Matched);
+  const { notifications } = useAllNotifications({
+    status: NotificationStatus.NotSeen,
+    types: [NotificationType.Matched],
+  });
   const isEmpty = !allChatLoading && allChat.length === 0;
 
   const isLoading = allNewMatchLoading || allChatLoading || matchRequestLoading;
@@ -71,28 +72,33 @@ const MobileMessagePage = () => {
           {allNewMatch.length > 0 && (
             <div>
               <h2 className="px-3 py-2 font-semibold">Ghép đôi mới</h2>
-              <div className="flex w-full flex-row flex-nowrap gap-2 overflow-x-auto px-6 py-3">
-                {data && data.totalCount > 0 && (
-                  <MatchRequestCard className="w-24 flex-shrink-0" {...data} />
-                )}
-
-                {allNewMatch.map((conversation) => {
-                  const notification = notifications?.matched?.find(
-                    (matched: any) =>
-                      matched.conversation === conversation._id &&
-                      matched.status !== NotificationStatus.Seen,
-                  );
-                  return (
-                    <MatchedCard
-                      key={conversation._id}
+              <ScrollArea orientation="horizontal">
+                <div className="flex w-full flex-row flex-nowrap gap-2 px-6 py-3">
+                  {data && data.totalCount > 0 && (
+                    <MatchRequestCard
                       className="w-24 flex-shrink-0"
-                      notificationId={notification?._id}
-                      isNew={!!notification}
-                      {...conversation}
+                      {...data}
                     />
-                  );
-                })}
-              </div>
+                  )}
+
+                  {allNewMatch.map((conversation) => {
+                    const notification = notifications?.find(
+                      (matched: any) =>
+                        matched.conversation === conversation._id &&
+                        matched.status !== NotificationStatus.Seen,
+                    );
+                    return (
+                      <MatchedCard
+                        key={conversation._id}
+                        className="w-24 flex-shrink-0"
+                        notificationId={notification?._id}
+                        isNew={!!notification}
+                        {...conversation}
+                      />
+                    );
+                  })}
+                </div>
+              </ScrollArea>
             </div>
           )}
 

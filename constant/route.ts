@@ -8,4 +8,5 @@ export const ROUTE = {
   LIKED_YOU: "/app/liked-you",
   LOCATION_PERMISSION: "/app/location-permission",
   GET_STARTED: "/app/get-started",
+  MESSAGES: "/app/messages",
 };

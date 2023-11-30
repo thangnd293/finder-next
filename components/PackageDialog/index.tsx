@@ -3,8 +3,6 @@ import { Offer, Package } from "@/service/offer";
 import Image from "next/image";
 import { useState } from "react";
 
-import ActionIcon from "@/components/ActionIcon";
-import { BsXLg } from "react-icons/bs";
 import PaymentSection from "./PaymentSection";
 import PriceSection from "./PriceSection";
 
@@ -49,7 +47,11 @@ const PacketDialog = ({
         setSelectedPackage={setSelectedPackage}
       />
 
-      <PaymentSection offerId={_id} selectedPackage={selectedPackage} />
+      <PaymentSection
+        offerId={_id}
+        selectedPackage={selectedPackage}
+        onClose={onClose}
+      />
     </Modal>
   );
 };

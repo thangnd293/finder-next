@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 
 interface MainLayoutProps {
   withHeaderBorder?: boolean;
-  renderSidebarContent?: () => JSX.Element;
+  renderSidebarContent?: () => Promise<JSX.Element> | JSX.Element;
   renderHeaderContent: () => JSX.Element;
 }
 

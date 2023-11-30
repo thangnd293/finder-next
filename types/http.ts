@@ -18,6 +18,7 @@ export interface List<T> {
     currentSize: number;
     totalCount: number;
     totalPage: number;
+    nextPage: number | null;
   };
 }
 

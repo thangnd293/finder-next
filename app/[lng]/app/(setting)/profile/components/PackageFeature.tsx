@@ -6,12 +6,16 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import PackCard from "./PackCard";
 import PacketDialog from "@/components/PackageDialog";
+import { useCurrentUser } from "@/service/user";
 
 interface PackageFeatureProps {
   featureGroup: Feature[];
   results: Offer[];
 }
 const PackageFeature = ({ featureGroup, results }: PackageFeatureProps) => {
+  const { data: offering } = useCurrentUser({
+    select: (user) => user?.offering,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const refs = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
@@ -77,6 +81,7 @@ const PackageFeature = ({ featureGroup, results }: PackageFeatureProps) => {
               key={index}
               ref={ref}
               {...pack}
+              isActived={offering?._id === pack._id}
               onClick={() => setIsOpenDetail(true)}
             />
           );

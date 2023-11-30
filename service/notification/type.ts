@@ -1,4 +1,4 @@
-import { Schedule } from "../schedule";
+import { Conversation } from "../conversation";
 import { User } from "../user";
 
 export enum NotificationType {
@@ -6,11 +6,14 @@ export enum NotificationType {
   Message = "Message",
   Promotion = "Promotion",
   Like = "Like",
+  SuperLike = "Super like",
   Matched = "Matched",
-  ScheduleDating = "Invite schedule dating",
+  ScheduleDating = "Schedule dating",
+  InviteScheduleDating = "Invite schedule dating",
   CancelScheduleDating = "Cancel schedule dating",
   AcceptScheduleDating = "Accept schedule dating",
   DeclineScheduleDating = "Decline schedule dating",
+  PositiveReview = "Positive review",
 }
 
 export enum NotificationStatus {
@@ -24,8 +27,20 @@ export interface Notification {
   _id: string;
   type: NotificationType;
   status: NotificationStatus;
-  receiver: string;
+  receiver: User;
   sender: User;
-  schedule: Schedule;
   createdAt: string;
+  description: string;
+}
+
+export interface ScheduleDatingNotification extends Notification {
+  schedule: string;
+}
+
+export interface NewMatchedNotification extends Notification {
+  conversation: Conversation;
+}
+
+export interface MatchedNotification extends Notification {
+  conversation: string;
 }
