@@ -3,8 +3,8 @@
 import ActionIcon from "@/components/ActionIcon";
 import FilterForm from "@/components/FilterForm";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/Popover";
-import { ROUTE } from "@/constant/route";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useIsMobile } from "@/hooks/use-is-mobile";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BsXLg } from "react-icons/bs";
 import { PiSlidersHorizontal } from "react-icons/pi";
@@ -13,7 +13,7 @@ interface FilterSettingProps {
   onReload?: () => void;
 }
 const FilterSetting = ({ onReload }: FilterSettingProps) => {
-  const pathname = usePathname();
+  const isMobile = useIsMobile();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,12 +22,12 @@ const FilterSetting = ({ onReload }: FilterSettingProps) => {
     onReload?.();
   };
 
-  if (!pathname?.endsWith(ROUTE.HOME) || searchParams?.toString()) return null;
+  if (isMobile && searchParams?.toString() === "tab=message") return null;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger
-        className="absolute right-3 flex items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100 md:left-16"
+        className="absolute right-3 flex w-fit items-center gap-2 text-[13px] font-semibold opacity-80 transition-opacity hover:opacity-100 md:left-16"
         asChild
       >
         <button onClick={() => setIsOpen(true)}>

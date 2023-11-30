@@ -77,13 +77,13 @@ export const MobileUserCard = ({
                 fill
                 alt={""}
               />
-              <div className="absolute bottom-1.5 left-2 text-white drop-shadow">
+              <div className="absolute bottom-1.5 left-2 text-white">
                 <p className="text-shadow flex items-center gap-2 text-xl font-extrabold">
                   {name}, {age}
                   {isVerifiedFace && <VerifiedIcon width={20} />}
                 </p>
                 {jobs && jobs.length > 0 && company && (
-                  <p className="flex items-center gap-2">
+                  <p className="text-shadow flex items-center gap-2">
                     <RxBackpack size={14} />
                     <span>
                       {jobs?.[0]} tại {company}
@@ -91,7 +91,7 @@ export const MobileUserCard = ({
                   </p>
                 )}
                 {school && (
-                  <p className="flex items-center gap-1 text-sm">
+                  <p className="text-shadow flex items-center gap-1 text-sm">
                     <PiGraduationCapBold
                       className="mb-1 inline-block"
                       size={18}

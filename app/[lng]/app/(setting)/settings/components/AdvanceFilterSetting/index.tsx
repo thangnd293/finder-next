@@ -21,6 +21,7 @@ const AdvanceFilterSetting = () => {
   });
 
   const updateSetting = useUpdateSetting();
+  const disabledToggleButton = !advancedFilter?.tags.length;
 
   const filters = useMemo(
     () =>
@@ -35,6 +36,7 @@ const AdvanceFilterSetting = () => {
   );
 
   const onToggleFilter = () => {
+    if (disabledToggleButton) return;
     updateSetting.mutate({
       advancedFilter: {
         enable: !advancedFilter?.enable,
@@ -43,17 +45,16 @@ const AdvanceFilterSetting = () => {
     });
   };
 
-  const handleChangeFilter = (tag: Tag) => {
+  const handleChangeFilter = (type: TagType, tag: Tag | null) => {
+    let newTags = advancedFilter?.tags.filter((t) => t.tagType !== type) ?? [];
+
+    if (tag) {
+      newTags.push({ tagId: tag._id, tagType: type });
+    }
     updateSetting.mutate({
       advancedFilter: {
-        enable: true,
-        tags: [
-          ...(advancedFilter?.tags.filter((t) => t.tagType !== tag.type) ?? []),
-          {
-            tagId: tag._id,
-            tagType: tag.type,
-          },
-        ],
+        enable: newTags.length > 0,
+        tags: newTags,
       },
     });
   };
@@ -73,14 +74,21 @@ const AdvanceFilterSetting = () => {
           className={cn(
             buttonBaseVariants({
               variant: "social",
-              className:
+              className: cn(
                 "mb-10 w-full !translate-y-0 justify-between rounded-full bg-background",
+                {
+                  "cursor-default opacity-50": disabledToggleButton,
+                },
+              ),
             }),
           )}
           onClick={onToggleFilter}
         >
           <span>Áp dụng bộ lọc</span>
-          <Switch checked={advancedFilter?.enable} />
+          <Switch
+            className="cursor-[inherit]"
+            checked={advancedFilter?.enable}
+          />
         </div>
         <Label>Lọc theo:</Label>
         <div className="mt-3 flex flex-col gap-3">

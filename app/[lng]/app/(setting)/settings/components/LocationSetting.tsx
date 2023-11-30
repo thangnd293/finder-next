@@ -40,7 +40,7 @@ const LocationSetting = () => {
   return (
     <>
       <div className="w-full space-y-1.5">
-        <Label className="px-6 text-base text-black">Vị trí hiện tại</Label>
+        <Label className="px-6 text-base">Vị trí hiện tại</Label>
 
         <div className="flex items-center justify-between rounded-full border px-6 py-1">
           <span>{address?.province}</span>

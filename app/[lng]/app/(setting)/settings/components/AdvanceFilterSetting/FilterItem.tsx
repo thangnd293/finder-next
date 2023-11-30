@@ -14,7 +14,7 @@ interface FilterItemProps {
   label: string;
   type: TagType;
   value?: string;
-  onChange?: (tag: Tag) => void;
+  onChange?: (type: TagType, tag: Tag | null) => void;
 }
 
 const FilterItem = ({ label, type, value, onChange }: FilterItemProps) => {
@@ -24,14 +24,14 @@ const FilterItem = ({ label, type, value, onChange }: FilterItemProps) => {
 
   const selectedTag = useMemo(
     () => tags.find((tag) => tag._id === value),
-    [value],
+    [value, tags],
   );
 
-  const onChoose = (tag: Tag) => {
-    if (tag._id === selectedTag?._id) return;
+  const onChoose = (type: TagType, tag: Tag | null) => {
+    if (tag?._id === selectedTag?._id) return;
 
     setIsOpen(false);
-    onChange?.(tag);
+    onChange?.(type, tag);
   };
 
   return (
@@ -65,22 +65,37 @@ const FilterItem = ({ label, type, value, onChange }: FilterItemProps) => {
               <Skeleton key={i} className="h-10 w-full rounded-full" />
             ))}
 
-          {!isLoading &&
-            tags.map((tag) => (
+          {!isLoading && (
+            <>
               <button
-                key={tag._id}
                 className={cn(
                   "w-full px-2 py-1.5 text-left text-sm hover:bg-background-100",
                   {
-                    "text-primary-500": selectedTag?._id === tag._id,
+                    "text-primary-500": !selectedTag,
                   },
                 )}
                 type="button"
-                onClick={() => onChoose(tag)}
+                onClick={() => onChoose(type, null)}
               >
-                {tag.name}
+                Không áp dụng
               </button>
-            ))}
+              {tags.map((tag) => (
+                <button
+                  key={tag._id}
+                  className={cn(
+                    "w-full px-2 py-1.5 text-left text-sm hover:bg-background-100",
+                    {
+                      "text-primary-500": selectedTag?._id === tag._id,
+                    },
+                  )}
+                  type="button"
+                  onClick={() => onChoose(tag.type, tag)}
+                >
+                  {tag.name}
+                </button>
+              ))}
+            </>
+          )}
         </ScrollArea>
       </PopoverContent>
     </Popover>
