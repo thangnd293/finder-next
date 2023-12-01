@@ -115,6 +115,7 @@ const ReportDialog = ({
               })}
               disabled={isProcessing || isFirstStep}
               variant="ghost"
+              type="button"
               onClick={handlePrev}
             >
               <ArrowLeftIcon width={16} height={16} />

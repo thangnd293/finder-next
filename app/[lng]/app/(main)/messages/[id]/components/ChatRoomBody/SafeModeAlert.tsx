@@ -38,7 +38,7 @@ const SafeModeAlert = () => {
   return (
     <>
       {isEnableSafeMode && isOpen && (
-        <div className="sticky left-0 top-0 z-10 flex items-center gap-1 border-b bg-background px-3 py-2 pr-10 text-sm md:gap-3">
+        <div className="sticky left-0 top-0 z-10 flex h-[46px] items-center gap-1 border-b bg-background px-3 py-2 pr-10 text-sm md:gap-3 [&~div]:h-[calc(100%-46px)]">
           Chế độ an toàn đang bật trong cuộc trò chuyện này{" "}
           <Button size="sm" onClick={onDisableSafeMode}>
             Tắt
