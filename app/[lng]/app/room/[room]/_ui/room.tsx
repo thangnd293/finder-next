@@ -15,8 +15,11 @@ import { IoMic, IoVideocam } from "react-icons/io5";
 import { Rnd } from "react-rnd";
 import { usePermission } from "react-use";
 import { useWindowSize } from "usehooks-ts";
+import Image from "next/image";
+import { useCurrentUser } from "@/service/user";
 
 const CallVideo = ({ room }: { room: string }) => {
+  const { data: user } = useCurrentUser();
   const { width, height } = useWindowSize();
   const [state, setState] = useState({
     // vị trí mặc định bên phải dưới
@@ -62,7 +65,7 @@ const CallVideo = ({ room }: { room: string }) => {
       <div className="relative mx-auto aspect-video h-screen max-w-[100vw] ">
         <video
           className="h-full w-full object-contain"
-          ref={refLocalVideo}
+          ref={refRemoteVideo}
           id="remoteVideo"
           autoPlay
           playsInline
@@ -109,15 +112,25 @@ const CallVideo = ({ room }: { room: string }) => {
           }
         }}
       >
-        <div className="h-full w-full overflow-hidden rounded-md">
-          <video
-            className="h-full w-full scale-x-[-1] object-contain"
-            ref={refLocalVideo}
-            id="localVideo"
-            autoPlay
-            playsInline
-            muted
-          ></video>
+        <div className="relative h-full w-full overflow-hidden rounded-md">
+          {videoStatus ? (
+            <video
+              className="h-full w-full scale-x-[-1] object-contain"
+              ref={refLocalVideo}
+              id="localVideo"
+              autoPlay
+              playsInline
+              muted
+            ></video>
+          ) : (
+            <Image
+              unoptimized
+              fill
+              alt="avatar"
+              className="h-full w-full object-cover blur-sm"
+              src={user?.images[0].url || ""}
+            />
+          )}
         </div>
       </Rnd>
 
