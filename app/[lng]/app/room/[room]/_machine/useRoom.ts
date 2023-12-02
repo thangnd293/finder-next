@@ -86,6 +86,11 @@ export const useRoomEvent = (roomId: string) => {
   );
 
   useEffect(() => {
+    if (mediaStream && refLocalVideo.current)
+      setSrcVideo(refLocalVideo.current!, mediaStream);
+  }, [mediaStream, videoStatus]);
+
+  useEffect(() => {
     if (!callVideo) return;
 
     callVideo.on("hangup", () => {

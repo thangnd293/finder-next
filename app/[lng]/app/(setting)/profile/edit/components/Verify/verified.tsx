@@ -5,6 +5,7 @@ import { useCurrentUser, useInvalidateCurrentUser } from "@/service/user";
 import { useEffect, useRef, useState } from "react";
 import { IoVideocam } from "react-icons/io5";
 import { LuScanFace } from "react-icons/lu";
+import { usePermission } from "react-use";
 import { create } from "zustand";
 
 type Message<T> = {
@@ -63,9 +64,7 @@ export default function Verified() {
   > | null>(null);
   const [isRecording, setIsRecording] = useState(false);
 
-  const [isVideoPermission, setIsVideoPermission] = useState<boolean | null>(
-    null,
-  );
+  const isVideoPermission = usePermission({ name: "camera" });
 
   let devices = [];
   !isVideoPermission && devices.push("video");
@@ -141,11 +140,6 @@ export default function Verified() {
   useEffect(() => {
     let mediaStream: MediaStream | null = null;
 
-    if (!navigator.mediaDevices) {
-      setIsVideoPermission(false);
-      return;
-    }
-
     (async () => {
       if (!videoRef.current) return;
       mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -157,7 +151,6 @@ export default function Verified() {
       });
       mediaRecorderRef.current = mediaStream;
       videoRef.current.srcObject = mediaStream;
-      setIsVideoPermission(true);
     })();
 
     return () => {
