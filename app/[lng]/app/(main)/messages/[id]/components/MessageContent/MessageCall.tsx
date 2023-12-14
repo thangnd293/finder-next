@@ -14,7 +14,7 @@ const calcTime = (isMiss: boolean, startTime: string, endTime: string) =>
     ? isToday(endTime)
       ? dayjs(endTime).format("HH:mm")
       : dayjs(endTime).format("DD/MM/YYYY")
-    : dayjs(endTime).from(dayjs(startTime), true);
+    : dayjs(endTime).from(dayjs(), true);
 
 const MessageCall = ({
   endTime,

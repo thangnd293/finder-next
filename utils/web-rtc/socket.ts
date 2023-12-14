@@ -21,7 +21,7 @@ export type OfferMessage = {
 
 export type OfferMessageResponse = {
   roomId: string;
-  onwner: {
+  owner: {
     name: string;
     image: Image;
   };
