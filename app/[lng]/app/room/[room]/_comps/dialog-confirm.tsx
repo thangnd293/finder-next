@@ -31,22 +31,22 @@ export default function DialogConfirm() {
     <>
       <audio loop id="audio" src="/audio/ring.mp3" />
       <Modal size={"sm"} open={open} onOpenChange={() => {}}>
-        {offerData?.onwner ? (
+        {offerData?.owner ? (
           <div className="mt-20 space-y-4 p-6 lg:mt-0">
             <div className="space-y-2">
               <div className="relative mx-auto h-[72px] w-[72px]">
                 <NextImage
                   key={offerData?.roomId}
                   className="block h-12 w-12 flex-shrink-0 rounded-full"
-                  blurDataURL={offerData.onwner.image.blur || ""}
-                  src={offerData.onwner.image.url || ""}
+                  blurDataURL={offerData.owner.image.blur || ""}
+                  src={offerData.owner.image.url || ""}
                   alt={"avatar"}
                   fill
                 />
               </div>
 
               <p className="text-center text-xl">
-                {offerData.onwner.name} đang gọi cho bạn
+                {offerData.owner.name} đang gọi cho bạn
               </p>
               <p className="text-center text-sm font-medium">
                 Cuộc gọi sẽ bắt đầu ngay khi bạn bấm <br /> chấp nhận

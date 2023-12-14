@@ -46,12 +46,15 @@ export const useVerifyStore = create<State & Action>((set) => ({
 const { setOpen } = useVerifyStore.getState();
 export const verifyAction = { setOpen };
 
-export default function Verified() {
-  const isHaveMediaDevices =
-    "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices;
+const VideoContainer = ({
+  onDone,
+  isDone,
+}: {
+  onDone: (state: boolean) => void;
+  isDone: boolean;
+}) => {
   const invalidateUser = useInvalidateCurrentUser();
   const isOpen = useVerifyStore((s) => s.open);
-  const [isDone, setIsDone] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
@@ -64,10 +67,8 @@ export default function Verified() {
   > | null>(null);
   const [isRecording, setIsRecording] = useState(false);
 
-  const isVideoPermission = usePermission({ name: "camera" });
-
-  let devices = [];
-  !isVideoPermission && devices.push("video");
+  const isHaveMediaDevices =
+    "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices;
 
   const captureAndSendImage = async () => {
     if (!canvasRef.current || !videoRef.current || !wsRef.current) return;
@@ -115,7 +116,7 @@ export default function Verified() {
       console.log("data:: ", data);
       switch (data.event) {
         case NameEvent.DONE:
-          setIsDone(true);
+          onDone(true);
           setIsRecording(false);
           clearInterval(captureIntervalRef.current!);
           if (mediaRecorderRef.current) {
@@ -154,14 +155,11 @@ export default function Verified() {
     })();
 
     return () => {
-      console.log(
-        "🚀 ~ file: verified.tsx:164 ~ return ~ mediaStream:",
-        mediaStream,
-      );
-      if (mediaStream)
+      if (mediaStream) {
         mediaStream.getTracks().forEach((track) => {
           track.stop();
         });
+      }
     };
   }, [isOpen]);
 
@@ -170,10 +168,97 @@ export default function Verified() {
       if (wsRef.current) wsRef.current.close();
       if (captureIntervalRef.current) clearInterval(captureIntervalRef.current);
       setIsRecording(false);
-      setIsDone(false);
+      onDone(false);
       setImageAfterRecognize(null);
     };
   }, [isOpen]);
+
+  return (
+    <>
+      <div className={`${isDone ? "hidden" : "block"}`}>
+        <Modal.Header withCloseButton>Xác thực tài khoản</Modal.Header>
+        <div className="relative h-[420px] w-[560px] overflow-hidden bg-black">
+          {isRecording && (
+            <div className="absolute top-0 z-10 h-2 w-full bg-gray-200/50">
+              <div
+                style={
+                  imageAfterRecognize
+                    ? { width: `${imageAfterRecognize.progress}%` }
+                    : {}
+                }
+                className="h-full bg-green-600"
+              ></div>
+            </div>
+          )}
+          <video
+            ref={videoRef}
+            className="absolute inset-0 [transform:rotateY(180deg)]"
+            id="webcam"
+            autoPlay
+          />
+
+          {imageAfterRecognize && imageAfterRecognize.faceTotal !== 1 && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-800/20">
+              <LuScanFace size={100} className="text-red-500" />
+              <p className="text-center text-lg font-semibold text-red-500">
+                {imageAfterRecognize?.faceTotal === 0 &&
+                  "Không tìm thấy khuôn mặt"}
+                {imageAfterRecognize?.faceTotal > 1 &&
+                  "Tìm thấy nhiều khuôn mặt"}
+              </p>
+            </div>
+          )}
+
+          {!isHaveMediaDevices && (
+            <div className="absolute inset-0 flex items-center justify-center bg-yellow-600">
+              <p className="text-center text-lg font-semibold text-white">
+                Thiết bị không hỗ trợ
+              </p>
+            </div>
+          )}
+
+          {isRecording && (
+            <>
+              <div className="record-animation h-px w-full bg-red-600"></div>
+              <div className="absolute left-3 top-3  h-3 w-3 rounded-full bg-red-600" />
+            </>
+          )}
+        </div>
+
+        <Modal.Footer>
+          <Button onClick={() => verifyAction.setOpen(false)} variant="outline">
+            Huỷ
+          </Button>
+          <Button
+            disabled={isRecording || !isHaveMediaDevices}
+            id="stopCapture"
+            onClick={handleRecord}
+          >
+            Ghi hình
+          </Button>
+        </Modal.Footer>
+        <canvas ref={canvasRef} id="canvas" style={{ display: "none" }} />
+      </div>
+
+      {isDone && (
+        <div className="flex flex-col items-center">
+          <img className="h-80 w-80" src="/images/congratulations.png" alt="" />
+          <Button onClick={() => verifyAction.setOpen(false)} variant="outline">
+            Chúc mừng bạn đã xác nhận thành công
+          </Button>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default function Verified() {
+  const [isDone, setIsDone] = useState(false);
+
+  const isVideoPermission = usePermission({ name: "camera" });
+
+  let devices = [];
+  isVideoPermission !== "granted" && devices.push("video");
 
   return (
     <Modal
@@ -185,10 +270,10 @@ export default function Verified() {
       closeOnEscape={false}
       onOpenChange={verifyAction.setOpen}
     >
-      {isVideoPermission != null && !isVideoPermission ? (
+      {isVideoPermission !== "granted" ? (
         <div className="flex h-[520px] w-[560px] flex-col items-center justify-center gap-4 bg-gray-950 px-10 text-center">
           <p className="flex gap-4">
-            {!isVideoPermission && <IoVideocam size={40} />}
+            <IoVideocam size={40} />
           </p>
           <p className="text-3xl font-semibold">
             Bạn chưa cho phép Finder truy cập vào {devices.join(" và ")}.
@@ -199,91 +284,7 @@ export default function Verified() {
           </p>
         </div>
       ) : (
-        <>
-          <div className={`${isDone ? "hidden" : "block"}`}>
-            <Modal.Header withCloseButton>Xác thực tài khoản</Modal.Header>
-            <div className="relative h-[420px] w-[560px] overflow-hidden bg-black">
-              {isRecording && (
-                <div className="absolute top-0 z-10 h-2 w-full bg-gray-200/50">
-                  <div
-                    style={
-                      imageAfterRecognize
-                        ? { width: `${imageAfterRecognize.progress}%` }
-                        : {}
-                    }
-                    className="h-full bg-green-600"
-                  ></div>
-                </div>
-              )}
-              <video
-                ref={videoRef}
-                className="absolute inset-0 [transform:rotateY(180deg)]"
-                id="webcam"
-                autoPlay
-              />
-
-              {imageAfterRecognize && imageAfterRecognize.faceTotal !== 1 && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-800/20">
-                  <LuScanFace size={100} className="text-red-500" />
-                  <p className="text-center text-lg font-semibold text-red-500">
-                    {imageAfterRecognize?.faceTotal === 0 &&
-                      "Không tìm thấy khuôn mặt"}
-                    {imageAfterRecognize?.faceTotal > 1 &&
-                      "Tìm thấy nhiều khuôn mặt"}
-                  </p>
-                </div>
-              )}
-
-              {!isHaveMediaDevices && (
-                <div className="absolute inset-0 flex items-center justify-center bg-yellow-600">
-                  <p className="text-center text-lg font-semibold text-white">
-                    Thiết bị không hỗ trợ
-                  </p>
-                </div>
-              )}
-
-              {isRecording && (
-                <>
-                  <div className="record-animation h-px w-full bg-red-600"></div>
-                  <div className="absolute left-3 top-3  h-3 w-3 rounded-full bg-red-600" />
-                </>
-              )}
-            </div>
-
-            <Modal.Footer>
-              <Button
-                onClick={() => verifyAction.setOpen(false)}
-                variant="outline"
-              >
-                Huỷ
-              </Button>
-              <Button
-                disabled={isRecording || !isHaveMediaDevices}
-                id="stopCapture"
-                onClick={handleRecord}
-              >
-                Ghi hình
-              </Button>
-            </Modal.Footer>
-            <canvas ref={canvasRef} id="canvas" style={{ display: "none" }} />
-          </div>
-
-          {isDone && (
-            <div className="flex flex-col items-center">
-              <img
-                className="h-80 w-80"
-                src="/images/congratulations.png"
-                alt=""
-              />
-              <Button
-                onClick={() => verifyAction.setOpen(false)}
-                variant="outline"
-              >
-                Chúc mừng bạn đã xác nhận thành công
-              </Button>
-            </div>
-          )}
-        </>
+        <VideoContainer onDone={setIsDone} isDone={isDone} />
       )}
     </Modal>
   );
