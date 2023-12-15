@@ -117,7 +117,7 @@ const InvitationCard = ({
           </div>
         </div>
 
-        {status !== "Cancel" && status !== "Decline" && (
+        {status !== "Cancel" && status !== "Decline" && countDown > 0 && (
           <div>
             <div
               className="ml-auto mt-3.5 w-fit space-x-3"

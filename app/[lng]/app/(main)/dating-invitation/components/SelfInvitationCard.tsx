@@ -87,8 +87,8 @@ const SelfInvitationCard = ({
           </div>
         </div>
 
-        {status === "Accept" ||
-          (status === "Wait for approval" && (
+        {(status === "Accept" || status === "Wait for approval") &&
+          countDown > 0 && (
             <div>
               <div
                 className="ml-auto mt-3.5 w-fit"
@@ -103,7 +103,7 @@ const SelfInvitationCard = ({
                 </Button>
               </div>
             </div>
-          ))}
+          )}
       </div>
     </div>
   );

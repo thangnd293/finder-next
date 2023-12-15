@@ -25,6 +25,7 @@ const Reason = ({ onNext }: ReasonProps) => {
         {REASONS.map((reason) => (
           <li key={reason.id}>
             <button
+              type="button"
               className={cn(
                 "text-text-secondary block w-full rounded-md p-3 text-left font-medium hover:bg-background-100",
                 {

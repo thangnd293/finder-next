@@ -44,8 +44,12 @@ const AIRecommend = ({
   const [suggestPlaces, setSuggestPlaces] = useState<Place[]>([]);
 
   const suggestDate = useSuggestDate({
-    onSuccess: (data) =>
-      setSuggestPlaces(data.filter((place: any) => !place.isEmpty)),
+    onSuccess: (data) => {
+      const result = data.filter(
+        (place: any) => place && typeof place.isEmpty === "undefined",
+      );
+      setSuggestPlaces(result);
+    },
   });
 
   useEffect(() => {
