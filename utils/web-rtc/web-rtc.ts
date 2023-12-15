@@ -151,11 +151,6 @@ class CallVideoManager extends EventEmitter {
       },
     );
 
-    console.log(
-      "🚀 ~ file: web-rtc.ts:119 ~ CallVideoManager ~ createPeer ~ response:",
-      response,
-    );
-
     const peer = new SimplePeer({
       initiator: initiator,
       trickle: false,
@@ -174,6 +169,18 @@ class CallVideoManager extends EventEmitter {
 
     peer.on("stream", (stream) => {
       this.emit("stream", stream);
+    });
+
+    peer.on("close", () => {
+      this.emit("hangup");
+    });
+
+    peer.on("error", (error) => {
+      console.log(
+        "🚀 ~ file: web-rtc.ts:138 ~ CallVideoManager ~ createPeer ~ error",
+        error,
+      );
+      this.emit("hangup");
     });
 
     return peer;
