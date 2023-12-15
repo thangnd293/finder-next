@@ -77,6 +77,7 @@ export class NotificationService {
 
       return `${NotificationService.prefix}/received?${params}`;
     },
+    deleteNotification: (id: string) => `${NotificationService.prefix}/${id}`,
   };
 
   static getNotifications = async (query: NotificationQueryParams) => {
@@ -121,5 +122,9 @@ export class NotificationService {
     );
 
     return data;
+  };
+
+  static deleteNotification = async (id: string) => {
+    return await axiosInstance.delete(this.urls.deleteNotification(id));
   };
 }

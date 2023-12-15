@@ -4,3 +4,4 @@ export * from "./use-notification-count";
 export * from "./use-all-notifications";
 export * from "./use-receive-notifications";
 export * from "./use-seen-notification";
+export * from "./use-delete-notification";

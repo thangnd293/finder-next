@@ -1,17 +1,28 @@
 "use client";
+import ActionIcon from "@/components/ActionIcon";
 import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/DropdownMenu";
 import { cn } from "@/lib/utils";
 import {
   Notification,
   NotificationStatus,
   NotificationType,
   ScheduleDatingNotification,
+  useDeleteNotification,
+  useInvalidateNotifications,
   useSeenNotification,
 } from "@/service/notification";
 import { useActionSchedule } from "@/service/schedule";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { PropsWithChildren, useState } from "react";
+import { notificationEvents } from "./Notifications";
 
 interface NotificationItemProps extends Notification {
   redirectUrl: string;
@@ -28,6 +39,8 @@ const NotificationItem = ({
   onClose,
 }: PropsWithChildren<NotificationItemProps>) => {
   const seenNotification = useSeenNotification();
+  const deleteNotification = useDeleteNotification();
+  const invalidateNotifications = useInvalidateNotifications();
 
   const onClick = () => {
     onClose?.();
@@ -36,6 +49,11 @@ const NotificationItem = ({
 
     seenNotification.mutate(_id);
   };
+
+  const onDelete = () =>
+    deleteNotification.mutate(_id, {
+      onSuccess: () => invalidateNotifications(notificationEvents),
+    });
 
   return (
     <Link
@@ -62,8 +80,22 @@ const NotificationItem = ({
         {children}
       </div>
       {status !== NotificationStatus.Seen && (
-        <div className="absolute right-1 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-primary" />
+        <div className="absolute left-0.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-primary" />
       )}
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <ActionIcon
+            variant="ghost"
+            className="absolute right-1 top-1/2 !-translate-y-1/2 rounded-full"
+          >
+            <DotsHorizontalIcon />
+          </ActionIcon>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+          <DropdownMenuItem onClick={onDelete}>Xóa</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </Link>
   );
 };
