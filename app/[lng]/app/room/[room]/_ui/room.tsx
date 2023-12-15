@@ -171,15 +171,7 @@ export default function Room() {
   const { room } = useParams() as { room: string };
 
   const isVideoPermission = usePermission({ name: "camera" });
-  console.log(
-    "🚀 ~ file: room.tsx:156 ~ Room ~ isVideoPermission:",
-    isVideoPermission,
-  );
   const isAudioPermission = usePermission({ name: "microphone" });
-  console.log(
-    "🚀 ~ file: room.tsx:158 ~ Room ~ isAudioPermission:",
-    isAudioPermission,
-  );
 
   let devices = [];
   isVideoPermission === "denied" && devices.push("video");

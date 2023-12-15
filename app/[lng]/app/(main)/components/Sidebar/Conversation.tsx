@@ -31,7 +31,11 @@ const Conversation = ({ _id, user, lastMessage }: ConversationProps) => {
       return `${subject}${isLastMessageFromMe ? ": " : " "}${lastMessage.text}`;
     }
 
-    if (lastMessage.type === MessageType.Call) {
+    if (
+      lastMessage.type === MessageType.Call ||
+      lastMessage.type === MessageType.Missed
+    ) {
+      if (lastMessage.type === MessageType.Missed) return "Cuộc gọi nhỡ";
       if (isLastMessageFromMe) return `Bạn đã gọi cho ${user.name}`;
       return `${user.name} đã gọi cho bạn`;
     }

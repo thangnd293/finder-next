@@ -4,10 +4,11 @@ export enum MessageType {
   Text = "Text",
   Image = "Image",
   Call = "Call",
+  Missed = "Missed",
 }
 
 interface CallMessage {
-  type: MessageType.Call;
+  type: MessageType.Call | MessageType.Missed;
   text: string;
   images?: never;
 }
