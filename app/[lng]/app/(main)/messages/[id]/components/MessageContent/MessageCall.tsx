@@ -6,15 +6,15 @@ import {
 } from "react-icons/bs";
 import dayjs from "dayjs";
 
-//function kiểm tra ngày đầu vào có bằng ngày hiện tại không
-const isToday = (date: string) =>
-  dayjs(date).format("DD/MM/YYYY") === dayjs().format("DD/MM/YYYY");
 const calcTime = (isMiss: boolean, startTime: string, endTime: string) =>
-  isMiss
-    ? isToday(endTime)
-      ? dayjs(endTime).format("HH:mm")
-      : dayjs(endTime).format("DD/MM/YYYY")
-    : dayjs(endTime).from(dayjs(), true);
+  isMiss ? dayjs(endTime).format("HH:mm")
+  : dayjs(endTime).diff(dayjs(startTime), "second") < 60 ?
+    dayjs(endTime).diff(dayjs(startTime), "second") + " giây"
+  : dayjs(endTime).diff(dayjs(startTime), "minute") < 60 ?
+    dayjs(endTime).diff(dayjs(startTime), "minute") + " phút"
+  : dayjs(endTime).diff(dayjs(startTime), "hour") < 24 ?
+    dayjs(endTime).diff(dayjs(startTime), "hour") + " giờ"
+  : dayjs(endTime).diff(dayjs(startTime), "day") + " ngày";
 
 const MessageCall = ({
   endTime,
@@ -38,14 +38,14 @@ const MessageCall = ({
         )}
       >
         <div className="grid h-6 w-6 place-content-center rounded-full bg-gray-500 p-6">
-          {isMiss ? (
+          {isMiss ?
             <BsFillTelephoneXFill size={20} />
-          ) : (
-            <BsFillTelephoneOutboundFill size={20} />
-          )}
+          : <BsFillTelephoneOutboundFill size={20} />}
         </div>
         <div>
-          <p className="font-semibold">Cuộc gọi</p>
+          <p className="font-semibold">
+            {isMiss ? "Cuộc gọi nhỡ" : "Cuộc gọi"}
+          </p>
           <span className="text-sm">
             {calcTime(isMiss, startTime, endTime)}
           </span>
@@ -61,11 +61,9 @@ const MessageCall = ({
       )}
     >
       <div className="grid h-6 w-6 place-content-center rounded-full bg-red-500 p-6">
-        {isMiss ? (
+        {isMiss ?
           <BsFillTelephoneXFill size={20} />
-        ) : (
-          <BsFillTelephoneOutboundFill size={20} />
-        )}
+        : <BsFillTelephoneOutboundFill size={20} />}
       </div>
       <div>
         <p className="font-semibold">

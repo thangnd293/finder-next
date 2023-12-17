@@ -27,7 +27,7 @@ const MessageContent = ({
   const { type, text, images } = message;
   if (type === MessageType.Call || type === MessageType.Missed) {
     const data = decodeFromBase64<ICallMessage>(text);
-    console.log("🚀 ~ file: index.tsx:30 ~ data:", data);
+
     return (
       <MessageCall
         isMiss={!Boolean(data.startTime)}

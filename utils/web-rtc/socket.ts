@@ -55,7 +55,7 @@ interface ServerToClientEvents {
   offer: (payload: OfferMessageResponse) => void;
   answer: (payload: AnswerMessageResponse) => void;
   reject: () => void;
-  hangup: () => void;
+  hangup: ({ messageId }: { messageId: string }) => void;
   verifyFirstConnection: () => void;
 }
 export type ISocket = Socket<ServerToClientEvents, ClientToServerEvents>;

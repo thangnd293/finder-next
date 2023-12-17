@@ -3,7 +3,7 @@ import NextImage from "next/image";
 import { HiMiniVideoCamera } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 import { create } from "zustand";
-import { useRoomListener } from "../_machine/useRoom";
+import { useRoomListener } from "../_store/use-room";
 
 type State = {
   open: boolean;
@@ -25,13 +25,14 @@ export const confirmAction = {
 
 export default function DialogConfirm() {
   const open = useConfirmStore((s) => s.open);
+
   const { handleAccept, handleReject, offerData } = useRoomListener();
 
   return (
     <>
       <audio loop id="audio" src="/audio/ring.mp3" />
       <Modal size={"sm"} open={open} onOpenChange={() => {}}>
-        {offerData?.owner ? (
+        {offerData?.owner ?
           <div className="mt-20 space-y-4 p-6 lg:mt-0">
             <div className="space-y-2">
               <div className="relative mx-auto h-[72px] w-[72px]">
@@ -74,7 +75,7 @@ export default function DialogConfirm() {
               </button>
             </div>
           </div>
-        ) : null}
+        : null}
       </Modal>
     </>
   );
