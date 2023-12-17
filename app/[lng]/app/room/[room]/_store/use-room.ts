@@ -3,11 +3,20 @@ import {
   OfferMessageResponse,
   socketInstance,
 } from "@/utils/web-rtc/socket";
-import CallVideoManager, { setSrcVideo } from "@/utils/web-rtc/web-rtc";
+import CallVideoManager, {
+  ICheckRoom,
+  setSrcVideo,
+} from "@/utils/web-rtc/web-rtc";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SimplePeer from "simple-peer";
 import { confirmAction } from "../_comps/dialog-confirm";
 import { useReceiver } from "@/service/conversation";
+import {
+  CallStatus,
+  callStatusAction,
+  useCallStatus,
+} from "@/app/[lng]/app/room/[room]/_store/use-call-status";
+import { usePathname } from "next/navigation";
 
 const createMediaStream = () => {
   return navigator.mediaDevices.getUserMedia({
@@ -61,6 +70,7 @@ export const useRoomEvent = (roomId: string) => {
   const [audioStatus, setAudioStatus] = useState<boolean>(true);
   const [isAccept, setIsAccept] = useState<boolean>(false);
   const { receiver } = useReceiver(roomId);
+  const status = useCallStatus((s) => s.status);
 
   const handleInitRoom = useCallback(
     async (roomId: string) => {
@@ -92,28 +102,52 @@ export const useRoomEvent = (roomId: string) => {
 
   useEffect(() => {
     if (!callVideo) return;
-
-    callVideo.on("hangup", () => {
+    const handleHangup = () => {
       if (!callVideo) return;
       callVideo.offStream();
-      window.close();
-    });
-    callVideo.on("stream", (stream) => {
+
+      if (status === CallStatus.ENDED || status === CallStatus.ENDED_CALL)
+        return;
+      callStatusAction.setStatus(
+        status === CallStatus.IDLE ? CallStatus.ENDED : CallStatus.ENDED_CALL,
+      );
+    };
+    const handleStream = (stream: MediaStream) => {
       setIsAccept(true);
       setSrcVideo(refRemoteVideo.current!, stream);
-    });
-    callVideo.on("checkRoom", async (payload) => {
-      if (!payload.status) {
-        handleInitRoom(roomId);
-      } else {
-        handleInitAccept(roomId, payload.offer);
-      }
-    });
 
-    callVideo.on("verifyFirstConnection", () => {
+      status === CallStatus.IDLE &&
+        callStatusAction.setStatus(CallStatus.CALLING);
+    };
+
+    const handleCheckRoom = async (payload: ICheckRoom) => {
+      payload.status ?
+        handleInitAccept(roomId, payload.offer)
+      : handleInitRoom(roomId);
+    };
+
+    callVideo.on("hangup", handleHangup);
+    callVideo.on("stream", handleStream);
+    callVideo.on("checkRoom", handleCheckRoom);
+
+    return () => {
+      callVideo.off("hangup", handleHangup);
+      callVideo.off("stream", handleStream);
+      callVideo.off("checkRoom", handleCheckRoom);
+    };
+  }, [callVideo, handleInitAccept, handleInitRoom, roomId, status]);
+
+  useEffect(() => {
+    if (!callVideo) return;
+    const handleVerifyFirstConnection = () => {
       callVideo.checkRoom(roomId);
-    });
-  }, [callVideo, handleInitAccept, handleInitRoom, roomId]);
+    };
+
+    callVideo.on("verifyFirstConnection", handleVerifyFirstConnection);
+    return () => {
+      callVideo.off("verifyFirstConnection", handleVerifyFirstConnection);
+    };
+  }, [callVideo, handleInitAccept, roomId]);
 
   useEffect(() => {
     if (!mediaStream) return;
@@ -139,7 +173,6 @@ export const useRoomEvent = (roomId: string) => {
     hangup: () => {
       if (!callVideo) return;
       callVideo.end(roomId);
-      window.close();
     },
     toggleVideo: () => setVideoStatus((s) => !s),
     toggleAudio: () => setAudioStatus((s) => !s),
@@ -147,6 +180,8 @@ export const useRoomEvent = (roomId: string) => {
 };
 
 export const useRoomListener = () => {
+  const pathname = usePathname() || "";
+  const isRoom = pathname.includes("/room/");
   const callVideo = useCallVideo();
   const [offerData, setOfferData] = useState<OfferMessageResponse | null>(null);
 
@@ -171,18 +206,28 @@ export const useRoomListener = () => {
 
   useEffect(() => {
     if (!callVideo) return;
-    callVideo.on("offer", (payload) => {
-      setOfferData(payload);
-      confirmAction.setOpen(true);
-      enableRinging();
-    });
-
-    callVideo.on("reject", () => {
+    const handleOffer = (payload: OfferMessageResponse) => {
+      if (isRoom) {
+        window.close();
+      } else {
+        setOfferData(payload);
+        confirmAction.setOpen(true);
+        enableRinging();
+      }
+    };
+    const handleReject = () => {
       confirmAction.setOpen(false);
       setOfferData(null);
       disableRinging();
-    });
-  }, [callVideo]);
+    };
+
+    callVideo.on("offer", handleOffer);
+    callVideo.on("reject", handleReject);
+    return () => {
+      callVideo.off("offer", handleOffer);
+      callVideo.off("reject", handleReject);
+    };
+  }, [callVideo, isRoom]);
 
   return {
     handleAccept,

@@ -3,23 +3,20 @@ import { EventEmitter } from "events";
 import axios from "axios";
 import SimplePeer from "simple-peer";
 import { ISocket, OfferMessageResponse } from "./socket";
+import { callStatusAction } from "@/app/[lng]/app/room/[room]/_store/use-call-status";
 
+export type ICheckRoom =
+  | {
+      status: false;
+    }
+  | { status: true; offer: SimplePeer.SignalData };
 declare interface CallVideoManager {
   on(event: "offer", listener: (payload: OfferMessageResponse) => void): this;
   on(event: "answer", listener: (roomId: string) => void): this;
   on(event: "rejectConnection", listener: () => void): this;
   on(event: "hangup", listener: () => void): this;
   on(event: "stream", listener: (stream: MediaStream) => void): this;
-  on(
-    event: "checkRoom",
-    listener: (
-      payload:
-        | {
-            status: false;
-          }
-        | { status: true; offer: SimplePeer.SignalData },
-    ) => void,
-  ): this;
+  on(event: "checkRoom", listener: (payload: ICheckRoom) => void): this;
   on(event: "verifyFirstConnection", listener: () => void): this;
   on(event: "reject", listener: () => void): this;
 
@@ -76,7 +73,8 @@ class CallVideoManager extends EventEmitter {
       this.emit("reject");
     });
 
-    this.socket.on("hangup", () => {
+    this.socket.on("hangup", ({ messageId }) => {
+      callStatusAction.setMessageId(messageId);
       this.emit("hangup");
     });
   }
@@ -161,10 +159,10 @@ class CallVideoManager extends EventEmitter {
     });
 
     peer._debug = (message) => {
-      console.log(
-        "🚀 ~ file: web-rtc.ts:119 ~ CallVideoManager ~ createPeer ~ message:",
-        message,
-      );
+      // console.log(
+      //   "🚀 ~ file: web-rtc.ts:119 ~ CallVideoManager ~ createPeer ~ message:",
+      //   message,
+      // );
     };
 
     peer.on("stream", (stream) => {
