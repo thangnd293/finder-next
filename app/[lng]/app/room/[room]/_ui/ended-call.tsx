@@ -2,8 +2,8 @@ import { useReceiver } from "@/service/conversation";
 import NextImage from "next/image";
 import { IoCall, IoClose } from "react-icons/io5";
 import { RatingGroup } from "@ark-ui/react/rating-group";
-import { CiStar } from "react-icons/ci";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { CiStar } from "react-icons/ci";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@/components/Input";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
@@ -90,14 +90,16 @@ export default function EndedCall({ room }: { room: string }) {
               />
             </div>
             {data && data.success ? null : (
-              <p className="text-md font-medium">
+              <p className="text-md font-medium text-gray-100">
                 Bạn đánh giá cuộc gọi như thế nào ?
               </p>
             )}
           </div>
           {data && data.success ?
             <div className="grid gap-4">
-              <div className="text-lg font-medium">Cảm ơn bạn đã đánh giá</div>
+              <div className="text-lg font-medium text-gray-100">
+                Cảm ơn bạn đã đánh giá
+              </div>
               <div className="flex w-full justify-evenly">
                 <button
                   onClick={() => {
