@@ -15,7 +15,7 @@ export enum TagType {
   SMOKE_QUESTION = "Smoke question",
   LOVE_QUESTION = "Love question",
   DO_EXERCISE = "Do exercise",
-  DRINK = "Drink",
-  KIDS = "Kids",
+  DRINK = "Drinking",
+  KIDS = "Children",
   RELIGION = "Religion",
 }

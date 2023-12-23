@@ -5,7 +5,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface CurrentOfferProps extends Offer {}
-const CurrentOffer = ({ iconUrl, type, merchandising }: CurrentOfferProps) => {
+const CurrentOffer = ({
+  iconUrl,
+  type,
+  merchandising,
+  expiredDate,
+}: CurrentOfferProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,7 +33,7 @@ const CurrentOffer = ({ iconUrl, type, merchandising }: CurrentOfferProps) => {
         <Modal.Body className="space-y-2 p-6">
           <p>
             <span className="font-semibold">Hết hạn:</span>{" "}
-            <span>30/10/2021</span>
+            <span>{expiredDate?.prettyFullDate()}</span>
           </p>
 
           <div className="space-y-1">

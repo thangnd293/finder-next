@@ -16,7 +16,7 @@ const VerifySection = () => {
     <>
       {isOpen && <Verified />}
       <AccordionItem value="verification">
-        <AccordionTrigger>Verification</AccordionTrigger>
+        <AccordionTrigger>Xác thực tài khoản</AccordionTrigger>
         <AccordionContent>
           <div className="space-y-6">
             <button
