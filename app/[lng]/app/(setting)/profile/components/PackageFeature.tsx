@@ -81,6 +81,7 @@ const PackageFeature = ({ featureGroup, results }: PackageFeatureProps) => {
               key={index}
               ref={ref}
               {...pack}
+              expiredDate={offering?.expiredDate}
               isActived={offering?._id === pack._id}
               onClick={() => setIsOpenDetail(true)}
             />
@@ -121,9 +122,9 @@ const PackageFeature = ({ featureGroup, results }: PackageFeatureProps) => {
                   size={20}
                   style={{
                     color:
-                      activePackage._id === item.package._id
-                        ? item.package.style.primaryColor
-                        : undefined,
+                      activePackage._id === item.package._id ?
+                        item.package.style.primaryColor
+                      : undefined,
                   }}
                 />
               </p>

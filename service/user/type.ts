@@ -125,5 +125,6 @@ export interface User {
     level: number;
     type: string;
     _id: string;
+    expiredDate: string;
   };
 }

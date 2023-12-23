@@ -1,17 +1,14 @@
-import Modal from "@/components/Modal";
-import { timeMap } from "@/constant/common";
 import { Offer } from "@/service/offer";
 import Image from "next/image";
 import { useState } from "react";
+import CurrentOfferDialog from "./CurrentOfferDialog";
 
-interface CurrentOfferProps extends Offer {}
-const CurrentOffer = ({
-  iconUrl,
-  type,
-  merchandising,
-  expiredDate,
-}: CurrentOfferProps) => {
+interface CurrentOfferProps extends Offer {
+  expiredDate?: string;
+}
+const CurrentOffer = ({ iconUrl, ...others }: CurrentOfferProps) => {
   const [open, setOpen] = useState(false);
+  const { type } = others;
 
   return (
     <>
@@ -26,45 +23,12 @@ const CurrentOffer = ({
           <p className="text-sm text-muted-foreground">Quản lý gói của bạn</p>
         </div>
       </button>
-      <Modal open={open} onOpenChange={setOpen}>
-        <Modal.Header withCloseButton onOpenChange={setOpen}>
-          {type}
-        </Modal.Header>
-        <Modal.Body className="space-y-2 p-6">
-          <p>
-            <span className="font-semibold">Hết hạn:</span>{" "}
-            <span>{expiredDate?.prettyFullDate()}</span>
-          </p>
-
-          <div className="space-y-1">
-            <p className="font-semibold ">Đặc quyền:</p>
-            <div className="space-y-2.5">
-              {merchandising.map((item, index) => (
-                <p key={index} className="flex items-center gap-2 ">
-                  <Image
-                    width={30}
-                    height={30}
-                    src={item.iconUrl}
-                    alt={item.text}
-                  />
-
-                  <span>
-                    {item.name}{" "}
-                    {item.amount &&
-                      item.refreshInterval &&
-                      item.refreshIntervalUnit && (
-                        <>
-                          với {item.amount} lượt mỗi{" "}
-                          {timeMap[item.refreshIntervalUnit].toLowerCase()}
-                        </>
-                      )}
-                  </span>
-                </p>
-              ))}
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+      <CurrentOfferDialog
+        open={open}
+        {...others}
+        type={type}
+        onClose={() => setOpen(false)}
+      />
     </>
   );
 };

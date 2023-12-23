@@ -17,11 +17,13 @@ const PacketList = ({ offers }: PacketListProps) => {
   });
 
   const currentOffer = offers.find((o) => o._id === offering?._id);
-  console.log(offering);
+
   return (
     <>
       <div className="space-y-3 p-4">
-        {currentOffer && <CurrentOffer {...currentOffer} />}
+        {currentOffer && (
+          <CurrentOffer {...currentOffer} expiredDate={offering?.expiredDate} />
+        )}
         {offers
           .filter(
             (offer) =>

@@ -15,7 +15,6 @@ export interface Offer {
     primaryColor: string;
   };
   level?: number;
-  expiredDate?: string;
 }
 
 export interface Package {

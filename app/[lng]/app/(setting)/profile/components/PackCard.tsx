@@ -3,15 +3,18 @@
 import Button from "@/components/Button";
 import { Offer } from "@/service/offer";
 import React from "react";
+import CurrentOffer from "./CurrentOffer";
 
 interface PackCardProps extends Offer {
   isActived?: boolean;
+  expiredDate?: string;
   onClick?: () => void;
 }
 const PackCard = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<PackCardProps>
->(({ type, text, packages, style, isActived, onClick }, ref) => {
+>(({ isActived, expiredDate, onClick, ...others }, ref) => {
+  const { type, text, packages, style } = others;
   const minPrice = Math.min(...packages.map((pack) => pack.price));
 
   return (
@@ -26,12 +29,9 @@ const PackCard = React.forwardRef<
         <h3 className="text-sm font-semibold">{type}</h3>
         <p className="text-xs">{text}</p>
       </div>
-      {isActived ? (
-        <Button className="rounded-full" variant="ghost">
-          Gói của bạn
-        </Button>
-      ) : (
-        <Button
+      {isActived ?
+        <CurrentOffer expiredDate={expiredDate} {...others} />
+      : <Button
           className={"rounded-full"}
           style={{
             background: style.buttonBackground,
@@ -43,7 +43,7 @@ const PackCard = React.forwardRef<
           Mở khóa chỉ với&nbsp;
           {minPrice.formatPrice()}
         </Button>
-      )}
+      }
     </div>
   );
 });
