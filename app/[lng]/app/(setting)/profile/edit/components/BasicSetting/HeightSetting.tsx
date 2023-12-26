@@ -21,12 +21,7 @@ const HeightSetting = ({ onNextStep }: StepSettingProps) => {
     }),
   });
 
-  const {
-    control,
-    watch,
-    handleSubmit,
-    formState: { isDirty },
-  } = useForm<FormValues>({
+  const { control, watch, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       height: [data?.height ?? 160],
       isShowHeight: data?.isShowHeight,
@@ -37,8 +32,6 @@ const HeightSetting = ({ onNextStep }: StepSettingProps) => {
 
   const onSubmit = ({ height, isShowHeight }: FormValues) => {
     onNextStep();
-    if (!isDirty) return;
-
     updateProfile.mutate({
       heightSetting: {
         value: height[0],

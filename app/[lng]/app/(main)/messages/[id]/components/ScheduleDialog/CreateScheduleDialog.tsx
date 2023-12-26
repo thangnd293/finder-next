@@ -15,6 +15,7 @@ import * as yup from "yup";
 import useYupValidationResolver from "@/hooks/use-yup-validation-resolver";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useRef } from "react";
+import Input from "@/components/Input";
 
 interface FormValues {
   date: Date;
@@ -25,6 +26,8 @@ interface FormValues {
 }
 
 const validateForm = yup.object({
+  hour: yup.string().required("Vui lòng nhập giờ"),
+  minute: yup.string().required("Vui lòng nhập phút"),
   description: yup.string().required("Vui lòng nhập lời nhắn"),
 });
 
@@ -112,13 +115,14 @@ const CreateScheduleDialog = ({
                 <Controller
                   name="hour"
                   control={control}
-                  render={({ field: { value, onChange } }) => (
-                    <Combobox
+                  render={({
+                    field: { value, onChange },
+                    fieldState: { error },
+                  }) => (
+                    <Input
+                      type="number"
                       placeholder="Giờ"
-                      data={Array.from({ length: 24 }, (_, i) => ({
-                        label: `${i < 10 ? `0${i}` : i}`,
-                        value: `${i}`,
-                      }))}
+                      error={error?.message}
                       leftIcon={<AiOutlineClockCircle />}
                       value={value}
                       onChange={onChange}
@@ -128,13 +132,14 @@ const CreateScheduleDialog = ({
                 <Controller
                   name="minute"
                   control={control}
-                  render={({ field: { value, onChange } }) => (
-                    <Combobox
+                  render={({
+                    field: { value, onChange },
+                    fieldState: { error },
+                  }) => (
+                    <Input
+                      type="number"
                       placeholder="Phút"
-                      data={Array.from({ length: 60 }, (_, i) => ({
-                        label: `${i < 10 ? `0${i}` : i}`,
-                        value: `${i}`,
-                      }))}
+                      error={error?.message}
                       leftIcon={<AiOutlineClockCircle />}
                       value={value}
                       onChange={onChange}

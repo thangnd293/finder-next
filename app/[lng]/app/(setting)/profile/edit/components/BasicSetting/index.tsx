@@ -29,7 +29,7 @@ const BasicSetting = () => {
         {} as Record<TagType, any>,
       );
       return {
-        height: user.height + "cm",
+        height: user.height ? user.height + "cm" : undefined,
         ...tags,
       };
     },

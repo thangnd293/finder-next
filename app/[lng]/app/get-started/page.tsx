@@ -10,6 +10,7 @@ import UpdateLookingFor from "./UpdateLookingFor";
 import UploadPhoto from "./UploadPhoto";
 import Welcome from "./Welcome";
 import { redirect } from "next/navigation";
+import Logo from "@/components/Logo";
 
 export default function GetStarted() {
   const { data: stepStarted } = useCurrentUser({
@@ -42,7 +43,7 @@ export default function GetStarted() {
   return (
     <div className="container flex min-h-screen w-full flex-col items-center gap-3">
       <header className="flex h-20 items-center justify-center text-4xl text-primary">
-        finder
+        <Logo />
       </header>
       <Progress
         className="mx-auto h-1 w-36"

@@ -32,7 +32,6 @@ export async function middleware(req: NextRequest) {
   }
 
   const isAuth = Boolean(req.cookies.get("accessToken"));
-  console.log("=========MIDDLEWARE=========");
 
   if (isAuth && pathname === `/${lng}`) {
     return NextResponse.redirect(new URL("/app", req.url));
