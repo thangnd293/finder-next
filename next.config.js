@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
     domains: [
@@ -17,7 +18,7 @@ const nextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: `https://finder.sohe.in/api/v1/:path*`,
+        destination: `${process.env.BACKEND_URL}/api/v1/:path*`,
       },
     ];
   },
