@@ -5,7 +5,7 @@ import Loader from "@/components/Loader";
 import { CardBox } from "@/components/UserCard";
 import useCallbackDebounce from "@/hooks/use-callback-debounce";
 import { useLike, useSkip, useSupperLike } from "@/service/action/hooks";
-import { User, useRecommendedUsers } from "@/service/user";
+import { User, useCurrentUser, useRecommendedUsers } from "@/service/user";
 import useStore from "@/store";
 import { InfiniteData } from "@tanstack/react-query";
 import Image from "next/image";
@@ -45,6 +45,11 @@ export const Container = ({ children }: ContainerProps) => {
   const currentIndex = useStore((state) => state.currentIndex);
   const setCurrentIndex = useStore((state) => state.setCurrentIndex);
   const [offer, setOffer] = useState<Offer | null>(null);
+
+  const { data: canRewind } = useCurrentUser({
+    select: (user) =>
+      user?.featureAccess.find((item) => item.name === "Rewind")?.unlimited,
+  });
 
   const like = useLike({
     onSuccess: () => {
@@ -133,7 +138,8 @@ export const Container = ({ children }: ContainerProps) => {
     if (!userId) return;
     skip.mutate(userId);
     handleNextIndex();
-    canBack.current = true;
+
+    if (canRewind) canBack.current = true;
   }, 800);
 
   const handleBack = useCallbackDebounce(() => {
@@ -152,9 +158,9 @@ export const Container = ({ children }: ContainerProps) => {
 
   let visibleUsers =
     recommendedUsers.slice(
-      currentIndex > 0 && currentIndex < recommendedUsers.length
-        ? currentIndex - 1
-        : currentIndex,
+      currentIndex > 0 && currentIndex < recommendedUsers.length ?
+        currentIndex - 1
+      : currentIndex,
       currentIndex + 2,
     ) ?? [];
 

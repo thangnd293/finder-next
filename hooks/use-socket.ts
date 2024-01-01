@@ -1,16 +1,15 @@
 import { socket } from "@/lib/socket";
-import { useCurrentUserID } from "@/service/user";
-import { getCookie } from "@/utils/cookie";
-import { useEffect, useState } from "react";
-import useMessageStore from "./use-message-store";
+import { useInvalidateAllConversations } from "@/service/conversation";
+import { useInvalidateMatchRequest } from "@/service/matchRequest";
 import {
   NotificationType,
   useInvalidateNotificationCount,
   useInvalidateNotifications,
 } from "@/service/notification";
-import { notificationEvents } from "@/layout/Header/Notifications";
-import { useInvalidateAllConversations } from "@/service/conversation";
-import { useInvalidateMatchRequest } from "@/service/matchRequest";
+import { useCurrentUserID } from "@/service/user";
+import { getCookie } from "@/utils/cookie";
+import { useEffect, useState } from "react";
+import useMessageStore from "./use-message-store";
 
 const useSocket = (active: boolean) => {
   const { currentUserID } = useCurrentUserID();

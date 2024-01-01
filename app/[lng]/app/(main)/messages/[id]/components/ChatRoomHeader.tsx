@@ -37,54 +37,55 @@ const ChatRoomHeader = ({ onOpenSidebar }: ChatRoomHeaderProps) => {
         </span>
       </div>
 
-      <div className="flex items-center space-x-1">
-        {isLoading ? (
-          Array.from({
-            length: 2,
-          }).map((_, i) => (
-            <Skeleton key={i} className="h-8 w-8 rounded-full" />
-          ))
-        ) : (
-          <>
-            <ActionIcon
-              onClick={async () => {
-                try {
-                  const { data } = await axiosInstance.get<
-                    | { success: true; data: true }
-                    | { success: false; message: string }
-                  >("/socket/available-users", {
-                    params: {
-                      roomId: id,
-                    },
-                  });
+      {conversation?.type !== "Super like" && (
+        <div className="flex items-center space-x-1">
+          {isLoading ?
+            Array.from({
+              length: 2,
+            }).map((_, i) => (
+              <Skeleton key={i} className="h-8 w-8 rounded-full" />
+            ))
+          : <>
+              <ActionIcon
+                onClick={async () => {
+                  try {
+                    const { data } = await axiosInstance.get<
+                      | { success: true; data: true }
+                      | { success: false; message: string }
+                    >("/socket/available-users", {
+                      params: {
+                        roomId: id,
+                      },
+                    });
 
-                  if (!data.success) {
-                    toast.error(data.message);
-                    return;
+                    if (!data.success) {
+                      toast.error(data.message);
+                      return;
+                    }
+
+                    window.open(
+                      `/app/room/${id}`,
+                      "_blank",
+                      "width=800,height=600",
+                    );
+                  } catch (error) {
+                    toast.error("Có lỗi xảy ra");
                   }
+                }}
+                variant="ghost"
+              >
+                <HiMiniVideoCamera size={18} />
+              </ActionIcon>
 
-                  window.open(
-                    `/app/room/${id}`,
-                    "_blank",
-                    "width=800,height=600",
-                  );
-                } catch (error) {
-                  toast.error("Có lỗi xảy ra");
-                }
-              }}
-              variant="ghost"
-            >
-              <HiMiniVideoCamera size={18} />
-            </ActionIcon>
+              <UserActions user={user} conversation={id} />
+            </>
+          }
 
-            <UserActions user={user} conversation={id} />
-          </>
-        )}
-
-        <ActionIcon variant="ghost" onClick={() => router.push("/app")}>
-          <BsXLg />
-        </ActionIcon>
-      </div>
+          <ActionIcon variant="ghost" onClick={() => router.push("/app")}>
+            <BsXLg />
+          </ActionIcon>
+        </div>
+      )}
     </div>
   );
 };

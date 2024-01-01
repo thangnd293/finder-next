@@ -1,5 +1,9 @@
 import { SeenMessagePayload } from "@/lib/socket";
-import { Conversation, getAllConversationsKey } from "@/service/conversation";
+import {
+  Conversation,
+  getAllConversationsKey,
+  useInvalidateAllConversations,
+} from "@/service/conversation";
 import { Message, MessageStatus, getAllMessagesKey } from "@/service/message";
 import { List } from "@/types/http";
 import { updateMessageStatusToSeen } from "@/utils/message";
@@ -11,12 +15,30 @@ const useMessageStore = () => {
   const queryClient = useQueryClient();
   const { updateLastMessageOfConversation, changeToHasMessageConversation } =
     useAllConversationStore();
+  const invalidateAllConversations = useInvalidateAllConversations();
 
   const addMessage = useCallback(
     (message: Message, onFirstMessageSent?: () => void) => {
       const noMessageConversations = queryClient.getQueryData<
         List<Conversation>
       >(getAllConversationsKey(false));
+
+      const hasMessageConversations = queryClient.getQueryData<
+        List<Conversation>
+      >(getAllConversationsKey(true));
+
+      const isNewConversation =
+        !noMessageConversations?.results.some(
+          (c) => c._id === message.conversation,
+        ) &&
+        !hasMessageConversations?.results.some(
+          (c) => c._id === message.conversation,
+        );
+
+      if (isNewConversation) {
+        invalidateAllConversations(true);
+        return;
+      }
 
       const isNewMessage = !!noMessageConversations?.results.find(
         (matched) => matched._id === message.conversation,
@@ -39,7 +61,7 @@ const useMessageStore = () => {
         },
       );
     },
-    [queryClient],
+    [queryClient, invalidateAllConversations],
   );
 
   const upsertMessage = useCallback(

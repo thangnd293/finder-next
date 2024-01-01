@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ConversationService } from "../conversation-service";
 import { Conversation } from "../type";
+import { useCallback } from "react";
 
 const EMPTY_ARRAY: Conversation[] = [];
 
@@ -23,7 +24,10 @@ export const useAllConversations = (hasMessage: boolean) => {
 
 export const useInvalidateAllConversations = () => {
   const queryClient = useQueryClient();
-  return (hasMessage: boolean) => {
-    queryClient.invalidateQueries(getAllConversationsKey(hasMessage));
-  };
+  return useCallback(
+    (hasMessage: boolean) => {
+      queryClient.invalidateQueries(getAllConversationsKey(hasMessage));
+    },
+    [queryClient],
+  );
 };

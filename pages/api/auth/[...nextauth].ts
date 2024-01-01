@@ -13,7 +13,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     pages: {
       signIn: "/",
       signOut: "/",
-      error: "/external-auth-result", // Error code passed in query string as ?error=
+      error: "/permission", // Error code passed in query string as ?error=
     },
     providers: [
       CredentialsProvider({
@@ -98,7 +98,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             token: account.access_token,
           });
 
-          const { accessToken } = await fetch(
+          console.log(account.access_token);
+          const { accessToken, ...rest } = await fetch(
             `${process.env.BACKEND_URL}/api/v1/auth/${type}/verify?${params}`,
           ).then(
             (res) =>
@@ -107,6 +108,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                 refreshToken: string;
               }>,
           );
+
+          console.log("rest", rest);
 
           if (accessToken) {
             res.setHeader(

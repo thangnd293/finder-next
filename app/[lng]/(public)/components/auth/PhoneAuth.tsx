@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as yup from "yup";
 import OtpForm from "./OtpForm";
+import { useRouter } from "next/navigation";
 
 type PhoneForm = {
   phoneNumber: string;
@@ -26,6 +27,8 @@ const validatePhoneForm = yup.object({
 const PhoneAuth = () => {
   const phoneFormResolver = useYupValidationResolver(validatePhoneForm);
 
+  const router = useRouter();
+
   const [showOtpVerify, setShowOtpVerify] = useState(false);
   const [countDown, setCountDown] = useState(0);
 
@@ -35,6 +38,11 @@ const PhoneAuth = () => {
       setCountDown(60);
     },
     onError: (error) => {
+      if ("Tài khoản của bạn đã bị khóa !" === error.response?.data?.message) {
+        router.replace("/permission");
+
+        return;
+      }
       if (typeof error.response?.data?.data?.diffTime === "number") {
         setShowOtpVerify(true);
         setCountDown(error.response?.data.data.diffTime || 0);
@@ -80,39 +88,37 @@ const PhoneAuth = () => {
     };
   }, [countDown]);
 
-  return !showOtpVerify ? (
-    <form
-      className="flex flex-col gap-3"
-      onSubmit={phoneForm.handleSubmit(handleSubmitPhoneForm)}
-    >
-      <PhoneInput
-        name={"phoneNumber"}
-        defaultCountry="VN"
-        control={phoneForm.control}
-        error={phoneForm.formState.errors.phoneNumber?.message}
-      />
-      <p className="text-sm text-secondary-foreground">
-        Nhập số điện thoại để tiếp tục. Khi bạn nhấn{" "}
-        <span className="font-medium text-foreground">
-          &quot;Tiếp tục&quot;
-        </span>{" "}
-        chúng tôi sẽ gửi một mã tới số điện thoại của bạn. Bạn có thể phải trả
-        phí tin nhắn và dữ liệu. Số điện thoại đã được xác minh này có thể được
-        dùng để đăng nhập.
-      </p>
-      <Button type="submit" loading={sendSms.isLoading}>
-        Tiếp tục
-      </Button>
-    </form>
-  ) : (
-    <OtpForm
-      phoneNumber={phoneForm.getValues().phoneNumber}
-      countDown={countDown}
-      isSendingSms={sendSms.isLoading}
-      onBackToPhoneForm={handleBack}
-      onSendSms={handleSendSms}
-    />
-  );
+  return !showOtpVerify ?
+      <form
+        className="flex flex-col gap-3"
+        onSubmit={phoneForm.handleSubmit(handleSubmitPhoneForm)}
+      >
+        <PhoneInput
+          name={"phoneNumber"}
+          defaultCountry="VN"
+          control={phoneForm.control}
+          error={phoneForm.formState.errors.phoneNumber?.message}
+        />
+        <p className="text-sm text-secondary-foreground">
+          Nhập số điện thoại để tiếp tục. Khi bạn nhấn{" "}
+          <span className="font-medium text-foreground">
+            &quot;Tiếp tục&quot;
+          </span>{" "}
+          chúng tôi sẽ gửi một mã tới số điện thoại của bạn. Bạn có thể phải trả
+          phí tin nhắn và dữ liệu. Số điện thoại đã được xác minh này có thể
+          được dùng để đăng nhập.
+        </p>
+        <Button type="submit" loading={sendSms.isLoading}>
+          Tiếp tục
+        </Button>
+      </form>
+    : <OtpForm
+        phoneNumber={phoneForm.getValues().phoneNumber}
+        countDown={countDown}
+        isSendingSms={sendSms.isLoading}
+        onBackToPhoneForm={handleBack}
+        onSendSms={handleSendSms}
+      />;
 };
 
 export default PhoneAuth;

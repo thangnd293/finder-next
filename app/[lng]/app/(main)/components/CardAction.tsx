@@ -27,7 +27,7 @@ export const CardAction = ({
         className={cn(
           "h-14 w-14 rounded-full border-yellow-300 bg-background text-yellow-500 hover:border-yellow-500",
           {
-            "border-gray-300 text-gray-300": !canBack,
+            "border-gray-500 text-gray-500 hover:border-gray-500": !canBack,
           },
         )}
         disabled={!canBack}
