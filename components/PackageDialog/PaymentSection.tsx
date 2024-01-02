@@ -11,6 +11,7 @@ import { BsCalendar, BsCreditCard, BsLock, BsPerson } from "react-icons/bs";
 import { Package } from "@/service/offer";
 import { toast } from "react-toastify";
 import { useInvalidateCurrentUser } from "@/service/user";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   number: string;
@@ -81,7 +82,9 @@ const PaymentSection = ({
         ),
       onSuccess: () => {
         toast.success("Thanh toán thành công");
-        invalidateCurrentUser();
+        // invalidateCurrentUser();
+        // router.refresh();
+        document.location.reload();
         onClose();
       },
     });

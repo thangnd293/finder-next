@@ -98,7 +98,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             token: account.access_token,
           });
 
-          console.log(account.access_token);
           const { accessToken, ...rest } = await fetch(
             `${process.env.BACKEND_URL}/api/v1/auth/${type}/verify?${params}`,
           ).then(
@@ -108,8 +107,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                 refreshToken: string;
               }>,
           );
-
-          console.log("rest", rest);
 
           if (accessToken) {
             res.setHeader(
