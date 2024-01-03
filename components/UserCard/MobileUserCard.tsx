@@ -171,6 +171,12 @@ export const MobileUserCard = ({
                     fill
                     alt={""}
                   />
+                  {image?.isVerifiedSuccess && (
+                    <img
+                      className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
+                      src="/images/verified.jpg"
+                    />
+                  )}
                 </div>
               ))}
 
