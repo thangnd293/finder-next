@@ -219,7 +219,7 @@ export const MobileUserCard = ({
 
                   {onSuperLike && (
                     <ActionIcon
-                      className="h-14 w-14 -translate-y-1/2 rounded-full bg-primary text-yellow-100"
+                      className="h-14 w-14 !-translate-y-1/2 rounded-full bg-primary text-yellow-100"
                       onClick={onSuperLike}
                     >
                       <FaStar size={20} />

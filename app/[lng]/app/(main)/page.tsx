@@ -53,7 +53,7 @@ export default function HomePage() {
                       onLike={onLike}
                       onUnLike={onUnLike}
                       onReportDone={onReportDone}
-                      onSuperLike={onLike}
+                      onSuperLike={onSuperLike}
                     />
                   ))}
                   {!isMobileView && (
