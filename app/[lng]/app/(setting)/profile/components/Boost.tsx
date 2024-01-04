@@ -12,11 +12,9 @@ interface BoostProps {
 const Boost = ({ offer }: BoostProps) => {
   const { isOpen, close, open } = useDisclosure();
 
-  const { data: featureAccess } = useCurrentUser({
-    select: (user) => user.featureAccess,
+  const { data: boostAmount } = useCurrentUser({
+    select: (user) => user.boostsSession.amount,
   });
-
-  const boost = featureAccess?.find((feature) => feature.name === "Boosts");
 
   return (
     <>
@@ -25,7 +23,7 @@ const Boost = ({ offer }: BoostProps) => {
         onClick={open}
       >
         <TiFlash className="text-violet-500" size={22} />
-        <span className="text-sm">{boost?.amount ?? 0} lượt boost</span>
+        <span className="text-sm">{boostAmount ?? 0} lượt boost</span>
       </button>
       {isOpen && <PacketDialog {...offer} onClose={close} />}
     </>

@@ -19,6 +19,7 @@ import {
   useSeenNotification,
 } from "@/service/notification";
 import { useActionSchedule } from "@/service/schedule";
+import { Image, User } from "@/service/user";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { PropsWithChildren, useState } from "react";
@@ -42,6 +43,12 @@ const NotificationItem = ({
   const deleteNotification = useDeleteNotification();
   const invalidateNotifications = useInvalidateNotifications();
 
+  const { blurAvatar, images } = sender;
+
+  const userIsBlur = checkUserIsBlur(sender);
+
+  const avatarUrl = images[0]?.url ?? blurAvatar;
+
   const onClick = () => {
     onClose?.();
 
@@ -61,14 +68,18 @@ const NotificationItem = ({
       className="relative flex cursor-pointer gap-2.5 rounded-md px-4 py-1.5 hover:bg-background-50 [&~&]:mt-2"
       onClick={onClick}
     >
-      <Avatar className="flex-shrink-0" src={sender.images[0]?.url} />
+      <Avatar className="flex-shrink-0" src={avatarUrl} />
+
       <div>
         <p
           className={cn("text-sm opacity-70", {
             "opacity-100": status !== NotificationStatus.Seen,
           })}
         >
-          <span className="font-semibold">{sender.name}</span> {message[type]}
+          <span className="font-semibold">
+            {userIsBlur ? "Ai đó" : sender.name}
+          </span>{" "}
+          {message[type]}
         </p>
         <p
           className={cn("text-[13px] text-secondary-foreground", {
@@ -101,6 +112,13 @@ const NotificationItem = ({
 };
 
 export default NotificationItem;
+
+const checkUserIsBlur = (
+  user: User,
+  image = user.images?.[0],
+): image is Image => {
+  return !user.images?.[0];
+};
 
 export const ScheduleDatingNotificationItem = ({
   schedule,

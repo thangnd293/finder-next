@@ -112,18 +112,17 @@ const MobileMessagePage = () => {
                   alt={""}
                   priority
                 />
-                {allNewMatch.length > 0 ? (
+                {allNewMatch.length > 0 ?
                   <>
                     <p className="text-lg font-medium">Gửi lời chào</p>
                     <p className="px-14 text-center text-secondary-foreground">
                       Bấm vào tương hợp mới trên đây để gửi tin nhắn
                     </p>
                   </>
-                ) : (
-                  <p className="px-14 text-center text-secondary-foreground">
+                : <p className="px-14 text-center text-secondary-foreground">
                     Tích cực lướt để gặp đúng người
                   </p>
-                )}
+                }
               </div>
             )}
             {!isEmpty && (
