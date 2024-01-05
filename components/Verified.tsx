@@ -59,7 +59,7 @@ export default function Verified({
         {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img
           ref={ref}
-          className="absolute bottom-[1px] left-[1px] z-[9999999] w-[50%] object-cover"
+          className="absolute bottom-px left-px w-1/2 object-cover"
           src="/images/verified.jpg"
         />
       </Tooltip>
