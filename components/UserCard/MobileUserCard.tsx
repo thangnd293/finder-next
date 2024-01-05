@@ -20,6 +20,7 @@ import BoostButton from "../BoostButton";
 import { RxBackpack } from "react-icons/rx";
 import { ReactNode } from "react";
 import VerifiedIcon from "@/assets/icons/verified-icon";
+import Verified from "@/components/Verified";
 
 export const MobileUserCard = ({
   isShow,
@@ -77,6 +78,7 @@ export const MobileUserCard = ({
                 fill
                 alt={""}
               />
+              <Verified image={firstImage} />
               <div className="absolute bottom-1.5 left-2 text-white">
                 <p className="text-shadow flex items-center gap-2 text-xl font-extrabold">
                   {name}, {age}
@@ -171,12 +173,7 @@ export const MobileUserCard = ({
                     fill
                     alt={""}
                   />
-                  {image?.isVerifiedSuccess && (
-                    <img
-                      className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
-                      src="/images/verified.jpg"
-                    />
-                  )}
+                  <Verified image={image} />
                 </div>
               ))}
 

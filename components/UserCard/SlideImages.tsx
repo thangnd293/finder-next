@@ -1,6 +1,7 @@
 import SlideCard from "./SlideCard";
 
 import CustomImage from "@/components/CustomImage";
+import Verified from "@/components/Verified";
 import { type Image } from "@/service/user";
 
 interface SlideImagesProps {
@@ -19,12 +20,7 @@ const SlideImages = ({ images }: SlideImagesProps) => {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          {image?.isVerifiedSuccess && (
-            <img
-              className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
-              src="/images/verified.jpg"
-            />
-          )}
+          <Verified image={image} />
         </div>
       ))}
     </SlideCard>
