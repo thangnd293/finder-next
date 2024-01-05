@@ -17,11 +17,6 @@ export default function Verified({
   });
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: Verified.tsx:34 ~ useEffect ~ image:",
-      image?.isVerifiedSuccess,
-      intersection?.isIntersecting,
-    );
     if (!image?.isVerifiedSuccess || !intersection?.isIntersecting) return;
     const callback = (e: MouseEvent) => {
       const { clientX, clientY } = e;
@@ -59,7 +54,7 @@ export default function Verified({
         {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img
           ref={ref}
-          className="absolute bottom-px left-px w-1/2 object-cover"
+          className="absolute right-px top-px w-1/2 object-cover"
           src="/images/verified.jpg"
         />
       </Tooltip>

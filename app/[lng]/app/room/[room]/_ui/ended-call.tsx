@@ -169,13 +169,11 @@ export default function EndedCall({ room }: { room: string }) {
                 )}
               />
 
-              {rating === 1 ?
-                <Textarea
-                  className="min-h-[100px] w-full"
-                  placeholder="Đánh giá của bạn"
-                  {...register("content")}
-                />
-              : null}
+              <Textarea
+                className="min-h-[100px] w-full"
+                placeholder="Đánh giá của bạn"
+                {...register("content")}
+              />
 
               {rating ?
                 <Button
