@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 import Modal from "@/components/Modal";
 import { cn } from "@/lib/utils";
 import { useCurrentUser, useInvalidateCurrentUser } from "@/service/user";
@@ -15,6 +17,7 @@ type Message<T> = {
 
 const NameEvent = {
   DONE: "DONE",
+  PROCESSING: "PROCESSING",
   IMAGE_AFTER_RECOGNIZE: "IMAGE_AFTER_RECOGNIZE",
 } as const;
 
@@ -23,7 +26,7 @@ type DONE = {
 };
 
 type IMAGE_AFTER_RECOGNIZE = {
-  event: typeof NameEvent.IMAGE_AFTER_RECOGNIZE;
+  event: typeof NameEvent.IMAGE_AFTER_RECOGNIZE | typeof NameEvent.PROCESSING;
   image: string;
   faceTotal: number;
   progress: number;
@@ -53,6 +56,7 @@ const VideoContainer = ({
   onDone: (state: boolean) => void;
   isDone: boolean;
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
   const invalidateUser = useInvalidateCurrentUser();
   const isOpen = useVerifyStore((s) => s.open);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -115,8 +119,8 @@ const VideoContainer = ({
       let data = JSON.parse(event.data) as ServerEvent;
       console.log("data:: ", data);
       switch (data.event) {
-        case NameEvent.DONE:
-          onDone(true);
+        case NameEvent.PROCESSING:
+          setIsProcessing(true);
           setIsRecording(false);
           clearInterval(captureIntervalRef.current!);
           if (mediaRecorderRef.current) {
@@ -124,6 +128,10 @@ const VideoContainer = ({
               .getTracks()
               .forEach((track) => track.stop());
           }
+          break;
+        case NameEvent.DONE:
+          onDone(true);
+          setIsProcessing(false);
           invalidateUser();
           break;
         case NameEvent.IMAGE_AFTER_RECOGNIZE:
@@ -171,7 +179,7 @@ const VideoContainer = ({
       onDone(false);
       setImageAfterRecognize(null);
     };
-  }, [isOpen]);
+  }, [isOpen, onDone]);
 
   return (
     <>
@@ -183,7 +191,7 @@ const VideoContainer = ({
               <div
                 style={
                   imageAfterRecognize ?
-                    { width: `${imageAfterRecognize.progress}%` }
+                    { width: `${(imageAfterRecognize.progress / 50) * 100}%` }
                   : {}
                 }
                 className="h-full bg-green-600"
@@ -209,6 +217,12 @@ const VideoContainer = ({
             </div>
           )}
 
+          {isProcessing ?
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <Loader size={60} />
+            </div>
+          : null}
+
           {!isHaveMediaDevices && (
             <div className="absolute inset-0 flex items-center justify-center bg-yellow-600">
               <p className="text-center text-lg font-semibold text-white">
@@ -226,15 +240,24 @@ const VideoContainer = ({
         </div>
 
         <Modal.Footer>
-          <Button onClick={() => verifyAction.setOpen(false)} variant="outline">
+          <Button
+            disabled={isRecording || !isHaveMediaDevices || isProcessing}
+            onClick={() => verifyAction.setOpen(false)}
+            variant="outline"
+          >
             Huỷ
           </Button>
           <Button
-            disabled={isRecording || !isHaveMediaDevices}
+            disabled={isRecording || !isHaveMediaDevices || isProcessing}
             id="stopCapture"
             onClick={handleRecord}
+            loading={isProcessing}
           >
-            Ghi hình
+            {isProcessing ?
+              "Đang xử lý"
+            : isRecording ?
+              "Đang xác thực"
+            : "Xác thực"}
           </Button>
         </Modal.Footer>
         <canvas ref={canvasRef} id="canvas" style={{ display: "none" }} />
