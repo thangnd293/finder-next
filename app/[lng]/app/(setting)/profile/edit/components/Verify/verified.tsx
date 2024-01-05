@@ -96,7 +96,7 @@ const VideoContainer = ({
     setIsRecording(true);
 
     wsRef.current = new WebSocket(
-      "wss://finder.sohe.in/face/ws-recognize-record",
+      "ws://localhost:3008/face/ws-recognize-record",
     );
     const ws = wsRef.current;
     ws.binaryType = "arraybuffer";
@@ -182,9 +182,9 @@ const VideoContainer = ({
             <div className="absolute top-0 z-10 h-2 w-full bg-gray-200/50">
               <div
                 style={
-                  imageAfterRecognize
-                    ? { width: `${imageAfterRecognize.progress}%` }
-                    : {}
+                  imageAfterRecognize ?
+                    { width: `${imageAfterRecognize.progress}%` }
+                  : {}
                 }
                 className="h-full bg-green-600"
               ></div>
@@ -270,7 +270,7 @@ export default function Verified() {
       closeOnEscape={false}
       onOpenChange={verifyAction.setOpen}
     >
-      {isVideoPermission !== "granted" ? (
+      {isVideoPermission !== "granted" ?
         <div className="flex h-[520px] w-[560px] flex-col items-center justify-center gap-4 bg-gray-950 px-10 text-center">
           <p className="flex gap-4">
             <IoVideocam size={40} />
@@ -283,9 +283,7 @@ export default function Verified() {
             tài khoản của bạn.
           </p>
         </div>
-      ) : (
-        <VideoContainer onDone={setIsDone} isDone={isDone} />
-      )}
+      : <VideoContainer onDone={setIsDone} isDone={isDone} />}
     </Modal>
   );
 }

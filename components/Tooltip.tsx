@@ -9,7 +9,7 @@ interface TooltipProps
   extends VariantProps<typeof tooltipVariants>,
     Pick<RadixTooltip.TooltipProps, "defaultOpen" | "open" | "onOpenChange"> {
   className?: string;
-  label: string;
+  label: React.ReactNode;
   disabled?: boolean;
   contentProps?: React.ComponentPropsWithoutRef<typeof RadixTooltip.Content>;
 }

@@ -6,6 +6,7 @@ import React from "react";
 import { BsXLg } from "react-icons/bs";
 import CustomImage from "../CustomImage";
 import axiosInstance from "@/lib/axios";
+import Verified from "@/components/Verified";
 
 interface ImageCardProps {
   image: Image;
@@ -54,12 +55,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
                 alt={""}
                 fill
               />
-              {image?.isVerifiedSuccess && (
-                <img
-                  className="absolute bottom-[1px] right-[1px] w-[50%] object-cover"
-                  src="/images/verified.jpg"
-                />
-              )}
+              <Verified image={image} />
               <button
                 className="absolute right-0 top-0 cursor-pointer rounded-md bg-background p-2"
                 type="button"
