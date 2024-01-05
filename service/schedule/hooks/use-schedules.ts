@@ -1,7 +1,8 @@
 import { flatData } from "@/utils/helper";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { FilterScheduleArgs, ScheduleService } from "../schedule-service";
 import { Schedule } from "../type";
+import { useCallback } from "react";
 
 export const useSchedules = (args: Omit<FilterScheduleArgs, "page">) => {
   return useInfiniteQuery({
@@ -16,4 +17,12 @@ export const useSchedules = (args: Omit<FilterScheduleArgs, "page">) => {
     },
     select: flatData<Schedule>,
   });
+};
+
+export const useInvalidateSchedules = () => {
+  const queryClient = useQueryClient();
+
+  return useCallback(() => {
+    queryClient.invalidateQueries(["schedule", "get", "all"]);
+  }, [queryClient]);
 };

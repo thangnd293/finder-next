@@ -17,6 +17,7 @@ import Button from "../Button";
 import CustomImage from "../CustomImage";
 import Modal from "../Modal";
 import congratulations from "./congratulations.json";
+import { useInvalidateSchedules } from "@/service/schedule";
 
 const Lottie = dynamic(() => import("lottie-react"));
 
@@ -27,11 +28,21 @@ const NotifyNewMatched = () => {
   const seenNotification = useSeenNotification();
   const invalidateMatchRequest = useInvalidateMatchRequest();
   const invalidateConversations = useInvalidateAllConversations();
+  const invaladateSchedules = useInvalidateSchedules();
 
   useEffect(() => {
     if (!socket.connected) return;
 
     const handleNewNotification = (notification: Notification) => {
+      if (
+        notification.type === NotificationType.AcceptScheduleDating ||
+        notification.type === NotificationType.DeclineScheduleDating ||
+        notification.type === NotificationType.CancelScheduleDating ||
+        notification.type === NotificationType.InviteScheduleDating
+      ) {
+        invaladateSchedules();
+      }
+
       if (notification.type !== NotificationType.Matched) return;
       invalidateMatchRequest();
       invalidateConversations(false);

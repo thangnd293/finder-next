@@ -1,13 +1,13 @@
 import Avatar from "@/components/Avatar";
-import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
-import { Schedule, useActionSchedule } from "@/service/schedule";
+import { Schedule } from "@/service/schedule";
 import dayjs from "dayjs";
 import { ReactNode } from "react";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { GrMapLocation } from "react-icons/gr";
 import { MdLocationOn } from "react-icons/md";
+import InvitationAction from "./InvitationAction";
 
 interface SelfInvitationCardProps extends Schedule {
   onClick?: () => void;
@@ -19,17 +19,10 @@ const SelfInvitationCard = ({
   description,
   appointmentDate,
   locationDating,
+  sender,
   onClick,
 }: SelfInvitationCardProps) => {
-  const cancelSchedule = useActionSchedule("cancel");
-
   const countDown = dayjs(appointmentDate).diff(dayjs(), "day");
-
-  const onCancel = () => {
-    if (cancelSchedule.isLoading) return;
-
-    cancelSchedule.mutate(_id);
-  };
 
   return (
     <div
@@ -87,23 +80,19 @@ const SelfInvitationCard = ({
           </div>
         </div>
 
-        {(status === "Accept" || status === "Wait for approval") &&
-          countDown > 0 && (
-            <div>
-              <div
-                className="ml-auto mt-3.5 w-fit"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Button
-                  size="sm"
-                  loading={cancelSchedule.isLoading}
-                  onClick={onCancel}
-                >
-                  Hủy
-                </Button>
-              </div>
-            </div>
-          )}
+        <div>
+          <div
+            className="ml-auto mt-3.5 w-fit"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <InvitationAction
+              _id={_id}
+              status={status}
+              appointmentDate={appointmentDate}
+              sender={sender}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

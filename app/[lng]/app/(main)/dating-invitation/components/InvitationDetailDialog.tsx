@@ -5,6 +5,7 @@ import Modal from "@/components/Modal";
 import { Skeleton } from "@/components/Skeleton";
 import { useScheduleDetail } from "@/service/schedule";
 import { useCurrentUser } from "@/service/user";
+import InvitationAction from "./InvitationAction";
 
 interface InvitationDetailDialogProps {
   selectedScheduleID: string;
@@ -19,6 +20,7 @@ const InvitationDetailDialog = ({
     isLoading,
     isError,
   } = useScheduleDetail(selectedScheduleID);
+
   const { data: currentUserID } = useCurrentUser({
     select: (user) => user._id,
   });
@@ -73,9 +75,9 @@ const InvitationDetailDialog = ({
                       Người gửi
                     </p>
                     <p>
-                      {selectedSchedule.sender._id === currentUserID
-                        ? "Bạn"
-                        : selectedSchedule.sender.name}
+                      {selectedSchedule.sender._id === currentUserID ?
+                        "Bạn"
+                      : selectedSchedule.sender.name}
                     </p>
                   </div>
                 </div>
@@ -90,9 +92,9 @@ const InvitationDetailDialog = ({
                       Người nhận
                     </p>
                     <p>
-                      {selectedSchedule.receiver._id === currentUserID
-                        ? "Bạn"
-                        : selectedSchedule.receiver.name}
+                      {selectedSchedule.receiver._id === currentUserID ?
+                        "Bạn"
+                      : selectedSchedule.receiver.name}
                     </p>
                   </div>
                 </div>
@@ -118,6 +120,11 @@ const InvitationDetailDialog = ({
               </div>
             </div>
           </Modal.Body>
+          {selectedSchedule && (
+            <Modal.Footer>
+              <InvitationAction onDoneAction={close} {...selectedSchedule} />
+            </Modal.Footer>
+          )}
         </>
       )}
     </Modal>

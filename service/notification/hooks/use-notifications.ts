@@ -24,14 +24,16 @@ export const useNotifications = (types?: NotificationType[]) => {
       return nextPage;
     },
     select: flatData<Notification>,
+    refetchOnMount: true,
   });
 };
 
 export const useInvalidateNotifications = () => {
   const queryClient = useQueryClient();
-  const invalidate = useCallback((types?: NotificationType[]) => {
-    queryClient.invalidateQueries(getNotificationKey({ types }));
-  }, []);
-
-  return invalidate;
+  return useCallback(
+    (types?: NotificationType[]) => {
+      queryClient.invalidateQueries(getNotificationKey({ types }));
+    },
+    [queryClient],
+  );
 };
