@@ -55,7 +55,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
                 alt={""}
                 fill
               />
-              <Verified image={image} />
+              <Verified className="bottom-px left-px" image={image} />
               <button
                 className="absolute right-0 top-0 cursor-pointer rounded-md bg-background p-2"
                 type="button"

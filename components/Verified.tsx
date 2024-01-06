@@ -1,13 +1,16 @@
 "use client";
 import VerifiedIcon from "@/assets/icons/verified-icon";
 import Tooltip from "@/components/Tooltip";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
 export default function Verified({
   image,
+  className,
 }: {
   image?: { isVerifiedSuccess?: boolean };
+  className?: string;
 }) {
   const [isHover, setIsHover] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
@@ -54,7 +57,10 @@ export default function Verified({
         {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img
           ref={ref}
-          className="absolute right-px top-px w-1/2 object-cover"
+          className={clsx(
+            "absolute w-1/2 object-cover",
+            className ? className : "right-px top-px",
+          )}
           src="/images/verified.jpg"
         />
       </Tooltip>
